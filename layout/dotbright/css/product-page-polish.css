@@ -1,0 +1,68 @@
+/* Align the product content with the header's inner edges. */
+.db-product-page #part1,
+.db-product-page #part3 { padding-left: 0 !important; padding-right: 0 !important; }
+.db-product-page .product-single,
+.db-product-page #part3 { max-width: none !important; }
+
+/* Preserve the white inputs and specification cards, without the white slab. */
+.db-product-page .product-info .product-form.container { background: transparent !important; display: block !important; }
+.db-product-page .product-info .info_detalhes { background: #fff; }
+
+/* Keep the warranty visible without covering the product or its captions. */
+.db-product-page .garantia {
+    display: block !important;
+    top: 12px !important;
+    right: auto !important;
+    left: 12px !important;
+    width: 88px !important;
+    height: auto !important;
+}
+.db-product-page .garantia img {
+    display: block !important;
+    width: 88px !important;
+    max-width: 88px !important;
+    height: auto !important;
+}
+
+.db-product-page .db-reference-image-note {
+    width: fit-content;
+    max-width: calc(100% - 24px);
+    margin: 6px auto 0;
+    padding: 4px 9px;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    background: #f8fafc;
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: center;
+}
+.db-product-page .db-reference-image-note strong {
+    color: #475467;
+    font-weight: 600;
+}
+
+@media (max-width: 800px) {
+    .db-product-page .product { padding-top: 0 !important; }
+    .db-product-page .product-single { margin-top: 4px !important; }
+
+    .db-product-page .garantia,
+    .db-product-page .garantia img {
+        width: 60px !important;
+        max-width: 60px !important;
+    }
+
+    .db-product-page .db-reference-image-note {
+        max-width: calc(100% - 16px);
+        padding: 3px 7px;
+        font-size: 9px;
+    }
+
+    /* Keep the floating chat available without covering product content. */
+    #jvLabelWrap {
+        right: 10px !important;
+        bottom: 72px !important;
+        transform: scale(.72) !important;
+        transform-origin: right bottom !important;
+    }
+}

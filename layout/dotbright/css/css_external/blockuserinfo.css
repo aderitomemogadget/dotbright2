@@ -1,0 +1,33 @@
+.header_user_info {
+  float: right;
+  margin-left: 30px; }
+  .header_user_info a {
+    display: block;
+    font: 400 14px/17px Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    color: white;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear; }
+    .header_user_info a:hover, .header_user_info a.active {
+      -moz-transition: all 0.2s linear;
+      -o-transition: all 0.2s linear;
+      -webkit-transition: all 0.2s linear;
+      transition: all 0.2s linear;
+      color: #f48b47; }
+    .header_user_info a.account {
+      display: none; }
+      .header_user_info a.account:before {
+        content: "\f007"; }
+
+.user_info {
+  text-align: right;
+  margin: 20px 0 0 0; }
+  .user_info li {
+    display: inline-block;
+    padding-right: 15px; }
+    .user_info li a {
+      text-decoration: none; }
+      .user_info li a:hover {
+        text-decoration: underline; }

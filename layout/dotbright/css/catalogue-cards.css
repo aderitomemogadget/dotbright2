@@ -1,0 +1,36 @@
+/* Let the catalogue wrap instead of squeezing product cards below 250px. */
+.catprod_wrap #product_show {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.catprod_wrap #product_show::before,
+.catprod_wrap #product_show::after { display: none; }
+.catprod_wrap #product_show > .prd_d,
+.catprod_wrap #product_show > [class*="col-"] {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  float: none;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .catprod_wrap #product_show {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .catprod_wrap #product_show > .prd_d,
+  .catprod_wrap #product_show > [class*="col-"],
+  .catprod_wrap #product_show .prd_d {
+    min-width: 0;
+  }
+
+  .catprod_wrap #product_show .prd_img img {
+    max-width: 100%;
+  }
+}

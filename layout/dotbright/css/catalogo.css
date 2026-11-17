@@ -1,0 +1,961 @@
+#listProdsCart, #listProdsCart2{
+    width:380px;
+    border:0;
+    padding:0;
+    border-top:2px solid #ff8b00;
+    -webkit-box-shadow:0px 20px 40px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow:0px 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow:0px 20px 40px rgba(0, 0, 0, 0.3);
+    right:0;
+    /*top:100%;*/
+}
+
+#listProdsCart .cart-visual, #listProdsCart2 .cart-visual {
+	padding:20px 0;
+}
+
+#listProdsCart .button3, #listProdsCart2 .button3 {
+	background:#333;
+	font:600 14px 'Ubuntu';
+	transition:all .2s ease-in-out;
+}
+
+#listProdsCart .button3:hover, #listProdsCart2 .button3:hover {
+	background:#000;
+}
+
+#listProdsCart .wp-side-image, #listProdsCart2 .wp-side-image {
+    float:left;
+    width:25%;
+}
+
+#listProdsCart .wp-side-image, #listProdsCart2 .wp-side-image .image img{
+	width:100%;
+	max-width:50px;
+}
+
+#listProdsCart .prod-popup .wp-side-text, #listProdsCart2 .prod-popup .wp-side-text {
+    width:65%;
+    float:left;
+}
+#listProdsCart .total .label, #listProdsCart2 .total .label {
+	font:700 20px 'Ubuntu';
+}
+
+#listProdsCart .total .valor, #listProdsCart2 .total .valor {
+	font:700 20px 'Ubuntu';
+}
+
+#listProdsCart .prod-popup .wp-side-text > .prod-name, #listProdsCart2 .prod-popup .wp-side-text > .prod-name {
+	font:600 12px 'Ubuntu';
+}
+#listProdsCart .prod-popup .wp-side-text > .prod-price, #listProdsCart2 .prod-popup .wp-side-text > .prod-price {
+	font:700 12px 'Ubuntu';
+}
+
+.search_cart{
+	cursor:pointer;
+}
+
+#listProdsCart .prod-popup, #listProdsCart2 .prod-popup{
+    padding:10px 0;
+    border-bottom:solid 1px #ff8b00;
+    margin-bottom:10px;
+}
+
+#listProdsCart .total, #listProdsCart2 .total {
+    padding:20px;
+    background:#ff8b00;
+    color:#fff;
+    width:100%;
+    padding-bottom:0;
+}
+
+#listProdsCart .prod-list, #listProdsCart2 .prod-list{
+    max-height:350px;
+    overflow-y:auto;
+    padding:15px;
+    background:#fff;
+
+}
+#listProdsCart .total .label, #listProdsCart2 .total .label{
+    display:inline-block;
+    font-family:'Ubuntu';
+    font-weight:600;
+}
+#listProdsCart .total .valor, #listProdsCart2 .total .valor{
+    display:inline-block;
+    font-family:'Ubuntu';
+    float:right;
+    padding: 6px 10px;
+}
+
+.wp-buttons {
+    padding:20px;
+    background:#ff8b00;
+    padding-top:0;
+    margin:0;
+}
+
+.wp-buttons > .button3 {
+    margin:0 !important;
+    text-transform:uppercase;
+    /*font-family:Gotham-Book;*/
+    font-size:12px;
+    line-height:12px;
+    width:100%;
+    display:inline-block;
+    padding:10px;
+}
+
+.slidercontent-visualizados {
+	float:left;
+	width:100%;
+	background:#fff;
+}
+
+.slidercontent-visualizados .visualizados {
+	padding-top:40px;
+	position:relative;
+	margin-bottom:10px;
+}
+.slidercontent-visualizados .lSSlideOuter.vertical {
+	position:initial !important;
+}
+.slidercontent-visualizados .lSSlideOuter.vertical .lSSlideWrapper{
+	position:initial !important;
+}
+
+.slidercontent-visualizados .lSSlideOuter.vertical .lSSlideWrapper .lSAction > a {
+	background-image:url(../../../external_api/site/slider_blocos/img/controls-black-v2.png);
+}
+
+.slidercontent-visualizados .lSSlideOuter.vertical .lSSlideWrapper .lSAction > .lSNext{
+	background-position:31px -33px;
+    bottom:auto;
+    top:10px;
+    left:91%;
+}
+
+.slidercontent-visualizados .lSSlideOuter.vertical .lSSlideWrapper .lSAction > .lSPrev{
+    background-position:0 -31px;
+    bottom:auto;
+    top:10px;
+    left:80%;
+}
+
+.slidercontent-visualizados .prd_d {
+	min-height:100px;
+}
+
+.slidercontent-visualizados #home-visualizados li .prd_d:hover  {
+	background:#fff;
+}
+
+.slidercontent-visualizados .prd_d .prd_img {
+	float:left;
+	width:40%;
+	height:auto;
+	display:inline-block;
+}
+
+.slidercontent-visualizados a .prd_d  {
+	width:auto;
+	height:auto;
+}
+.slidercontent-visualizados a .prd_d img{
+	max-height:100px;
+	max-width:100%;
+}
+
+.slidercontent-visualizados .prd_d .prd_layer {
+	float:left;
+	width:60%;
+	min-height:auto;
+}
+
+.slidercontent-visualizados .prd_d .prd_layer .prd_title{
+	text-align:left;
+	display:inline-block;
+	font:600 14px 'Ubuntu';
+	color:#333;
+	height:auto;
+}
+.slidercontent-visualizados ul{
+	/*margin:0 30px;*/
+}
+.slidercontent-visualizados ul li {
+	border-bottom:solid 1px #d4d4d4;
+	height:112px !important;
+
+}
+
+.slidercontent-visualizados ul li .prd_d:hover  .prd_title{
+	font:700 14px 'Ubuntu';
+	/*color:#137eb6;*/
+}
+
+.filtros_wrapper {
+	padding:0;
+	background:#fff;
+}
+
+.filtros_wrapper .filtro-preco {
+	padding:0 10px;
+	margin-bottom:20px;
+}
+.filtros_wrapper .filtro-stock {
+  padding:0 10px;
+  margin-bottom:20px;
+}
+
+.filtros_wrapper .filtro-preco .filtro_titulo {
+    font:700 16px 'Ubuntu';
+    margin:0;
+    margin-bottom:14px;
+    color:#333;
+}
+
+.filtros_wrapper .filtro-preco .intervalos-text .intervalo_titulo {
+	font:600 14px 'Ubuntu';
+	color:#333;
+}
+
+.filtros_wrapper .filtro-preco .intervalos-text div {
+	display:inline-block;
+	float:left;
+	font:600 14px 'Ubuntu';
+	color:#333;
+	padding:5px;
+	font-family:'Ubuntu', sans-serif;
+}
+
+.filtros_wrapper .filtro-preco .noUi-target {
+	background:#d8d8d8;
+}
+
+.filtros_wrapper .filtro-preco .noUi-connect{
+	background:rgb(143,143,143);
+	background:linear-gradient(0deg, rgba(143,143,143,1) 0%, rgba(191,191,191,1) 100%);
+	/*border:1px solid #999;*/
+}
+
+.filtros_wrapper .filtro-preco .noUi-handle{
+	width:20px;
+	height:18px;
+	border-radius:2px;
+	background:rgb(51,51,51);
+	background:linear-gradient(0deg, rgba(51,51,51,1) 0%, rgba(153,153,153,1) 100%);
+
+	/*background:linear-gradient(0deg, rgba(51,51,51,1) 0%, rgba(191,191,191,1) 100%); */
+}
+
+.filtros_wrapper .filtro-preco .noUi-horizontal {
+	height:10px;
+}
+
+.filtros_wrapper .breadfinal {
+	font:12px 'Ubuntu';
+	/*font-size:12px;*/
+	color:#FFF;
+	display:inline-block;
+	border-right:3px;
+	background:#137eb6;
+	margin:2px;
+	padding:5px;
+}
+
+.filtros_wrapper .filtroson {
+	padding-bottom:5px;
+	margin-bottom:5px;
+	/*border-bottom:#c0c0c0 1px solid;*/
+	text-align:right;
+}
+
+
+.filtros_wrapper .clear_filters {
+	text-align:right;
+	padding:5px 0;
+	font:600 14px 'Ubuntu';
+	color:#333;
+	/*font-weight:bold;*/
+	background:none;
+}
+
+.filtros_wrapper .filtros-titulo {
+    /*display:none;*/
+    width:100%;
+    padding:15px;
+    background:#2e2e2e;
+    color:#fff;
+	font-size:16px;
+   	/*font:700 16px 'Ubuntu';*/
+   	margin-bottom:20px;
+	font-weight:bold;
+}
+
+.filtros_wrapper .pesq_txt {
+	padding:0px;
+	padding-bottom:20px;
+}
+
+.filtros_wrapper .filtro-marcas {
+	padding-left:10px;
+
+}
+
+.filtros_wrapper .filtro-marcas ul {
+	max-height:300px;
+	overflow:hidden;
+	overflow-y:auto;
+}
+
+.filtros_wrapper .filtro-marcas h3{
+	font:700 16px 'Ubuntu';
+	margin:0;
+	margin-bottom:20px;
+}
+
+.filtros_wrapper .filtro-caracteristicas {
+	margin-bottom:20px;
+	padding-right:0;
+	/* background-color:#ccc; */
+	padding:15px 0;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l{
+	border:1px solid #ccc;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l br{
+	display:none;
+}
+
+.filtros_wrapper .filtro-caracteristicas h3{
+	font:700 16px 'Ubuntu';
+	margin:0;
+	margin-bottom:20px;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li{
+	font:700 16px 'Ubuntu';
+	margin:0;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.active h3 .parent span{
+	color:#ee9830;
+	font-weight:bold;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.active a.parent::after{
+	color:#ee9830;
+	font-weight:bold;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.f_ativos3 > ul{
+	max-height:200px;
+	overflow:hidden;
+	overflow-y:auto;
+
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.f_ativos3 > ul > li{
+	display:inline-block;
+
+
+}
+.drop2 ul li.active h3 a.parent:after
+{
+	color:#137eb6;
+}
+
+.filtros_wrapper .pesq_input {
+	border-radius:0;
+	border:solid 1px #333;
+	font:400 14px 'Ubuntu';
+	font-family:'Ubuntu', sans-serif;
+}
+.filtros_wrapper .filtro-caracteristicas #c_l li a{
+	margin-bottom:5px;
+	margin-top:5px;
+	font-size:14px;
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.f_ativos3 > ul > li > div.t {
+	background:#d0ddec;
+}
+
+.filtros_wrapper #f_ativos3:hover {
+	font-weight:600;
+	color:#ee9830;
+}
+
+.filtros_wrapper .filtro-marcas #m_l li{
+	display:inline-block;
+	float:left;
+	width:50%;
+}
+
+
+.filtros_wrapper .info-menu {
+	/*padding-left:20px;*/
+}
+
+.filtros_wrapper .info-menu li {
+	margin-top:5px;
+	margin-bottom:7px;
+	padding-bottom:7px;
+	border-bottom:#e4e4e4 1px solid;
+}
+.filtros_wrapper .info-menu li:last-child {
+	border-bottom:none;
+}
+
+.filtros_wrapper .info-menu li a {
+	font:400 14px 'Ubuntu';
+	color:#333;
+	padding:0 25px;
+	display:block;
+	position:relative;
+}
+
+.filtros_wrapper .info-menu li a:hover {
+	font:600 14px 'Ubuntu';
+}
+
+.filtros_wrapper .info-menu li a:before {
+	color:#7d7d7d;
+    content:"\f105";
+    font-family:fontawesome;
+    font-size:16px;
+    font-weight:100;
+    position:absolute;
+    left:10px;
+    top:0;
+}
+
+.catprod_wrap
+{
+	position:relative;
+	display:block;
+	padding-left:12px;
+	padding-right:12px;
+	padding-top:25px;
+	min-height:500px;
+}
+
+.filtros_wrapper ul{
+	margin-block-start:0em;
+	margin-block-end:0em;
+	margin-inline-start:0px;
+	margin-inline-end:0px;
+	padding-inline-start:0px;
+}
+
+.breadcrumb {
+	height:43px;
+	width:100%;
+	margin:0 auto;
+	max-width:1650px;
+	padding:10px;
+	display:block;
+	border:none;
+	font-weight:bold;
+	font-size:12px;
+	line-height:24px;
+	min-height:6px;
+	-moz-border-radius:0;
+	-webkit-border-radius:0;
+	border-radius:0;
+	overflow:hidden;
+	margin-bottom:4px;
+	position:relative;
+	z-index:1;
+	background:white;
+	display:flex;
+	align-items:baseline;
+}
+
+.cat_wrap .catalogo_topo_filtros{
+	background:#fff;
+}
+
+.cat_wrap .catalogo_topo_filtros .filtros-paginacao {
+	margin-top:0;
+	margin-bottom:20px;
+}
+
+.cat_wrap .catalogo_topo_filtros .filtros-paginacao .info-extra-paginacao{
+	font:14px 'Ubuntu';
+}
+
+.cat_wrap .catalogo_topo_filtros .filtros-paginacao .info-extra-paginacao span{
+	font:600 14px 'Ubuntu';
+}
+.catprod_wrap #product_show li{
+	padding-top:20px;
+	padding-bottom:10px;
+	width:272px;
+}
+
+.slidercontent .lightSlider li{
+	padding-top:20px;
+	width:312px;
+	text-align:center;
+}
+.slidercontent .lightSlider li .prd_d{
+	/*padding-top:20px;*/
+	width:100%;
+	max-width:300px;
+	margin-left :10px;
+	margin-right:20px;
+}
+.catprod_wrap #product_show li.item_lista {
+	width:100%;
+	margin:0;
+	border-bottom:solid 1px #e4e4e4;
+	padding:20px 0;
+}
+.catprod_wrap #product_show li:hover {
+    -moz-box-shadow:0 0 10px hsla(0,0%,0%,.3);
+    -webkit-box-shadow:0 0 10px hsla(0,0%,0%,.3);
+    box-shadow:0 0 10px hsla(0,0%,0%,.3);
+}
+
+.slidercontent .lightSlider li:hover .prd_d {
+    -moz-box-shadow:0 0 10px hsla(0,0%,0%,.3);
+    -webkit-box-shadow:0 0 10px hsla(0,0%,0%,.3);
+    box-shadow:0 0 10px hsla(0,0%,0%,.3);
+}
+
+
+
+.catprod_wrap .catalogo_topo_filtros .icon_view {
+	height:20px;
+	padding:0;
+	margin:0;
+	display:inline-block;
+	width:20px;
+	border:0;
+	font-size:20px !important;
+	margin-top:5px;
+}
+.catprod_wrap .catalogo_topo_filtros .list_view {
+	height:20px;
+	padding:0;
+	margin:0;
+	display:inline-block;
+	width:20px;
+	border:0;
+	font-size:20px !important;
+	margin-left:10px;
+	margin-top:5px;
+}
+
+.catprod_wrap .catalogo_topo_filtros .icon_view span {
+	color:#333;
+	font:12px 'Ubuntu';
+	display:block;
+}
+.catprod_wrap .catalogo_topo_filtros .list_view span {
+	color:#333;
+	font:12px 'Ubuntu';
+	display:block;
+}
+
+.catprod_wrap .catalogo_topo_filtros .icon_view .fa-th-large {
+	color:#999;
+}
+
+.catprod_wrap .catalogo_topo_filtros .list_view .fa-th-list {
+	color:#999;
+}
+
+.catprod_wrap .catalogo_topo_filtros .view_activo{
+	background:#fff;
+	color:#333 !important;
+}
+.catprod_wrap .catalogo_topo_filtros .icon_view.view_activo .fa-th-large, .catprod_wrap .catalogo_topo_filtros .icon_view:hover .fa-th-large{
+	background:#fff;
+	color:#333 !important;
+}
+.catprod_wrap .catalogo_topo_filtros .list_view.view_activo .fa-th-list, .catprod_wrap .catalogo_topo_filtros .list_view:hover .fa-th-list{
+	background:#fff;
+	color:#333 !important;
+}
+
+
+.catprod_wrap .catalogo_topo_filtros .icon_view:hover, .catprod_wrap .catalogo_topo_filtros .icon_view:focus, .catprod_wrap .catalogo_topo_filtros .list_view:hover, .catprod_wrap .catalogo_topo_filtros .list_view:focus {
+    /*background:#333;*/
+    color:#999 !important;
+}
+
+/*---- vista/ordenacao v2 -----*/
+
+.filtros-vista .icon_view {
+	height:40px;
+	padding:0;
+	margin:0;
+	display:inline-block;
+	width:40px;
+	border:0;
+	font-size:20px !important;
+}
+.filtros-vista .list_view {
+	height:40px;
+	padding:0;
+	margin:0;
+	display:inline-block;
+	width:40px;
+	border:0;
+	font-size:20px !important;
+}
+
+.filtros-vista .icon_view span {
+	color:#333;
+	font:12px 'Ubuntu';
+	display:block;
+}
+.filtros-vista .list_view span {
+	color:#333;
+	font:12px 'Ubuntu';
+	display:block;
+}
+
+.filtros-vista .icon_view .fa-th-large {
+	color:#999;
+}
+
+.filtros-vista .list_view .fa-th-list {
+	color:#999;
+}
+
+.filtros-vista .view_activo{
+	background:#fff;
+	color:#333 !important;
+}
+.filtros-vista .icon_view.view_activo .fa-th-large, .filtros-vista .icon_view:hover .fa-th-large{
+	background:#fff;
+	color:#333 !important;
+}
+.filtros-vista .list_view.view_activo .fa-th-list, .filtros-vista .list_view:hover .fa-th-list{
+	background:#fff;
+	color:#333 !important;
+}
+
+
+.filtros-vista .icon_view:hover, .filtros-vista .icon_view:focus, .filtros-vista .list_view:hover, .filtros-vista .list_view:focus {
+    /*background:#333;*/
+    color:#999 !important;
+}
+
+
+/*---- vista/ordenacao v2 -----*/
+
+
+
+
+
+
+.catprod_wrap #product_show .prd_d{
+	min-height:auto;
+}
+.catprod_wrap #product_show .prd_d .prdprice_n{
+	text-align:center;
+}
+
+.catprod_wrap #product_show .prd_d:hover{
+	background:#fff;
+}
+
+.slidercontent .lightSlider .prd_d .botao {
+	width:100%;
+	display:inline-block;
+	text-align:center;
+}
+
+.catprod_wrap #product_show .prd_d .prodby, .catprod_wrap #product_show .prd_d .prodby_disabled, .catprod_wrap #product_show .prd_d .vermais, .slidercontent .lightSlider .prd_d .botao .prodby {
+	/*max-width:120px;*/
+	width:100%;
+	padding:0;
+	display:inline-block;
+	margin:0 auto;
+	font:600 16px;
+	height:35px;
+	line-height:35px;
+	border-radius:15px;
+	text-indent:0;
+	float:initial;
+	text-align:center;
+	transition:all .2s ease-in-out;
+}
+
+.catprod_wrap #product_show .prd_d .botao:hover .prodby, .catprod_wrap #product_show .prd_d .botao:hover .prodby_disabled, .catprod_wrap #product_show .prd_d .botao:hover .vermais, .slidercontent .lightSlider .prd_d .botao .prodby:hover {
+	background:#39f;
+}
+
+.catprod_wrap #product_show .prd_d .prodby-des {
+	/*max-width:120px;*/
+	width:100%;
+	padding:0;
+	display:inline-block;
+	margin:0 auto;
+	font:600 16px 'Ubuntu';
+	height:35px;
+	line-height:35px;
+	border-radius:0;
+	background:#ccc;
+	text-indent:0;
+	float:initial;
+	border-radius:15px;
+}
+
+.catprod_wrap #product_show .prd_d:hover .prodby-des{
+	background:#39f;
+}
+
+.prd_d .prodby:before {
+	display:none;
+}
+
+.slidercontent .lightSlider .prd_d .stock {
+	font:13px 'Ubuntu';
+}
+.slidercontent .lightSlider .prd_d .icon-coracao span, .slidercontent .lightSlider .prd_d .icon-comparador span {
+	margin-right:5px;
+}
+
+.catprod_wrap #product_show .prd_d .icon-coracao span, .slidercontent .lightSlider .prd_d .icon-coracao{
+    color:#333;
+    font:9px 'Ubuntu';
+    padding:10px;
+}
+
+.catprod_wrap #product_show .prd_d .icon-comparador span, .slidercontent .lightSlider .prd_d .icon-comparador{
+    color:#333;
+    font:13px 'Ubuntu';
+    padding:10px;
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .icon-coracao span{
+    padding:0;
+    padding-bottom:10px;
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .icon-comparador span{
+    padding:0;
+}
+
+
+.catprod_wrap #product_show .prd_d .icon-coracao span .svg-inline--fa{
+	margin-right:5px;
+}
+
+.catprod_wrap #product_show .prd_d .icon-comparador span .svg-inline--fa{
+    margin-right:5px;
+}
+
+.catprod_wrap #product_show .prd_d .prdprice_n div.price, .slidercontent .lightSlider .prd_d .prdprice_n div.price {
+	font-size:22px;
+    font-weight:650;
+    color:#000;
+}
+
+/*------ LISTA DE PRODUTOS 1 A 1 ------*/
+.catprod_wrap #product_show li.item_lista .prd_d .prd_title{
+	text-align:left;
+	height:auto;
+}
+
+.catprod_wrap #product_show li.item .prd_d .prd_title a, .slidercontent .lightSlider li .prd_d .prd_title a{
+	/*font:700 14px 'Ubuntu';*/
+	/* font:600 12px Poppins; */
+	font:600 12px 'Ubuntu';
+}
+
+.catprod_wrap #product_show li.item:hover .prd_d .prd_title a, .slidercontent .lightSlider li:hover .prd_d .prd_title a{
+	color:#ff8a00;
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .prd_title a{
+	font:700 16px 'Ubuntu';
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .prd_title a:hover{
+	color:#137eb6;
+}
+
+
+.catprod_wrap #product_show li.item_lista .stock{
+	margin-top:20px;
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .prdprice_n .botao{
+	display:none;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+.catprod_wrap #product_show li.item_lista .prd_d .prdprice_n .lista_botoes{
+	min-height:100px;
+}
+
+.catprod_wrap #product_show li.item_lista:hover .prd_d .prdprice_n .botao{
+	display:block;
+}
+.catprod_wrap #product_show li.item_lista .prd_d .prdprice_n {
+	text-align:right;
+}
+
+.catprod_wrap #product_show li.item_lista .prd_d .right-block {
+	padding-right:20px;
+}
+
+
+.catprod_wrap #product_show li.item_lista .prd_d .prdprice_n div.price{
+	border:none;
+	text-align:right;
+}
+
+.catprod_wrap #product_show .prd_d .vermais a{
+	color:#fff;
+}
+/*-------------------------------------*/
+
+
+.filtros-vista {
+	display:inline-block;
+	margin-top:20px;
+	margin-bottom:40px;
+	float:right;
+}
+
+.filtros-vista .filtros {
+	display:inline-block;
+	height:40px;
+}
+
+
+.filtros-vista .vista-catalogo{
+	display:inline-block;
+	margin-left:100px;
+}
+
+.filtros-vista .vista-catalogo .ver {
+	display:inline-block;
+	float:left;
+	color:#333;
+	font:700 13px 'Ubuntu';
+	line-height:32px;
+	margin-right:10px;
+}
+
+.filtros-vista .filtros .filtro_view .mostrar {
+	color:#333;
+    font:700 13px 'Ubuntu';
+    margin-left:5px;
+    margin-right:5px;
+}
+.filtros-vista .filtros .filtro_view .por_pagina {
+	color:#333;
+    font:13px 'Ubuntu';
+    margin-left:5px;
+}
+
+.filtros-vista .filtros .filtro_order .ordem {
+	color:#333;
+    font:700 13px 'Ubuntu';
+    margin-right:5px;
+}
+
+.cat_wrap .catalogo_topo_filtros .filtros {
+	display:inline-block;
+	padding-right:20px;
+	width:100%
+}
+
+
+/*---- PAGINACAO ----*/
+.cat_wrap .paginacao
+{
+	margin:0px;
+	padding:0;
+}
+
+.cat_wrap .catalogo_topo_filtros .paginacao .product_button, .cat_wrap .catalogo_topo_filtros .paginacao .product_button_selected{
+    font:600 10px 'Ubuntu';
+	width:30px;
+	height:26px;
+	border:1px solid #ccd3e1;
+	margin-right:5px;
+	margin-top:3px;
+	color:#333;
+	font-family:'Ubuntu', sans-serif;
+}
+
+.cat_wrap .catalogo_topo_filtros .paginacao .product_button_back, .cat_wrap .catalogo_topo_filtros .paginacao .product_button_next{
+    font:600 10px 'Ubuntu';
+    height:25px;
+    border:0;
+    margin-right:5px;
+    color:#333;
+    display:inline-block;
+    background:#fff;
+    padding:0px 12px;
+	font-family:'Ubuntu', sans-serif;
+}
+
+.cat_wrap .catalogo_topo_filtros .paginacao .product_button_back .fa-angle-left, .cat_wrap .catalogo_topo_filtros .paginacao .product_button_next .fa-angle-right{width:20px;}
+.cat_wrap .catalogo_topo_filtros .paginacao .product_button:hover, .cat_wrap .catalogo_topo_filtros .paginacao .product_button_selected
+{
+    background:#f0f1f4;
+}
+
+@media (max-width:768px){
+	.catprod_wrap{
+		padding-right:12px;
+	}
+	.catprod_wrap #product_show li{
+		margin:0 5px;
+		padding:5px 0;
+		max-width:185px;
+		border:none;
+	}
+
+	.catprod_wrap #product_show li.item_lista{
+		max-width:100%;
+	}
+
+	.catprod_wrap #product_show .prd_d .prdprice_n div.price {
+		font-size:20px !important;
+	}
+
+	.catprod_wrap #product_show .prd_d .botao {
+		display:block !important;
+	}
+
+	.catprod_wrap #product_show .prd_d .prodby, .catprod_wrap #product_show .prd_d .prodby_disabled, .catprod_wrap #product_show .prd_d .prodby-des, .catprod_wrap #product_show .prd_d .vermais {
+		max-width:100%;
+		height:25px;
+		/*font:600 12px 'Ubuntu';*/
+		line-height:25px;
+	}
+	.filtros-vista {
+	  width:50%;
+	  margin:0;
+	  float:none;
+	  padding:0 15pX;
+	}
+
+	.filtros-vista .filtros > div {
+		display:block;
+		width:100%;
+	}
+
+	.breadcrumb {
+		display:none;
+		margin:0;
+		margin-top:10px;
+		height:50px;
+		padding:0px;
+	}
+}

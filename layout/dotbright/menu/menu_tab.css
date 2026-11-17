@@ -1,0 +1,30 @@
+@import url(//fonts.googleapis.com/css?family=Armata);
+.categorias_menu {background: #c0c0c0; width: 200px; margin: 0px; color: white; box-shadow: 0 5px 5px 1px rgba(0, 0, 0, 0.3), 0 0 200px 1px rgba(255, 255, 255, 0.2);margin-bottom:20px }
+.categorias_menu h3 {background: #b3b3b3;/*  background: linear-gradient(#b3b3b3, #c0c0c0); */ border-bottom:#ababad 1px solid}
+.categorias_menu h3 a {padding: 5px 10px;font-size: 12px;line-height: 15px; display: block;color: white; text-decoration: none; }
+.categorias_menu h3:hover { text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);background: #a1a1a1;} 
+.categorias_menu h3 span { font-size: 16px; margin-right: 10px; }
+.categorias_menu li { list-style-type: none; } 
+.categorias_menu ul ul li a, .categorias_menu h4 { color: white; text-decoration: none; font-size: 11px;  line-height: 27px; display: block; padding: 0 15px;  transition: all 0.15s; position: relative; }
+.categorias_menu ul ul li a:hover { background: #1a75bb; border-left: 5px solid #eb1c24;  line-height: 27px; padding: 0 15px;  }
+.categorias_menu ul ul li a.active2 { background: #1a75bb; border-left: 5px solid #eb1c24;  line-height: 27px; padding: 0 15px;  }
+.categorias_menu ul ul { display: none; }
+.categorias_menu li.active>ul { display: block; } 
+.categorias_menu ul ul ul{ margin-left: 15px; border:none; }
+.categorias_menu a:not(:only-child):after { content:'\00a0\00a0\00a0'; background:url(../images/menu-1.png) center no-repeat; font-family: 'Armata', sans; position: absolute; right: 10px; top: 0; font-size: 14px;display:block }
+.categorias_menu .active>a:not(:only-child):after {  background:url(../images/menu-2.png) center no-repeat;}
+
+.marcas_menu{background: #c0c0c0; width: 200px; margin: 0px auto 0 auto; color: white; box-shadow: 0 5px 5px 1px rgba(0, 0, 0, 0.3), 0 0 200px 1px rgba(255, 255, 255, 0.2); }
+.marcas_menu h3 {background: #b3b3b3;/*  background: linear-gradient(#b3b3b3, #c0c0c0); */ border-bottom:#ababad 1px solid}
+.marcas_menu h3 a {padding: 5px 10px;font-size: 12px;line-height: 15px; display: block;color: white; text-decoration: none; }
+.marcas_menu h3:hover { text-shadow: 0 0 1px rgba(255, 255, 255, 0.7); } 
+.marcas_menu h3 span { font-size: 16px; margin-right: 10px; }
+.marcas_menu li { list-style-type: none; } 
+.marcas_menu ul ul li a, .marcas_menuh4 { color: white; text-decoration: none; font-size: 11px;  line-height: 27px; display: block; padding: 0 15px;  transition: all 0.15s; position: relative; }
+.marcas_menu ul ul li a:hover { background: #1a75bb; border-left: 5px solid #eb1c24; }
+.marcas_menu ul ul li a.active2 { background: #1a75bb; border-left: 5px solid #eb1c24; }
+.marcas_menu ul ul { display: none; }
+.marcas_menu li.active>ul { display: block; } 
+.marcas_menu ul ul ul{ margin-left: 15px; border:none; }
+.marcas_menu a:not(:only-child):after { content:'\00a0\00a0\00a0'; background:url(../images/menu-1.png) center no-repeat; font-family: 'Armata', sans; position: absolute; right: 10px; top: 0; font-size: 14px;display:block }
+.marcas_menu .active>a:not(:only-child):after {  background:url(../images/menu-2.png) center no-repeat;}

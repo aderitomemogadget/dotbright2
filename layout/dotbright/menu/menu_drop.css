@@ -1,0 +1,79 @@
+.drop{width:100%;color:#403a3b;font-family:"Open Sans",Arial}
+.drop h3{position:relative;font-weight:bold}
+.drop h3 a{padding:10px 0;padding-left:0;font-size:18px;line-height:18px;display:block;color:#222;text-decoration:none;font-weight:normal}
+.drop h3 a:hover{color:#ccc}
+.drop h3:hover{}
+.drop h3 span{margin-right:0px}
+.drop li{list-style-type:none;margin-left:0;padding:0}
+.filtro > .drop > ul > li{border:none;padding-top:0;margin-top:0}
+li.active > a{color:#209805 !important}
+.drop > ul {margin-bottom:0}
+.drop li img {max-width:20px;margin-right:10px}
+.drop > ul > li.active li.active > h3{border:none;background:none;color:#000}
+.drop > ul > li.active li.active_on > h3{border:none;background:#000;color:#FFF}
+.drop > ul > li.active li.active > h3 a{color:#000}
+.drop > ul > li.active li.active_on > h3 a{color:#FFF}
+.drop li h3.active2{border:none;background:#000 !important;color:#FFF !important}
+.drop li h3.active2 a{color:#FFF !important}
+.drop li ul li{list-style-type:none;padding:0;border-bottom: solid 1px #fff;}
+.drop ul ul li a, .drop h4{color:#403a3b;text-decoration:none;font-weight:400;font-size:12px;line-height:14px;display:block;padding:0;transition:all 0.15s;position:relative;min-height:36px}
+.drop ul ul li a:hover{color:#209805}
+.drop ul ul{display:none}
+.drop > #c_l li ul{display:block !important}
+.drop li.active > ul{display:block}
+.drop ul ul ul{margin-left:34px}
+.drop ul li h3 a.parent{}
+.drop ul li h3 a.parent:after{content:"\f067";font-family:"fontawesome";position:absolute;right:10px;font-size:14px;top:8px;color:#222}
+.drop ul li h3 a.active:after{content:"\f068";font-family:"fontawesome";position:absolute;right:10px;font-size:14px;top:8px;color:#222}
+.drop .active>a:not(:only-child):after{}
+.drop .hidden2{display:none}
+.expand{font-family:"Open Sans",Arial;color:#222;text-align:right;font-size:18px;padding:5px;cursor:pointer}
+.expand:hover{font-family:"Open Sans",Arial;color:#ccc;text-align:right;font-size:18px;padding:5px;cursor:pointer}
+.drop2{width:100%;color:#222;font-family:"Open Sans",Arial}
+.drop2 h3{position:relative;padding-left:6px;font-weight:bold}
+.drop2 h3 a{padding-left:0;font-size:18px;line-height:10px;display:block;color:#FFF !important;text-decoration:none;font-weight:normal}
+.drop2 h3 a:hover{color:#ccc !important}
+.drop2 h3:hover{}
+.drop2 h3 span{font-size:12px; margin-right:0}
+.drop2 li{list-style-type:none; margin-left:0}
+.filtro > .drop2 > ul > li{border-top:none;padding-top:0;margin-top:0;border-bottom:#e4e4e4 1px solid;}
+.drop2 > ul > li.active li.active > h3{border:none;background:none;color:#000}
+.drop2 > ul > li.active li.active_on > h3{border:none;background:#000;color:#FFF}
+.drop2 > ul > li.active li.active > h3 a{color:#000}
+.drop2 > ul > li.active li.active_on > h3 a{color:#FFF;font-weight:400;font-size:15px}
+.drop2 li h3.active2{border:none;background:#000 !important;color:#FFF !important}
+.drop2 li h3.active2 a{color:#FFF !important}
+.drop2 li ul li{list-style-type:none;---margin-left:-10px}
+.drop2 ul ul li a, .drop2 h4{color:#222;text-decoration:none;font-size:18px;line-height:24px;display:block;padding:0 15px;padding-left:0;transition:all 0.15s;position:relative}
+.drop2 ul ul li a:hover{}
+.drop2 ul ul{display:none}
+.drop2 li.active > ul{display:block}
+.drop2 ul ul ul{margin-left:20px}
+.drop2 ul li h3 a.parent{font-weight:normal;text-transform:uppercase}
+/*.drop2 ul li h3 a.parent:after{content:"\f067";font-family:"fontawesome";position:absolute;right:10px;font-size:10px;top:8px;color:#222;font-weight:normal}*/
+
+.drop2 ul li h3 a.parent:after{
+	color:#7d7d7d;
+	content:"\f101";
+	font-family:fontawesome;
+	font-size:16px;
+	font-weight:100;
+	position:absolute;
+	right:5px;
+	top:7;
+}
+
+.drop2 ul li.active h3 a.parent:after{
+	color:#ff8a00;
+	content:"\f103";
+	font-family:fontawesome;
+	font-size:16px;
+	font-weight:normal;
+	position:absolute;
+	right:5px;
+	top:0;
+	/*content:"\f068";font-family:"fontawesome";position:absolute;right:10px;font-size:10px;top:8px;color:#222;font-weight:normal*/
+}
+.drop2 ul li h3 a.active:after{content:"\f068";font-family:"fontawesome";position:absolute;right:10px;font-size:10px;top:8px;color:#222;font-weight:normal}
+.drop2 .active>a:not(:only-child):after{}
+.drop2 .hidden2{display:none}

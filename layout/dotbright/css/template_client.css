@@ -1,0 +1,349 @@
+.shopform .button-cart{font-size:15px;border:none;background:#e3e3e4;padding:0;outline:none;color:#000;vertical-align:top; width:100%; max-width:100%; height:40px;text-transform:uppercase;font-weight:700;cursor:default}
+/* .shopform .button-cart:hover{background:#c0c0c2;color:#FFF;font-weight:700;cursor:default} */
+.shopform .button-cart-active{background:#c0c0c2;color:#FFF;font-weight:700;cursor:default}
+
+.shop_left_bottom .titulo_header{font-weight:700;padding:10px 0}
+.shop_left_bottom .titulo2_header{font-weight:700;padding:18px 0;padding-top:28px}
+
+#transf {margin: 0 auto; font-weight:bold !important}
+#transf .titulo_header{font-weight:700;padding:10px 0}
+
+.product-image {
+  float: left;
+  width: 15%;
+}
+
+.product-details {
+  float: left;
+  width: 31%;
+  position:relative;
+  height:100%
+}
+.product .product-details {
+	min-height:106px
+}
+
+.product-price {
+  float: left;
+  width: 18%;
+  text-align:center;
+  font-weight:bold
+}
+
+.product-quantity {   float: left;   width: 16%;   font-weight:bold }
+.shopping-cart2 .product-quantity {   float: left;   width: 16%;   font-weight:bold;text-align:center }
+
+.product-quantity .produto_qtd{background:url(../images/combobox_shop.png) no-repeat right;  padding-top: 1px; width:68px;  font-size:22px; line-height:22px;height: 28px;text-transform:uppercase;margin: 0 auto;}
+.product-quantity .produto_qtd input{border:none;outline:none;background:transparent;color:#6E6E6E; height: 28px;font-size:12px;margin:0;text-indent:10px; width: 40px; border-radius:6px; color:#000;}
+.product-quantity .produto_qtd .spinnerwrapper{float:right}
+.product-quantity .produto_qtd .spinnerup{width:25px;height:13px;cursor:pointer}
+.product-quantity .produto_qtd .spinnerdown{width:25px;height:13px;cursor:pointer}
+
+.product-removal {
+  float: left;
+  width: 4%;
+  text-align:right;
+  position:relative
+}
+
+.product-line-price { float: left; width: 16%; text-align: right !important; font-weight:bold } 
+.shopping-cart2 .product-line-price { float: left; width: 20%; text-align: right !important; font-weight:bold } 
+
+
+
+
+/* This is used as the traditional .clearfix class */
+.group:before, .shopping-cart:before,.shopping-cart2:before, .column-labels:before, .product:before, .totals-item:before,
+.group:after,
+.shopping-cart:after,
+.shopping-cart2:after,
+.column-labels:after,
+.product:after,
+.totals-item:after {
+  content: '';
+  display: table;
+}
+
+.group:after, .shopping-cart:after,.shopping-cart2:after, .column-labels:after, .product:after, .totals-item:after {
+  clear: both;
+}
+
+.group, .shopping-cart,.shopping-cart2, .column-labels, .product, .totals-item {
+  zoom: 1;
+}
+
+/* Apply clearfix in a few places */
+/* Apply dollar signs */
+/* .product .product-price:before, .product .product-line-price:before, .totals-value:before {
+  content: '$';
+} */
+
+/* Body/Header stuff */
+
+
+.shopping-cart {
+  margin-top: 0;
+}
+.shopping-cart label{
+  margin-top: 0;
+  cursor:default
+}
+
+.shopping-cart2 {
+  margin-top: 0;
+}
+.shopping-cart2 label{
+  margin-top: 0;
+  cursor:default
+}
+/* .shopping-cart .product{
+ border:none
+} */
+/* Column headers */
+.column-labels label {   padding-bottom: 15px;   margin-bottom: 15px;    border-bottom:none;   text-align:center }
+.shopping-cart2 .column-labels label {   padding-bottom: 5px;   margin-bottom: 5px;    border-bottom:none;   text-align:center }
+
+
+.column-labels .product-image{text-align:center;}
+.shopping-cart2 .column-labels .product-image{text-align:left;}
+.column-labels .product-image, .column-labels .product-details, .column-labels .product-removal {
+/*   text-indent: -9999px; */
+}
+
+/* Product entries */
+.product {   margin-bottom: 20px;   padding-bottom: 10px;   border-bottom: 1px solid #eee;   position:relative }
+.shopping-cart2 .product {   margin-bottom: 0;   border-bottom: none;   position:relative;background:#e4e4e4;padding: 10px; }
+.shopping-cart2 .product:after {  clear:both }
+.shopping-cart2 .totals {   margin-bottom: 0;   border-bottom: none;   position:relative;background:#e4e4e4;padding: 10px; }
+
+
+.product .product-image {   text-align: center; }
+.shopping-cart2 .product .product-image {   text-align: left; }
+
+
+.product .product-image img {
+  width: 50%;
+}
+.product .product-details .product-title {
+  margin-right: 20px;
+/*   font-family: "Open sans", "sans"; */
+}
+.product .product-details .product-description {
+  margin: 5px 20px 5px 0;
+  line-height: 1.4em;
+}
+.product .product-details .product-description2 {
+  margin: 5px 20px 5px 0;
+  line-height: 1.4em;
+  bottom:0;
+  position:absolute
+}
+.product .product-quantity input {
+  width: 40px;
+}
+.product .remove-product {
+  border: 0;
+  padding: 0;
+  background: url(../images/ios-close-empty.svg) center -10px;
+  background-size: 100% ;
+  color: #fff;
+/*   font-family: "Open sans", "sans"; */
+  font-size: 12px;
+  border-radius: 0;
+  width:38px;
+  height:38px
+  
+}
+/* .product .remove-product:hover {
+  background-color: #a44;
+} */
+
+/* Totals section */
+.totals .totals-item {
+  float: right;
+  clear: both;
+  width: 100%;
+  margin-bottom: 0;
+}
+.totals .totals-item .inputregisto{
+	vertical-align:middle;
+	margin-left:78px;
+	width:210px;
+	line-height:22px;
+	text-align:center;
+	text-indent:0
+}
+.totals .totals-item label {
+  float: left;
+  clear: both;
+  width: 79%;
+  padding-bottom:14px
+/*   text-align: right; */
+}
+.totals .totals-item .totals-value {   float: right;   width: 21%;   text-align: right;   font-weight:bold;   padding-right:54px }
+.shopping-cart2 .totals .totals-item .totals-value {   float: right;   width: 21%;   text-align: right;   font-weight:bold;   padding-right:0 }
+
+
+.totals .totals-item .voucher-box {
+padding-top: 10px;
+}
+.totals .totals-item-total {
+  /* font-family: "Open sans", "sans"; */
+}
+
+.checkout {
+  float: right;
+  border: 0;
+  margin-top: 20px;
+  padding: 6px 25px;
+  background-color: #6b6;
+  color: #fff;
+  font-size: 25px;
+  border-radius: 3px;
+}
+
+.checkout:hover {
+  background-color: #494;
+}
+
+.customCheckboxDadosDiferentes{height:20px;margin:0;width:100%;padding:0}
+.customCheckboxDadosDiferentes .left{float:left}
+.customCheckboxDadosDiferentes .left input{display:none}
+.customCheckboxDadosDiferentes .right{float:left;text-align:left;line-height:20px; padding-right:30px; background:url(../images/remember_off.png) no-repeat scroll right center rgba(0, 0, 0, 0);}
+.customCheckboxDadosDiferentes .right_on{float:left;text-align:left;line-height:20px; padding-right:30px; background:url(../images/remember_on.png) no-repeat scroll right center rgba(0, 0, 0, 0);}
+.customCheckboxDadosDiferentes .right2{float:left;text-align:left;line-height:20px; padding-right:30px; padding-left: 5px;background:url(../images/remember_on.png) no-repeat scroll right center rgba(0, 0, 0, 0);}
+.customCheckboxDadosDiferentes .right2_off{float:left;text-align:left;line-height:20px; padding-right:30px; padding-left: 5px;background:url(../images/remember_off.png) no-repeat scroll right center rgba(0, 0, 0, 0);}
+.customCheckboxDadosDiferentes .right3{float:left;text-align:left;line-height:20px; padding-right:30px; padding-left: 5px;}
+
+.customCheckboxEmbrulho{height:20px;margin:0;width:100%;padding:0}
+.customCheckboxEmbrulho .left{float:left}
+.customCheckboxEmbrulho .left input{display:none}
+.customCheckboxEmbrulho .right{float:left;width:auto;text-align:left;line-height:20px;background:url(../images/android-checkbox-outline-blank.png) no-repeat scroll right center rgba(0,0,0,0);padding-right:30px}
+.customCheckboxEmbrulhoOn .right{float:left;width:auto;text-align:left;line-height:20px;background:url(../images/android-checkbox.png) no-repeat scroll right center rgba(0,0,0,0);padding-right:30px}
+
+.customCheckboxEmbrulho .right2{float:left;width:auto;text-align:left;line-height:20px;background:url(../images/android-radio-outline-blank.png) no-repeat scroll right center rgba(0,0,0,0);padding-right:30px}
+.customCheckboxEmbrulhoOn .right2{float:left;width:auto;text-align:left;line-height:20px;background:url(../images/android-radio.png) no-repeat scroll right center rgba(0,0,0,0);padding-right:30px}
+
+/* 
+.prd_d_cart .prd_img .layer{display:block;width:100%;margin:0 auto;position:absolute;bottom:0;background:rgba(80, 190, 187, 0.8);height:90px;overflow: hidden;color:#FFF;font-weight:bold;font-size:22px;text-align:left;padding: 20px;line-height: 26px;}
+.prd_d_cart:hover .layer{background:rgba(238, 53, 119, 0.8)}
+ */
+
+.customRadioPagamento{background:#c0c0c2;margin:0 0 6px;width:100%;padding:12px;text-align:center;color:#FFF;height:40px}
+.customRadioPagamento:hover{background:#f23377;color:#FFF}
+.customRadioPagamentoOn{background:#f23377;color:#FFF}
+.customRadioPagamento .left{}
+.customRadioPagamento .left input{display:none}
+.customRadioPagamento .right{width:100%;text-align:center;line-height:15px;}
+.customRadioPagamento .right .name_wrapper{}
+.customRadioPagamento .right .name_wrapper img{margin-top:-3px}
+.customRadioPagamento .right .desc_wrapper{color:#A7A7A7;font-size:11px;margin-top:-7px}
+.customRadioPagamento .right .desc_wrapper a{color:#A7A7A7;font-size:10px}
+
+/* Make adjustments for tablet */
+@media screen and (max-width: 650px) {
+  .shopping-cart {
+    margin: 0;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  .shopping-cart2 {
+    margin: 0;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .column-labels {
+    display: none;
+  }
+
+  .product-image {
+    float: right;
+    width: auto;
+  }
+  .product-image img {
+    margin: 0 0 10px 10px;
+  }
+
+  .product-details {
+    float: none;
+    margin-bottom: 10px;
+    width: auto;
+
+  }
+
+  .product-price {
+    clear: both;
+    width: 70px;
+  }
+
+  .product-quantity {
+    width: 100px;
+  }
+  
+
+
+   .totals .totals-item label {
+    width: 50%;
+  }
+  .totals .totals-item .totals-value {
+    width: 50%;
+	padding-right:0
+  }
+  .totals .totals-item .voucher-box {
+padding-top: 0;
+}
+	.totals .totals-item .inputregisto
+	{
+		vertical-align:middle;
+		margin-left:0;
+	}
+
+  .product-removal {
+    width: auto;
+	position:absolute;
+	top:-10px;
+	right:-10px;
+	
+  }
+
+  .product-line-price {
+    float: right;
+    width: 70px;
+	text-align:right !important
+	
+  }
+}
+/* Make more adjustments for phone */
+@media screen and (max-width: 350px) 
+{
+	.product-removal {
+		float: right;
+	}
+	.product-line-price 
+	{
+		float: right;	
+		width: auto;	
+	}
+
+	.product .product-line-price:before 
+	{
+	/* content: 'Item Total:'; */
+	}
+
+	.totals .totals-item label {
+		width: 50%;
+	}
+	.totals .totals-item .totals-value {
+		width: 50%;
+		padding-right:0
+	}
+	.totals .totals-item .voucher-box {
+padding-top: 0;
+}
+	.totals .totals-item .inputregisto
+	{
+		vertical-align:middle;
+		margin-left:0;
+	}
+}

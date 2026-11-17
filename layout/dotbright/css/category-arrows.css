@@ -1,0 +1,23 @@
+/* Category disclosure: right when closed, down when expanded. */
+#filtros_left .drop li.t > a.cat { position: relative; }
+#filtros_left .drop li.t > a.cat::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  right: 7px;
+  top: calc(50% - 3px);
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: 0;
+  transform: rotate(-45deg);
+  transform-origin: 50% 50%;
+  transition: transform 200ms ease;
+  pointer-events: none;
+}
+#filtros_left .drop li.t.active > a.cat::after { transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  #filtros_left .drop li.t > a.cat::after { transition: none; }
+}

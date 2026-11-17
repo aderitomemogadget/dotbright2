@@ -1,0 +1,395 @@
+/* Small, site-wide responsive corrections verified on the live storefront. */
+
+:root {
+  --db-space-1: 4px;
+  --db-space-2: 8px;
+  --db-space-3: 12px;
+  --db-space-4: 16px;
+  --db-space-5: 24px;
+  --db-radius-control: 9px;
+  --db-focus: #ef8900;
+  --db-line: #e2e5e9;
+  --db-muted: #626a73;
+}
+
+/* Shared interaction language: visible keyboard focus and predictable motion. */
+.page-container a,
+.page-container button,
+.page-container input,
+.page-container select,
+.page-container textarea,
+.db-discovery a,
+.db-discovery button {
+  transition: color 180ms ease, background-color 180ms ease,
+    border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.page-container a:focus-visible,
+.page-container button:focus-visible,
+.page-container input:focus-visible,
+.page-container select:focus-visible,
+.page-container textarea:focus-visible,
+.db-discovery a:focus-visible,
+.db-discovery button:focus-visible {
+  outline: 3px solid var(--db-focus);
+  outline-offset: 2px;
+}
+
+.page-container input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.page-container select,
+.page-container textarea {
+  border-color: #cfd4da;
+  border-radius: var(--db-radius-control);
+}
+
+.page-container input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+.page-container select:focus,
+.page-container textarea:focus {
+  border-color: var(--db-focus);
+  box-shadow: 0 0 0 3px rgba(239, 137, 0, .14);
+}
+
+/* Reserve a calm, deliberate surface while the Revolution Slider backgrounds load. */
+#banners .page-slider-wrap,
+#banners .page-slider-wrap2,
+#main-slider_bloco {
+  overflow: hidden;
+  background: linear-gradient(110deg, #f1f3f5 8%, #fafafa 28%, #f1f3f5 46%);
+  background-size: 220% 100%;
+  animation: db-banner-placeholder 1.8s ease-in-out infinite;
+}
+
+#banners .tp-bgimg,
+#banners .slotholder {
+  background-color: #f4f5f6;
+}
+
+@keyframes db-banner-placeholder {
+  to { background-position-x: -220%; }
+}
+
+/* Catalogue controls were visually smaller than the surrounding interface. */
+.catalogo_mobile_filtros .filtros_bt_mobile,
+.catalogo_mobile_filtros .chosen-single,
+.catalogo_mobile_pesquisa .pesq_input,
+.cat_wrap .chosen-container-single .chosen-single {
+  min-height: 40px;
+  line-height: 38px;
+  border-radius: var(--db-radius-control);
+}
+
+.catalogo_mobile_pesquisa .pesq_input {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.paginacao .product_button,
+.paginacao .product_button_selected,
+.paginacao .product_button_back,
+.paginacao .product_button_next {
+  min-width: 40px;
+  min-height: 40px;
+  margin: 2px;
+  border-radius: 8px;
+  line-height: 1.2;
+}
+
+.catprod_wrap #product_show .prd_d {
+  border-color: var(--db-line);
+}
+
+.catprod_wrap #product_show .prd_d .prd_img img,
+.slidercontent .prd_d .prd_img img {
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.catprod_wrap #product_show .prd_d .prd_title a {
+  line-height: 1.4;
+}
+
+.catprod_wrap #product_show .prd_d .prodby,
+.catprod_wrap #product_show .prd_d .prodby_disabled,
+.catprod_wrap #product_show .prd_d .vermais {
+  min-height: 40px;
+  line-height: 40px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .catprod_wrap #product_show .prd_d:hover {
+    border-color: rgba(239, 137, 0, .62);
+    box-shadow: 0 10px 26px rgba(28, 33, 39, .09);
+  }
+}
+
+/* Public forms share the same readable rhythm without changing their structure. */
+.container_pub label {
+  margin-bottom: var(--db-space-2);
+  line-height: 1.4;
+}
+
+.container_pub input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.container_pub select,
+.container_pub textarea {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.container_pub button,
+.container_pub input[type="submit"],
+.container_pub input[type="button"] {
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--db-radius-control);
+}
+
+/* Keep the repair-tracking illustration and form in a balanced desktop row. */
+.db-tracking.row > div[class*="col-"] {
+  float: none !important;
+  position: static !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+}
+
+@media (min-width: 801px) {
+  .db-tracking.row > div:first-child {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .db-tracking.row > div:last-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+/* Give the quantity controls a comfortable mouse and touch target. */
+.db-product-page #quantity_wanted_p .input-group {
+  height: 44px;
+}
+
+.db-product-page #quantity_wanted_p .input-group input {
+  padding-right: 92px !important;
+}
+
+.db-product-page #quantity_wanted_p .product_quantity_up,
+.db-product-page #quantity_wanted_p .product_quantity_down {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 50%;
+  background-color: #eee;
+  color: #666;
+  cursor: pointer;
+  margin: 0 !important;
+}
+
+.db-product-page #quantity_wanted_p .product_quantity_up { right: 6px; }
+.db-product-page #quantity_wanted_p .product_quantity_down { right: 48px; }
+
+.db-product-page #quantity_wanted_p .product_quantity_up:focus-visible,
+.db-product-page #quantity_wanted_p .product_quantity_down:focus-visible {
+  outline: 3px solid #ef8900;
+  outline-offset: 2px;
+}
+
+/* Products without a supplied photo get a deliberate placeholder. */
+.prd_d .prd_img img.db-image-placeholder {
+  width: 100% !important;
+  height: 130px !important;
+  padding: 12px;
+  object-fit: contain;
+  box-sizing: border-box;
+  opacity: .82;
+}
+
+@media (max-width: 800px) {
+  .db-tracking.row > div {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  /* The generated 65% store-card width is too narrow on a phone. */
+  .container_pub .loja_info {
+    width: calc(100% - 24px) !important;
+    max-width: 560px;
+    margin: 15px auto 32px !important;
+    padding: 22px !important;
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+
+  .container_pub .loja_info > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .container_pub .loja_info > .row:first-child > .col-md-3,
+  .container_pub .loja_info > .row:first-child > .col-md-9,
+  .container_pub .loja_info > .row:first-child > .col-md-9 > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .container_pub .loja_info > .row:first-child > .col-md-3 {
+    text-align: center;
+  }
+
+  .container_pub .loja_info > .row:first-child > .col-md-3 img {
+    max-width: 220px;
+  }
+
+  .container_pub .loja_info > .row:first-child > .col-md-9 {
+    margin-top: 18px;
+  }
+
+  /* Remove spacer BRs and negative row margins from the compact login card. */
+  .container_pub .login_box_right {
+    padding: 34px 24px 38px !important;
+  }
+
+  .container_pub .login_box_right > br {
+    display: none;
+  }
+
+  .container_pub .login_box_right .pag_pub_title {
+    margin: 0 0 34px !important;
+  }
+
+  .container_pub .login_box_right #login_form1 .row,
+  .container_pub .login_box_right > .row:last-child {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .container_pub .login_box_right #login_form1 .row > [class*="col-"] {
+    width: 100%;
+    padding: 0;
+    text-align: left !important;
+  }
+
+  .container_pub .login_box_right #login_form1 .row > [class*="col-"] + [class*="col-"] {
+    margin-top: 8px;
+  }
+
+  .container_pub .login_box_right > .row:last-child {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .container_pub .login_box_right > .row:last-child > span {
+    margin: 0 !important;
+  }
+
+  .catprod_wrap #product_show .prd_d .prd_title {
+    min-height: 72px;
+  }
+
+  .catprod_wrap #product_show .prd_d .prd_title a {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .catalogo_mobile_pesquisa .info-extra-paginacao {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .catalogo_mobile_pesquisa .paginacao {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+/* The consent banner must remain usable without covering most of a phone screen. */
+@media (max-width: 600px) {
+  #MemoGadgetCookiebotDialog {
+    right: 10px !important;
+    bottom: 10px !important;
+    left: 10px !important;
+    width: auto !important;
+    max-height: 72vh !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, .32) !important;
+  }
+
+  #MemoGadgetCookiebotDialogBody {
+    max-height: 72vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyContent {
+    min-height: 0 !important;
+    padding: 16px 16px 6px !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyContentTitle {
+    font-size: 20px !important;
+    line-height: 1.2 !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyContentText {
+    margin: 8px 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyLevelWrapper {
+    min-height: 0 !important;
+    padding: 0 12px 12px !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyLevelButtonAcceptWrapper {
+    margin-left: 6px !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyLevelButtonAccept,
+  #CookieButtonAcceptAll {
+    min-width: 104px !important;
+    min-height: 38px !important;
+    padding: 0 8px !important;
+    border-radius: 7px !important;
+    line-height: 38px !important;
+  }
+
+  #MemoGadgetCookiebotDialogBodyLevelButtons {
+    margin-left: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #banners .page-slider-wrap,
+  #banners .page-slider-wrap2,
+  #main-slider_bloco {
+    animation: none;
+  }
+
+  .page-container a,
+  .page-container button,
+  .page-container input,
+  .page-container select,
+  .page-container textarea,
+  .db-product-page #quantity_wanted_p .product_quantity_up,
+  .db-product-page #quantity_wanted_p .product_quantity_down {
+    transition: none !important;
+  }
+}

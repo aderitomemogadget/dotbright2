@@ -1,0 +1,29 @@
+/*  :: ::::::: :: */
+/*  :: Animate :: */
+/*  :: ::::::: :: */
+*[data-animate*="In"] {
+	opacity: 0;
+}
+.animated.done[data-animate*="In"] {
+	opacity: 1;
+}
+.hinge,
+.bounceIn,
+.bounceInDown,
+.bounceInLeft,
+.bounceInRight,
+.bounceInUp,
+.slideInDown,
+.slideInLeft,
+.slideInRight,
+.slideInUp {
+	opacity: 1;
+}
+.animated.done[data-animate*="Out"],
+.animated.done[data-animate*="hinge"] {
+	opacity: 0;
+}
+
+.search_hinters .opt > .image img {
+   max-width: 100px !important;
+}

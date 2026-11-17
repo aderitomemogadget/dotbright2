@@ -1,0 +1,111 @@
+header .topo {height:45px}
+header .middle {height:100px}
+
+.search_hinters .opt > .image img {display: table-cell;
+vertical-align: middle;
+text-align: center;
+height: 46px;
+background-repeat: no-repeat !important;
+cursor: pointer;
+color: #999999;
+padding: 6px;
+font-size: 11px;}
+.search_hinters .opt {display: table;
+width: 100%;
+cursor: pointer;
+color: #999999;
+padding: 0;
+font-size: 11px;
+margin: 0;
+border-bottom: 1px #ccc dashed;}
+.search_hinters .opt > .name {display: table-cell;vertical-align: middle;cursor: pointer;color: #999999;padding: 0;font-size: 11px;}
+
+@media only screen and (max-width :768px)
+{
+	.catprod_wrap #product_show li.item .prd_d .prd_title a, .slidercontent .lightSlider li .prd_d .prd_title a{font: 400 9px 'Roboto';}
+	.filtros_icon{display:block}
+	
+	.m_respons img {max-height:30px}
+	.m_respons {padding-top:9px}
+	.m_menu {padding-top:12px;padding-left:12px}
+	.m_menu2 {padding-top:12px;margin-right:12px}
+	div.m_social + div.m_social {padding-right:24px}
+	.container .catprod_wrap_ .titulo_d{padding-top:24px;padding-bottom:24px}
+	html body{line-height:20px}
+	/*.footer-container #footer .footer-block {margin:0 10px}
+	.footer-container #footer .footer-block + .footer-block {margin:0 10px}*/
+	.livro-reclamacoes {margin-left:10px;margin-right:10px}
+	/*nav div.drawer ul {margin: 0;padding:10px;padding-top:10px;padding-right:10px;padding-top:10px}*/
+	.svg-inline--fa.fa-w-8 {width:0.3em}
+	/*nav.powerlistmenu div.drawer div.breadcrumb {margin-top:0}
+	nav.powerlistmenu div.drawer div.breadcrumb svg.left {color:#fff}*/
+	/*.container {padding: 0 12px}*/
+	.container .catprod_wrap{padding-left:0;padding-right:0}
+	.cat_wrap{margin-top:0px}
+	.cat_wrap .catalogo_topo_filtros {margin:0px 0}
+	.cat_wrap .catalogo_topo_filtros .filtros {padding: 0px}
+	.filtros {margin-bottom:20px}
+	.catalogo_topo_filtros .float-right {width:100%}
+	.catprod_wrap #product_show li {padding:1%;max-width:49%}
+	#product_order{font-size:16px;width: 100%;background: transparent;}
+	#product_order option{font-size:16px}
+	.prd_d .prd_layer {min-height:auto}
+	.filtros .vista-catalogo .ver{display:none}
+	.filtros .vista-catalogo {margin-left:0px}
+	.float-right .pesq_txt{width:100%}
+	.cat_wrap .filtro_order {padding:0px;padding-bottom:10px}
+	.primary_block {padding:12px}
+	.resp-tabs-container .resp-tab-content li{min-width:100%}
+	.leftbutton {width:15px}
+	.rightbutton {width:15px;float:right}
+	.slidercontent {width:calc(100% - 40px);}
+	.home-destaque li {max-width: 158px;}
+	.home-destaque li div{line-height:13px}
+	.product_button {margin:0px}
+	.filtros-vista{display:none}
+	.cat_wrap .paginacao {margin-top:15px;margin-bottom:15px}
+	.titulo-prod {margin-bottom:20px}
+	.inputs .descricao{font-size:12px}
+	.inputs .descricao select{width:100%;height:30px}
+	.box-info-product{margin-top:15px}
+	.shop_left_top {margin-top:70px}
+	.cat_wrap {margin:0px}
+	.leftbutton {height:270px !important}
+    .rightbutton{height:270px !important}
+    .logo{max-width: 160px;max-width: 100px !important;}
+
+	#footer .logo{margin: 0 auto; max-width: 120px !important;}
+
+}
+
+.filtros_wrapper .filtro-caracteristicas #c_l li.f_ativos3 > ul {
+    max-height: 250px;
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-y: scroll;
+}
+.drop2 ul ul {
+   /* display: block !important;*/
+
+}
+.drop2 ul li {
+   /* display: block !important;*/
+	padding-bottom: 5px;
+}
+.filtros_wrapper .filtro-caracteristicas #c_l li.f_ativos3 > ul > li > div.t {
+    background: #fff;
+}
+#f_left > span {
+	white-space: nowrap;
+    color: #000;
+    display: block;
+    font-size: 10px;
+    line-height: 24px;
+    padding: 0 15px 0 0;
+    position: relative;
+    text-decoration: none;
+    transition: all 0.15s ease 0s;
+    font-weight: normal;
+	text-transform: uppercase;
+  	text-wrap: wrap;
+}
