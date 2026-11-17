@@ -27,6 +27,30 @@ function cleanup_fixture($dir) {
     }
     rmdir($dir);
 }
+// Execute the actual legacy image-selection blocks, not a copy of their logic.
+// These previously discarded shared images during the final local-only check.
+function check_legacy_image_selection($missing = false) {
+    $blocks = 0;
+    foreach (array('core/produtos.php', 'layout/dotbright/code/produto.php', 'ajax/ajax_img.php') as $file) {
+        $source = file_get_contents(dirname(__DIR__).'/'.$file);
+        $offset = 0;
+        while (($start = strpos($source, "\$img_file_small='files/products/'", $offset)) !== false) {
+            $end = strpos($source, 'if($ext)', $start);
+            if ($end === false) throw new RuntimeException('Image-selection block not found: '.$file);
+            $block = substr($source, $start, $end - $start);
+            $prod_id = 143580; $ordem = 1; $ext = 'png'; $webp = 0;
+            $img_file = 'files/products/143580_1.png';
+            $i_small = $i_thum = $i_prod = array('ativo'=>0, 'w'=>50, 'h'=>50, 'crop'=>array(), 'm_trans'=>0, 'c_white'=>0);
+            eval($block);
+            $url = dotbright_image_url($img_file_thum);
+            check($missing ? strpos($url, '/images/no_photo.png') !== false
+                : strpos($url, PRODUCT_IMAGES_SOURCE_URL.'143580_1_thum.png?dp=') === 0,
+                $file.' block '.(++$blocks).($missing ? ' keeps missing-image fallback' : ' renders shared thumbnail without a local copy'));
+            $offset = $end + strlen('if($ext)');
+        }
+    }
+    check($blocks === 5, 'cover all five legacy image-selection blocks');
+}
 function db_opendb_conection($host, $user, $password) { return null; }
 function Runquery($link, $database, $sql) { throw new RuntimeException('Unexpected database write: '.$sql); }
 class DataObj {
@@ -91,6 +115,10 @@ try {
         check(get_product_images(143580)[0]['img_ext'] === 'png', 'gallery extension correction without DB update');
         $GLOBALS['fixtureRows'] = array();
         check(get_product_images(143580)[0]['img_ext'] === 'png', 'filesystem discovery without DB insert');
+        check_legacy_image_selection();
+        unlink($temp.'/source/143580_1_thum.png');
+        clearstatcache();
+        check_legacy_image_selection(true);
     } else {
         check(!dotbright_image_exists($temp.'/dev/files/products/143580_1.png'), 'disabled configuration ignores shared source');
         file_put_contents($temp.'/dev/files/products/143580_1.png', $png);

@@ -186,7 +186,7 @@ function dotbright_image_root_url()
 }
 function dotbright_product_images_cache_key()
 {
-    return dotbright_shared_images() ? 'shared_'.substr(hash('sha256', PRODUCT_IMAGES_SOURCE_PATH.'|'.PRODUCT_IMAGES_SOURCE_URL), 0, 12).'_' : '';
+    return dotbright_shared_images() ? 'shared_v2_'.substr(hash('sha256', PRODUCT_IMAGES_SOURCE_PATH.'|'.PRODUCT_IMAGES_SOURCE_URL), 0, 12).'_' : '';
 }
 
 // Map only the documented product image fields, including cached gallery arrays.

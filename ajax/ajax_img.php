@@ -195,9 +195,9 @@
 					}
 				}*/
 
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
 
 				if($ext)
 				{

@@ -1966,9 +1966,9 @@ function get_produtc_info($prod_id=0,$prod_obj_id='',$gera_images=1,$id_fam=0,$l
 
 								}
 
-								if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
-								if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
-								if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
+								if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
+								if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+								if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
 
 								if($ext)
 								{
@@ -2069,9 +2069,9 @@ function get_produtc_info($prod_id=0,$prod_obj_id='',$gera_images=1,$id_fam=0,$l
 
 							}
 
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
 
 							if($ext)
 							{
@@ -2455,9 +2455,9 @@ function get_produtc_info_essentials($prod_id=0,$ignore_img=0)
 
 							}
 
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
-							if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small=$img_file_small_cache; else $img_file_small=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo_cart.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum=$img_file_thum_cache; else $img_file_thum=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+							if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_prod) && $ext!='') $img_file_prod=$img_file_prod_cache; else $img_file_prod=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo2.png';
 
 							if($ext)
 							{

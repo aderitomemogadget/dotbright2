@@ -2678,7 +2678,7 @@
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
 							}
-							if(!is_file($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+							if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 						}
 					}
 
@@ -2975,7 +2975,7 @@
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
 							}
-							if(!is_file($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+							if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 						}
 					}
 
@@ -4551,7 +4551,7 @@
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
 							}
-							if(!is_file($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+							if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 						}
 
 
