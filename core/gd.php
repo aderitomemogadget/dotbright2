@@ -1,5 +1,6 @@
 <?php
 if(isset($_SERVER['SCRIPT_FILENAME']) && $_SERVER['SCRIPT_FILENAME'] == __FILE__ ) exit();
+require_once __DIR__.'/product_images.php';
 function gera_image($src,$new,$w,$h) //funcao que vai gerar uma imagem nova se a data da original mudar
 {
 	global $site_shell_url;
@@ -46,6 +47,9 @@ function setMemoryForImage( $filename )
 }
 function geraimagens($img_original='',$img_nova='',$w=0,$h=0,$crop=array(),$transparent=0,$white=0,$marcaagua=array(),$nome='',$gerar=0,$fit=0)
 {
+	// Shared originals and derivatives are read only; regeneration stays in DEV.
+	if (dotbright_shared_images() && dotbright_image_name($img_original) !== false
+		&& dotbright_image_file_in(dotbright_image_root().'files/products', dotbright_image_name($img_original)) === false) return false;
 	// _prod derivatives are obsolete; list/cart thumbnails remain unchanged.
 	if(preg_match('~(?:^|/)files/products/[0-9]+_[0-9]+_prod(?:_v_[0-9]+)?\.(?:png|jpe?g|webp|gif|avif)$~i', (string)$img_nova)) return false;
 	$no_image=0;

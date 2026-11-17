@@ -54,10 +54,10 @@
 		$ordem=1;
 		$ext='png';
 		$img_file='files/products/'.$prod_id.'_'.$ordem.'_thum.'.$ext;
-		if(!is_file($GLOBALS['site_shell_url'].$img_file) )
+		if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )
 		{
 			$img_file_original='files/products/'.$prod_id.'_'.$ordem.'.jpg';
-			if(is_file($GLOBALS['site_shell_url'].$img_file_original))
+			if(dotbright_image_exists($GLOBALS['site_shell_url'].$img_file_original))
 			{
 				$i_thum=unserialize(IMG_THUM);
 				geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
@@ -380,7 +380,7 @@
 		"a6":"'.$pvp.'",
 		"a7":"'.$prods['prod_precos']['STOCK'].'",
 		"a8":"'.addslashes($stock_txt).'",
-		"a9":"'.$img_file.'",
+		"a9":"'.dotbright_image_url($img_file).'",
 		"a10":"'.$titulo.'",
 		"a11":"",
 		"a12":"'.$link.'",

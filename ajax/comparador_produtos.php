@@ -43,19 +43,19 @@
 			$prod_img=(($image=='' || substr_count($image,'no_photo.png')) ? '' : $image);
 			if($prod_img == '')
 			{
-				if(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1_thum.JPG')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.JPG';
-				elseif(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1_thum.jpg')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.jpg';
-				elseif(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1_thum.PNG')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.PNG';
-				elseif(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1_thum.png')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.png';
-				elseif(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1.png')) $image=IMG_FOLDER.'/products/'.$id.'_1.png';
-				elseif(file_exists(dirname( __FILE__ ) .'../files/products/'.$id.'_1.jpg')) $image=IMG_FOLDER.'/products/'.$id.'_1.jpg';
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1_thum.JPG')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.JPG';
+				elseif(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1_thum.jpg')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.jpg';
+				elseif(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1_thum.PNG')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.PNG';
+				elseif(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1_thum.png')) $image=IMG_FOLDER.'/products/'.$id.'_1_thum.png';
+				elseif(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1.png')) $image=IMG_FOLDER.'/products/'.$id.'_1.png';
+				elseif(dotbright_image_file_exists($GLOBALS['site_shell_url'].'files/products/'.$id.'_1.jpg')) $image=IMG_FOLDER.'/products/'.$id.'_1.jpg';
 			}
 
 			/*$s .= '<li>';
 			$s .= '
 					<a title="'.$title.'" href="'.$caminho.'" target="_top" alt="'.$title.'">
 					<div>
-					<div class="prd_img"><span class="helper"></span><img alt="..." src="'.$image.'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : '').' border="0"></div>
+					<div class="prd_img"><span class="helper"></span><img alt="..." src="'.dotbright_image_url($image).'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : '').' border="0"></div>
 					<div class="prd_layer">
 					<div class="prd_title">'.$title.'</div>
 					<div class="c"></div>
@@ -71,7 +71,7 @@
 			<div class="prod-popup">
 				<div class="wp-side-image">
 					<a title="'.$title.'" href="'.$caminho.'" target="_top" alt="'.$title.'">
-						<div class="image"><img style="width:50px" src="'.$image.'" alt="'.$title.'"></div>
+						<div class="image"><img style="width:50px" src="'.dotbright_image_url($image).'" alt="'.$title.'"></div>
 					</a>
 				</div>
 				<div class="wp-side-text">

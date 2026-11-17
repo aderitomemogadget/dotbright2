@@ -131,7 +131,7 @@ if ($searchstr != '')
 
                         //$img_file = 'files/products/'.$prodId.'_1_prod.png';
                         $imagem = '';
-                        if (file_exists($GLOBALS['site_shell_url'].$img_file))
+                        if (dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file))
                         {
                             $imagem = '<img src="'.$GLOBALS['site_http_url'].$img_file.'" alt="'.htmlspecialchars($prodNome).'" />';
                         }
@@ -245,9 +245,9 @@ function getProductThumb($prod_id=0)
 
             $fileThumb = $baseDir . $prod_id . '_' . $ordem . '_thum.' . $ext;
 
-            if(is_file($fileThumb)){
+            if(dotbright_image_exists($fileThumb)){
                 return [
-                    'url'   => $baseUrl . $prod_id . '_' . $ordem . '_thum.' . $ext,
+                    'url'   => dotbright_image_url($baseUrl . $prod_id . '_' . $ordem . '_thum.' . $ext),
                     'ordem' => $ordem,
                     'ext'   => $ext,
                     'type'  => 'thumb'
@@ -256,9 +256,9 @@ function getProductThumb($prod_id=0)
 
             $fileOriginal = $baseDir . $prod_id . '_' . $ordem . '.' . $ext;
 
-            if(is_file($fileOriginal)){
+            if(dotbright_image_exists($fileOriginal)){
                 return [
-                    'url'   => $baseUrl . $prod_id . '_' . $ordem . '.' . $ext,
+                    'url'   => dotbright_image_url($baseUrl . $prod_id . '_' . $ordem . '.' . $ext),
                     'ordem' => $ordem,
                     'ext'   => $ext,
                     'type'  => 'original'

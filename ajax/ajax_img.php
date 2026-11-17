@@ -159,15 +159,15 @@
 
 				// VAMOS PASSAR A USAR APENAS 3 TAMANHOS, PEQUENA, MEDIA, E FICHA DE PRODUTO
 				//Se existir a original
-				if(file_exists($GLOBALS['site_shell_url'].$img_file) && $ext!='')
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file) && $ext!='')
 				{
-					if(!file_exists($GLOBALS['site_shell_url'].$img_file_small))geraimagens($img_file, $img_file_small, $i_small['w'], $i_small['h'], $i_small['crop'], $i_small['m_trans'], $i_small['c_white']);
-					if(!file_exists($GLOBALS['site_shell_url'].$img_file_thum))geraimagens($img_file, $img_file_thum,  $i_thum['w'], $i_thum['h'], $i_thum['crop'], $i_thum['m_trans'], $i_thum['c_white']);
-					if(!file_exists($GLOBALS['site_shell_url'].$img_file_prod))geraimagens($img_file, $img_file_prod,  $i_prod['w'], $i_prod['h'], $i_prod['crop'], $i_prod['m_trans'], $i_prod['c_white']);
+					if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small))geraimagens($img_file, $img_file_small, $i_small['w'], $i_small['h'], $i_small['crop'], $i_small['m_trans'], $i_small['c_white']);
+					if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum))geraimagens($img_file, $img_file_thum,  $i_thum['w'], $i_thum['h'], $i_thum['crop'], $i_thum['m_trans'], $i_thum['c_white']);
+					if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_prod))geraimagens($img_file, $img_file_prod,  $i_prod['w'], $i_prod['h'], $i_prod['crop'], $i_prod['m_trans'], $i_prod['c_white']);
 				}
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.png?dp='.filemtime($GLOBALS['site_shell_url'].$img_file_small);
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.png?dp='.filemtime($GLOBALS['site_shell_url'].$img_file_thum);
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_prod ) && $ext!='') $img_file_prod_cache='files/products/'.$prod_id.'_'.$ordem.'_prod.png?dp='.filemtime($GLOBALS['site_shell_url'].$img_file_prod);
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.png?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_small);
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.png?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_thum);
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_prod ) && $ext!='') $img_file_prod_cache='files/products/'.$prod_id.'_'.$ordem.'_prod.png?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_prod);
 				/*if($webp==2)
 				{
 					$img_webp_small='files/products/'.$prod_id.'_'.$ordem.'_small.webp';
@@ -234,7 +234,7 @@
 			$prods['prd_imgm_med']=$arr_img_med[0];
 			$prods['prd_imgm_fb']=$arr_img_fb[0];
 
-			echo $arr_img_news[0];
+			echo dotbright_image_url($arr_img_news[0]);
 		}
 	}
 ?>

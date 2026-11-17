@@ -19,7 +19,7 @@ function db_disc_cache_allowed() {
 function db_disc_cache_key($group,$identity) {
     $host=$_SERVER['HTTP_HOST']??'dotbright.pt';
     $database=$GLOBALS['DB_name']??'';
-    return 'dotbright:discovery:v1:'.$group.':'.hash('sha256',$host.'|'.$database.'|'.$identity);
+    return 'dotbright:discovery:v1:'.$group.':'.hash('sha256',$host.'|'.$database.'|'.dotbright_product_images_cache_key().'|'.$identity);
 }
 function db_disc_cache_fetch($group,$identity,&$found) {
     $found=false;
@@ -87,8 +87,8 @@ function db_disc_category_product_images() {
         if(!$productId||!$order||!preg_match('/^[a-z0-9]{2,5}$/i',$extension))continue;
         $thumb='files/products/'.$productId.'_'.$order.'_thum.png';
         $original='files/products/'.$productId.'_'.$order.'.'.$extension;
-        if(is_file($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$thumb)))$images[$categoryId]=$thumb;
-        elseif(is_file($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$original)))$images[$categoryId]=$original;
+        if(dotbright_image_exists($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$thumb)))$images[$categoryId]=dotbright_image_url($thumb);
+        elseif(dotbright_image_exists($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$original)))$images[$categoryId]=dotbright_image_url($original);
     }
     return $images;
 }
@@ -98,12 +98,12 @@ function db_disc_category_image($category) {
     $extension=strtolower((string)($category['img_ext']??''));
     if($id&&preg_match('/^[a-z0-9]{2,5}$/i',$extension)){
         $familyImage='files/products_families/'.$id.'_1.'.$extension;
-        if(is_file($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$familyImage)))return $familyImage;
+        if(dotbright_image_exists($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$familyImage)))return $familyImage;
     }
     $productImages=db_disc_category_product_images();
     if(isset($productImages[$id]))return $productImages[$id];
     $fallback=db_disc_category_fallback($id);
-    if($fallback!==''&&is_file($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$fallback)))return $fallback;
+    if($fallback!==''&&dotbright_image_exists($siteRoot.str_replace('/',DIRECTORY_SEPARATOR,$fallback)))return $fallback;
     return '';
 }
 function db_disc_has_physical_image($id,$images) {
@@ -113,7 +113,7 @@ function db_disc_has_physical_image($id,$images) {
     foreach(array_filter(explode(',',(string)$images)) as $image){
         list($order,$extension)=array_pad(explode(':',$image,2),2,'');
         if($order!=='' && preg_match('/^[a-z0-9]{2,5}$/i',$extension)
-            && is_file($root.(int)$id.'_'.(int)$order.'.'.strtolower($extension)))return true;
+            && dotbright_image_exists($root.(int)$id.'_'.(int)$order.'.'.strtolower($extension)))return true;
     }
     return false;
 }

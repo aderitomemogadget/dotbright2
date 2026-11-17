@@ -46,7 +46,7 @@
 		{
 			$img_file='files/products/'.$rs->db_data['PID'].'_1_small.png';
 			$imagem = '';
-			if(file_exists($GLOBALS['site_shell_url'].$img_file)) $imagem='<img border="0" src="'.$img_file.'">';
+			if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file)) $imagem='<img border="0" src="'.dotbright_image_url($img_file).'">';
 			$url = seo('pages.php?page_id='.$GLOBALS['products_page_id'],$rs->db_data['PID'], 2);
 
 

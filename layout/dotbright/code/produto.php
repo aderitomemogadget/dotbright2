@@ -2109,7 +2109,7 @@ function ficha_p1_final($prods,$labels='')
 									$gallery_image_med = $prods['prd_imgs']['img_med'][$figi];
 									if (!empty($prods['seminovo_reference_image'])) {
 										$reference_file = $GLOBALS['site_shell_url'].'files/products/'.$prods['prod_id'].'_1.jpg';
-										$reference_version = is_file($reference_file) ? (string)filemtime($reference_file) : (string)time();
+										$reference_version = dotbright_image_exists($reference_file) ? (string)dotbright_image_mtime($reference_file) : (string)time();
 										$gallery_image .= (strpos($gallery_image, '?') === false ? '?' : '&').'refv='.$reference_version;
 										$gallery_image_med .= (strpos($gallery_image_med, '?') === false ? '?' : '&').'refv='.$reference_version;
 									}
@@ -6067,15 +6067,15 @@ function gerarneededimages($prod_id='')
 			// VAMOS PASSAR A USAR APENAS 3 TAMANHOS,PEQUENA, MEDIA, E FICHA DE PRODUTO
 
 			//Se existir a original
-			if(file_exists($GLOBALS['site_shell_url'].$img_file) && $ext!='')
+			if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file) && $ext!='')
 			{
-				if(!file_exists($GLOBALS['site_shell_url'].$img_file_small))geraimagens($img_file,$img_file_small,$i_small['w'],$i_small['h'],$i_small['crop'],$i_small['m_trans'],$i_small['c_white']);
-				if(!file_exists($GLOBALS['site_shell_url'].$img_file_thum))geraimagens($img_file,$img_file_thum,  $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
+				if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small))geraimagens($img_file,$img_file_small,$i_small['w'],$i_small['h'],$i_small['crop'],$i_small['m_trans'],$i_small['c_white']);
+				if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum))geraimagens($img_file,$img_file_thum,  $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
 			}
 
-			if(file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.png?dp='.filemtime($GLOBALS['site_shell_url'].$img_file_small);
-			if(file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.png?dp='.filemtime($GLOBALS['site_shell_url'].$img_file_thum);
-			if(file_exists($GLOBALS['site_shell_url'].$img_file_prod ) && $ext!='') $img_file_prod_cache=$img_file.'?dp='.filemtime($GLOBALS['site_shell_url'].$img_file);
+			if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small) && $ext!='') $img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.png?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_small);
+			if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum) && $ext!='') $img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.png?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_thum);
+			if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_prod ) && $ext!='') $img_file_prod_cache=$img_file.'?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file);
 
 
 
@@ -6084,23 +6084,23 @@ function gerarneededimages($prod_id='')
 				$img_webp_small='files/products/'.$prod_id.'_'.$ordem.'_small.webp';
 				$img_webp_thum='files/products/'.$prod_id.'_'.$ordem.'_thum.webp';
 
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_small))
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_small))
 				{
-					if(!file_exists($GLOBALS['site_shell_url'].$img_webp_small))
+					if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_webp_small))
 						imgtowepp($GLOBALS['site_shell_url'].$img_file_small,$GLOBALS['site_shell_url'].$img_webp_small);
 
 					$img_file_small='files/products/'.$prod_id.'_'.$ordem.'_small.webp';
-					$img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.webp?dp='.filemtime($GLOBALS['site_shell_url'].$img_webp_small);
+					$img_file_small_cache='files/products/'.$prod_id.'_'.$ordem.'_small.webp?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_webp_small);
 
 				}
 
-				if(file_exists($GLOBALS['site_shell_url'].$img_file_thum))
+				if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file_thum))
 				{
-					if(!file_exists($GLOBALS['site_shell_url'].$img_webp_thum))imgtowepp($GLOBALS['site_shell_url'].$img_file_thum,$GLOBALS['site_shell_url'].$img_webp_thum);
+					if(!dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_webp_thum))imgtowepp($GLOBALS['site_shell_url'].$img_file_thum,$GLOBALS['site_shell_url'].$img_webp_thum);
 
 
 					$img_file_thum='files/products/'.$prod_id.'_'.$ordem.'_thum.webp';
-					$img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.webp?dp='.filemtime($GLOBALS['site_shell_url'].$img_webp_thum);
+					$img_file_thum_cache='files/products/'.$prod_id.'_'.$ordem.'_thum.webp?dp='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_webp_thum);
 
 				}
 

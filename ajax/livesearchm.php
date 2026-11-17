@@ -42,9 +42,9 @@ if($searchstr != '')
             {
                 $img_file='files/products/'.$prodId.'_1_small.png';
                 $imagem  ='';
-                if(file_exists($GLOBALS['site_shell_url'].$img_file))
+                if(dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file))
                 {
-                    $imagem='<img border="0" src="'.$GLOBALS['site_http_url'].$img_file.'" />';
+                    $imagem='<img border="0" src="'.dotbright_image_url($GLOBALS['site_http_url'].$img_file).'" />';
                 }
                 $url =seo('pages.php?page_id='.$GLOBALS['products_page_id'],$prodId,2);
                 if($prodNome!='')$hint .= '<div onclick="go(\''.$url.'\')" class="opt"><div class="name">'.stripslashes($prodNome).'</div></div>';

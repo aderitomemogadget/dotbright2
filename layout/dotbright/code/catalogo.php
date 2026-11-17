@@ -61,12 +61,12 @@ function show_blocos_destaque($prod)
     $prod_img=(($image=='' || substr_count($image,'no_photo.png')) ? '' : $image);
     if($prod_img == '')
     {
-        if(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.JPG')) $image='files/products/'.$id.'_1_thum.JPG';
-        elseif(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.jpg')) $image='files/products/'.$id.'_1_thum.jpg';
-        elseif(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.PNG')) $image='files/products/'.$id.'_1_thum.PNG';
-        elseif(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.png')) $image='files/products/'.$id.'_1_thum.png';
-        elseif(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.png')) $image='files/products/'.$id.'_1.png';
-        elseif(is_file(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.jpg')) $image='files/products/'.$id.'_1.jpg';
+        if(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.JPG')) $image='files/products/'.$id.'_1_thum.JPG';
+        elseif(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.jpg')) $image='files/products/'.$id.'_1_thum.jpg';
+        elseif(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.PNG')) $image='files/products/'.$id.'_1_thum.PNG';
+        elseif(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.png')) $image='files/products/'.$id.'_1_thum.png';
+        elseif(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.png')) $image='files/products/'.$id.'_1.png';
+        elseif(dotbright_image_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.jpg')) $image='files/products/'.$id.'_1.jpg';
     }
     // <div class="prd_ref">Ref. '.$ref.'</div>
 
@@ -100,7 +100,7 @@ function show_blocos_destaque($prod)
 				'.$label_promo.'
 				'.$prom.'
 				'.$etiqueta.'
-				<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 1"></span><img alt="..." src="'.$image.'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:160px"').' border="0"></a></div>
+				<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 1"></span><img alt="..." src="'.dotbright_image_url($image).'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:160px"').' border="0"></a></div>
 				<div class="prd_layer">
 				<div class="prd_title"><a title="'.$title.'" href="'.$caminho.'" target="_top" alt="'.$title.'">'.$title.'</a></div>
 				<div class="c"></div>
@@ -196,12 +196,12 @@ function show_blocos_destaqueold($prod)
 		$prod_img=(($image=='' || substr_count($image,'no_photo.png')) ? '' : $image);
 		if($prod_img == '')
 		{
-			if(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.JPG')) $image='files/products/'.$id.'_1_thum.JPG';
-			elseif(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.jpg')) $image='files/products/'.$id.'_1_thum.jpg';
-			elseif(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.PNG')) $image='files/products/'.$id.'_1_thum.PNG';
-			elseif(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.png')) $image='files/products/'.$id.'_1_thum.png';
-			elseif(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.png')) $image='files/products/'.$id.'_1.png';
-			elseif(file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.jpg')) $image='files/products/'.$id.'_1.jpg';
+			if(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.JPG')) $image='files/products/'.$id.'_1_thum.JPG';
+			elseif(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.jpg')) $image='files/products/'.$id.'_1_thum.jpg';
+			elseif(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.PNG')) $image='files/products/'.$id.'_1_thum.PNG';
+			elseif(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1_thum.png')) $image='files/products/'.$id.'_1_thum.png';
+			elseif(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.png')) $image='files/products/'.$id.'_1.png';
+			elseif(dotbright_image_file_exists(dirname( __FILE__ ) .'/../../../files/products/'.$id.'_1.jpg')) $image='files/products/'.$id.'_1.jpg';
 		}
 		// <div class="prd_ref">Ref. '.$ref.'</div>
 	
@@ -210,7 +210,7 @@ function show_blocos_destaqueold($prod)
 		echo '<div class="prd_d">';
 		echo $prom;
 		echo $etiqueta;
-		echo '<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 2"></span><img alt="..." src="'.$image.'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:130px"').' border="0"></a></div>';
+		echo '<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 2"></span><img alt="..." src="'.dotbright_image_url($image).'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:130px"').' border="0"></a></div>';
 		echo '<div class="prd_layer">';
 		echo '<div class="prd_title"><a title="'.$title.'" href="'.$caminho.'" target="_top" alt="'.$title.'">'.$title.'</a></div>';
 
@@ -259,7 +259,7 @@ function show_blocos_destaqueold($prod)
 				'<div class="prd_d">
 				'.$prom.'
 				'.$etiqueta.'
-				<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 3"></span><img alt="..." src="'.$image.'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:130px"').' border="0"></a></div>
+				<div class="prd_img"><a title="'.$title.'" href="'.$caminho.'" style="text-decoration:none"><span class="helper 3"></span><img alt="..." src="'.dotbright_image_url($image).'" '.(substr_count($image,'no_photo.png') ? 'style="height:146px"' : 'style="max-height:130px"').' border="0"></a></div>
 				<div class="prd_layer">
 				<div class="prd_title"><a title="'.$title.'" href="'.$caminho.'" target="_top" alt="'.$title.'">'.$title.'</a></div>
 				<div class="c"></div>
@@ -908,7 +908,7 @@ function getSubMenuItensbrands_cat($ID_ORG)
 			geraimagens($img_file,$img_file_new,150,0,array('ativo' => 1,'w' => 200,'h' => 240),0,0,0);
 			// geraimagens($img_file,$img_file_new2,100,50,1,0,0,1);
 
-			if(file_exists($img_file_new)) $marca_name='<img src="'.$img_file_new.'" class="ch_img" style="vertical-align:middle" title="" alt="" />';
+			if(dotbright_image_file_exists($img_file_new)) $marca_name='<img src="'.$img_file_new.'" class="ch_img" style="vertical-align:middle" title="" alt="" />';
 
 			$menus .= '<div class="col-md-3 text-center"><a href="'.$URL_Link.'">'.$marca_name.'</a></div>';
 
@@ -2579,7 +2579,7 @@ function BuscarProdutosDia()
 		{
 			$prod_id=$rs->db_data['ID'];
 
-			if(file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[]=$prod_id;
+			if(dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[]=$prod_id;
 
 			$rs->db_next();
 		}
@@ -2616,7 +2616,7 @@ function BuscarProdutosDia()
 			{
 				$prod_id=$rs->db_data['ID'];
 
-				if(file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[] = $prod_id;
+				if(dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[] = $prod_id;
 
 				$rs->db_next();
 			}
@@ -2670,7 +2670,7 @@ function BuscarProdutosMaisVendidos()
 		{
 			$prod_id=$rs->db_data['ID'];
 
-			if(file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[] = $prod_id;
+			if(dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.jpg') || dotbright_image_file_exists($GLOBSLS['site_shell_url'].'files/products/'.$prod_id.'_1.png')) $s[] = $prod_id;
 
 			$rs->db_next();
 		}

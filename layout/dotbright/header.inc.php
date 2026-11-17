@@ -51,12 +51,12 @@
 			{
 				$img_file1 = "files/pages/".$page_id."_1.".$I1;
 				$img = array();
-	            if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file1)){$img[] = $img_file1;}
+	            if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file1)){$img[] = $img_file1;}
 	            if(!empty($img))
 	            {
 	                for ($a = 0; $a < count($img); $a++)
 	                {
-	                    $imgs .= '<img alt="'.$page_name.'" src="'.$img[$a].'?d='.filemtime($GLOBALS['site_shell_url'].$img_file1).'" />';
+	                    $imgs .= '<img alt="'.$page_name.'" src="'.$img[$a].'?d='.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file1).'" />';
 	                }
 	            }
 			}
@@ -192,7 +192,7 @@
 		$tem_video=0;
 		if($prods['prod_video']) $tem_video=1;
 
-		if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/products/'.$prods['prod_id'].'_seo_'.$GLOBALS['site_lang'].'.jpg'))$imgfb = 'files/products/'.$prods['prod_id'].'_seo_'.$GLOBALS['site_lang'].'.jpg?d='.uniqid('');
+		if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/products/'.$prods['prod_id'].'_seo_'.$GLOBALS['site_lang'].'.jpg'))$imgfb = 'files/products/'.$prods['prod_id'].'_seo_'.$GLOBALS['site_lang'].'.jpg?d='.uniqid('');
 	}
 	// ********************************************************
 	// SE FOR IMOVEL
@@ -212,7 +212,7 @@
 			{
 				$img_ext = $rs2->db_data['img_ext'];
 				$ordem = $rs2->db_data['Ordem'];
-				if($img_ext && stream_resolve_include_path($site_shell_url.'files/imoveis/'.$imoveis_id.'_'.$ordem.'.'.$img_ext))
+				if($img_ext && dotbright_image_resolve($site_shell_url.'files/imoveis/'.$imoveis_id.'_'.$ordem.'.'.$img_ext))
 					$imgfb='files/imoveis/'.$imoveis_id.'_'.$ordem.'.'.$img_ext;
 			}
 			$rs2->db_close();
@@ -550,14 +550,14 @@
 	<meta property="og:type" content="website">
 	<meta property="og:description" content="<?php echo (isset($page_info) && $page_info['description'] !='' ? $page_info['description'] : $SEO_description); ?>">
 	<?php if(isset($imgfb) && $imgfb){?>
-	<link rel="image_src" href="<?=$GLOBALS['site_http_url'].$imgfb?>" />
-	<meta property="og:image" content="<?=$GLOBALS['site_http_url'].$imgfb?>" />
+	<link rel="image_src" href="<?=dotbright_image_url(preg_match('~^https?://~', $imgfb) ? $imgfb : $GLOBALS['site_http_url'].$imgfb)?>" />
+	<meta property="og:image" content="<?=dotbright_image_url(preg_match('~^https?://~', $imgfb) ? $imgfb : $GLOBALS['site_http_url'].$imgfb)?>" />
 	<? }?>
 	<meta name="twitter:card" content="summary_large_image"/>
 	<meta name="twitter:description" content="<?php echo (isset($page_info) && $page_info['description'] !='' ? $page_info['description'] : $SEO_description); ?>"/>
 	<meta name="twitter:title" content="<?php echo (isset($page_info) && $page_info['title'] !='' ? $page_info['title'] : $SEO_title); ?>"/>
 	<meta name="twitter:site" content="@<?=$TAG_EMPRESA?>"/>
-	<meta name="twitter:image" content="<?=$GLOBALS['site_http_url'].$imgfb?>"/>
+	<meta name="twitter:image" content="<?=dotbright_image_url(preg_match('~^https?://~', $imgfb) ? $imgfb : $GLOBALS['site_http_url'].$imgfb)?>"/>
 	<meta name="twitter:creator" content="@<?=$TAG_EMPRESA?>"/>
     <meta name="description" content="<?php echo (isset($page_info) && $page_info['description'] !='' ? $page_info['description'] : $SEO_description); ?>">
     <meta name="author" content="<?php echo AUTOR;?>">

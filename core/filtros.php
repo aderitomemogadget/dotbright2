@@ -1814,7 +1814,7 @@
 						$filtros_rel=$arr_valores[$cat_id][$b][2];
 						$img_ext=''; $img_ext=$arr_valores[$cat_id][$b][3];
 
-						if($img_ext && is_file($GLOBALS['site_shell_url'].'files/filters/'.$valor_id.'_1.'.$img_ext)) $return .= '<li class="filtros-sel" style="display:'.$style.'"><div id="rel_category_'.$cat_id.'_'.$valor_id.'" class="t" title="'.$valor_nome.'"><label class="label_check_p" for="category_'.$cat_id.'_'.$valor_id.'"><div id="f_left"><span><img src="'.$GLOBALS['site_http_url'].'files/filters/'.$valor_id.'_1.'.$img_ext.'" alt="" width="30" border="0" /></span></div> <div id="f_right"><input valor="'.$valor_nome.'" id="category_'.$cat_id.'_'.$valor_id.'" value="'.$cat_id.'_'.$valor_id.'" name="'.$cat_id.'" data="'.$filtros_rel.'" type="checkbox"></div><div class="c"></div></label></div></li>';
+						if($img_ext && dotbright_image_exists($GLOBALS['site_shell_url'].'files/filters/'.$valor_id.'_1.'.$img_ext)) $return .= '<li class="filtros-sel" style="display:'.$style.'"><div id="rel_category_'.$cat_id.'_'.$valor_id.'" class="t" title="'.$valor_nome.'"><label class="label_check_p" for="category_'.$cat_id.'_'.$valor_id.'"><div id="f_left"><span><img src="'.$GLOBALS['site_http_url'].'files/filters/'.$valor_id.'_1.'.$img_ext.'" alt="" width="30" border="0" /></span></div> <div id="f_right"><input valor="'.$valor_nome.'" id="category_'.$cat_id.'_'.$valor_id.'" value="'.$cat_id.'_'.$valor_id.'" name="'.$cat_id.'" data="'.$filtros_rel.'" type="checkbox"></div><div class="c"></div></label></div></li>';
 						else $return .= '<li class="filtros-sel" style="display:'.$style.'"><div id="rel_category_'.$cat_id.'_'.$valor_id.'" class="t" title="'.$valor_nome.'"><label class="label_check_p" for="category_'.$cat_id.'_'.$valor_id.'"><div id="f_left"><span>'.$valor_nome.'</span></div> <div id="f_right"><input valor="'.$valor_nome.'" id="category_'.$cat_id.'_'.$valor_id.'" value="'.$cat_id.'_'.$valor_id.'" name="'.$cat_id.'"  data="'.$filtros_rel.'" type="checkbox"></div><div class="c"></div></label></div></li>';
 					}
 					sort($arr_val);
@@ -2530,7 +2530,7 @@
 					"a6":"",
 					"a7":"",
 					"a8":"",
-					"a9":"'.$img_file.'",
+					"a9":"'.dotbright_image_url($img_file).'",
 					"a10":"'.$titulo.'",
 					"a11":"",
 					"a12":"'.$link.'",
@@ -2670,10 +2670,10 @@
 						$ordem=1;
 						$ext='png';
 						$img_file='files/products/'.$prod_id.'_'.$ordem.'_thum.'.$ext;
-						if(!is_file($GLOBALS['site_shell_url'].$img_file) )
+						if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )
 						{
 							$img_file_original='files/products/'.$prod_id.'_'.$ordem.'.jpg';
-							if(is_file($GLOBALS['site_shell_url'].$img_file_original))
+							if(dotbright_image_exists($GLOBALS['site_shell_url'].$img_file_original))
 							{
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
@@ -2686,7 +2686,7 @@
 
 					$prods['u_catetiq']=$rs->db_data['u_catetiq'];
 					$prods['u_coretiq']=$rs->db_data['u_coretiq'];
-					if($rs->db_data['u_imagetiq'] != '' && is_file($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq'];
+					if($rs->db_data['u_imagetiq'] != '' && dotbright_image_exists($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=dotbright_image_url(SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq']);
 					else $prods['u_imagetiq']='';
 
 
@@ -2716,7 +2716,7 @@
 						"a6":"'.$obj_pvp.'",
 						"a7":"'.$obj_stock.'",
 						"a8":"",
-						"a9":"'.$img_file.'",
+						"a9":"'.dotbright_image_url($img_file).'",
 						"a10":"'.$titulo.'",
 						"a11":"",
 						"a12":"'.$link.'",
@@ -2967,10 +2967,10 @@
 						$ordem=1;
 						$ext='png';
 						$img_file='files/products/'.$prod_id.'_'.$ordem.'_thum.'.$ext;
-						if(!is_file($GLOBALS['site_shell_url'].$img_file) )
+						if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )
 						{
 							$img_file_original='files/products/'.$prod_id.'_'.$ordem.'.jpg';
-							if(is_file($GLOBALS['site_shell_url'].$img_file_original))
+							if(dotbright_image_exists($GLOBALS['site_shell_url'].$img_file_original))
 							{
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
@@ -2982,7 +2982,7 @@
 
 					$prods['u_catetiq']=$rs->db_data['u_catetiq'];
 					$prods['u_coretiq']=$rs->db_data['u_coretiq'];
-					if($rs->db_data['u_imagetiq'] != '' && is_file($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq'];
+					if($rs->db_data['u_imagetiq'] != '' && dotbright_image_exists($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=dotbright_image_url(SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq']);
 					else $prods['u_imagetiq']='';
 
 
@@ -3012,7 +3012,7 @@
 						"a6":"'.$obj_pvp.'",
 						"a7":"'.$obj_stock.'",
 						"a8":"",
-						"a9":"'.$img_file.'",
+						"a9":"'.dotbright_image_url($img_file).'",
 						"a10":"'.$titulo.'",
 						"a11":"",
 						"a12":"'.$link.'",
@@ -4543,10 +4543,10 @@
 						$ordem=1;
 						$ext='png';
 						$img_file='files/products/'.$prod_id.'_'.$ordem.'_thum.'.$ext;
-						if(!is_file($GLOBALS['site_shell_url'].$img_file) )
+						if(!dotbright_image_exists($GLOBALS['site_shell_url'].$img_file) )
 						{
 							$img_file_original='files/products/'.$prod_id.'_'.$ordem.'.jpg';
-							if(is_file($GLOBALS['site_shell_url'].$img_file_original))
+							if(dotbright_image_exists($GLOBALS['site_shell_url'].$img_file_original))
 							{
 								$i_thum=unserialize(IMG_THUM);
 								geraimagens($img_file_original,$img_file, $i_thum['w'],$i_thum['h'],$i_thum['crop'],$i_thum['m_trans'],$i_thum['c_white']);
@@ -4557,7 +4557,7 @@
 
 						$prods['u_catetiq']=$rs->db_data['u_catetiq'];
 						$prods['u_coretiq']=$rs->db_data['u_coretiq'];
-						if($rs->db_data['u_imagetiq'] != '' && is_file($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq'];
+						if($rs->db_data['u_imagetiq'] != '' && dotbright_image_exists($GLOBALS['site_shell_url'].'files/products/EE/'.$rs->db_data['u_imagetiq'])) $prods['u_imagetiq']=dotbright_image_url(SITE_HTTP_URL.'files/products/EE/'.$rs->db_data['u_imagetiq']);
 						else $prods['u_imagetiq']='';
 
 
@@ -4584,7 +4584,7 @@
 							"a6":"'.$obj_pvp.'",
 							"a7":"'.$obj_stock.'",
 							"a8":"",
-							"a9":"'.$img_file.'",
+							"a9":"'.dotbright_image_url($img_file).'",
 							"a10":"'.$titulo.'",
 							"a11":"",
 							"a12":"'.$link.'",
@@ -4679,7 +4679,7 @@
 						"a6":"'.$pvp.'",
 						"a7":"'.$prods['prod_precos']['STOCK'].'",
 						"a8":"",
-						"a9":"'.$img_file.'",
+						"a9":"'.dotbright_image_url($img_file).'",
 						"a10":"'.$titulo.'",
 						"a11":"",
 						"a12":"",

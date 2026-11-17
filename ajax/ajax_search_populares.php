@@ -62,7 +62,7 @@ if (!$rs->EOF()){
 
 
             $return .= '<div class="item">';
-                $return .= '<img src="'.$img.'" alt="'.htmlspecialchars($row['nome']).'">';
+                $return .= '<img src="'.dotbright_image_url($img).'" alt="'.htmlspecialchars($row['nome']).'">';
                 $return .= '<div class="info">';
                     $return .= '<span class="nome">'.$nome.'</span>';
                     $return .= '<span class="preco">'.$preco.'€</span>';
