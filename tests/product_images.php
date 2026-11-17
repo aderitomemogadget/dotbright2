@@ -51,6 +51,25 @@ function check_legacy_image_selection($missing = false) {
     }
     check($blocks === 5, 'cover all five legacy image-selection blocks');
 }
+function check_search_image_selection($missing = false) {
+    $source = file_get_contents(dirname(__DIR__).'/ajax/ajax_search_resultados.php');
+    if (!function_exists('getProductThumb')) {
+        $functionStart = strpos($source, 'function getProductThumb(');
+        if ($functionStart === false) throw new RuntimeException('Search thumbnail resolver not found');
+        eval(substr($source, $functionStart));
+    }
+    $start = strpos($source, '$img = getProductThumb($prodId);');
+    $end = strpos($source, '$url = seo(', $start);
+    if ($start === false || $end === false) throw new RuntimeException('Search image renderer not found');
+    $prodId = $missing ? 999999999999 : 143580;
+    $prodNome = 'Phone & "example"';
+    eval(substr($source, $start, $end - $start));
+    $expected = $missing ? $GLOBALS['site_http_url'].'layout/dotbright/images/no_photo.png'
+        : (dotbright_shared_images() ? PRODUCT_IMAGES_SOURCE_URL : $GLOBALS['site_http_url'].'files/products/').'143580_1';
+    check(strpos($imagem, '<img src="'.$expected) === 0,
+        $missing ? 'search renders no-photo fallback' : 'search renders resolved image URL exactly once');
+    check(strpos($imagem, 'alt="Phone &amp; &quot;example&quot;"') !== false, 'search escapes image attributes');
+}
 function db_opendb_conection($host, $user, $password) { return null; }
 function Runquery($link, $database, $sql) { throw new RuntimeException('Unexpected database write: '.$sql); }
 class DataObj {
@@ -115,6 +134,8 @@ try {
         check(get_product_images(143580)[0]['img_ext'] === 'png', 'gallery extension correction without DB update');
         $GLOBALS['fixtureRows'] = array();
         check(get_product_images(143580)[0]['img_ext'] === 'png', 'filesystem discovery without DB insert');
+        check_search_image_selection();
+        check_search_image_selection(true);
         check_legacy_image_selection();
         unlink($temp.'/source/143580_1_thum.png');
         clearstatcache();
@@ -125,6 +146,8 @@ try {
         check(dotbright_image_exists($temp.'/dev/files/products/143580_1.png'), 'disabled local existence');
         check(dotbright_image_url('files/products/143580_1.png?dp=7') === 'files/products/143580_1.png?dp=7', 'disabled URL unchanged');
         check(dotbright_product_images_cache_key() === '', 'disabled legacy cache namespace');
+        check_search_image_selection();
+        check_search_image_selection(true);
     }
     check(hash_file('sha256', $temp.'/source/143580_1.png') === $before, 'source fixture byte-for-byte unchanged');
 } finally {

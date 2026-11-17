@@ -129,12 +129,10 @@ if ($searchstr != '')
                         $ext=$img['ext'];
 
 
-                        //$img_file = 'files/products/'.$prodId.'_1_prod.png';
-                        $imagem = '';
-                        if (dotbright_image_file_exists($GLOBALS['site_shell_url'].$img_file))
-                        {
-                            $imagem = '<img src="'.$GLOBALS['site_http_url'].$img_file.'" alt="'.htmlspecialchars($prodNome).'" />';
-                        }
+                        // The resolver returns a verified image URL or the no-photo URL.
+                        // Shared URLs are already absolute and cannot be checked as local files.
+                        $img_url = preg_match('~^https?://~i', $img_file) ? $img_file : $GLOBALS['site_http_url'].$img_file;
+                        $imagem = '<img src="'.htmlspecialchars($img_url, ENT_QUOTES, 'UTF-8').'" alt="'.htmlspecialchars($prodNome, ENT_QUOTES, 'UTF-8').'" />';
                         $url = seo('pages.php?page_id='.$GLOBALS['products_page_id'], $prodId, 2);
                         $response .= '<div class="swiper-slide">';
                             $response .= '<div class="opt" onclick="go(\''.$url.'\')">';
