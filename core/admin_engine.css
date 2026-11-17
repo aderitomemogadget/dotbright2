@@ -1,0 +1,8 @@
+@charset "utf-8";
+#admin_area{border: 0px dotted #ccc;position:relative}
+#admin_area:hover{border:1px dashed red}
+#admin_area:hover .operations{visibility:visible;display:block}
+#admin_area_edit{background: url('images/edit_icon.png') no-repeat}
+.operations{visibility:hidden;display:none;position:relative;float:right;background-color:#006}
+.delete{bgcolor:#FFFFCC;color:#0066FF}
+.edit{bgcolor:#FFFFCC;color:#0066FF}

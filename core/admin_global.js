@@ -1,0 +1,1 @@
+function reload_page(e,page){if(e==-1){window.open("../linguas/pagina.php","_self");}else window.open(page+"admin_lingua="+e,"_self");}

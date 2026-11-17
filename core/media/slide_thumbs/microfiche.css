@@ -1,0 +1,195 @@
+.wrapper_slide {
+	display: block;
+	position: relative;
+	padding: 33px 15px 0;
+	width:990px;
+	height:182px;
+	margin: 0 auto;
+	background:url(title_separator.png) no-repeat center top;
+
+}
+.brands-sld {
+	display: block;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	width:100%;
+	margin: 0 auto
+}
+.brands-sld ul
+{
+	margin: 0;
+	overflow: hidden;
+}
+.brands-sld li {
+	display: block;
+	float: left;
+	/*margin: 8px;*/
+	padding: 0;	
+	height:86px;
+	text-align:center;
+	width:160px;
+}
+.brands-sld li:hover {
+
+}
+.wp_other {
+	display: block;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	width:210px;
+	margin: 0 auto
+}
+.wp_other ul 
+{
+	margin: 0;    
+	overflow: hidden;
+	padding-top:8px;
+	--padding-bottom:22px
+}
+.wp_other li + li{margin-left:5px}
+.wp_other li {
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 0;
+	
+	width:66px;
+	height:64px;
+	
+	text-align:center;
+	cursor:pointer;
+	border:1px solid #d5d5d5 
+}
+.wp_other li img {vertical-align:middle}
+.helper {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+.brands-sld li img
+{
+	margin: 0 auto;
+	vertical-align: middle;  
+
+}
+.brands-sld li:hover img
+{  
+	margin: 0 auto;
+	vertical-align: middle;  
+}
+.body-subcontainer {
+	width: 690px;
+	margin: 0 auto;
+}
+
+.body-subcontainer.responsive-width-demo {
+	width: auto;
+	min-width: 315px;
+}
+.microfiche-controls {
+	display: block;
+	text-align: center;
+	font-size: 10px;
+	padding: 25px 0 0 0;
+}
+.microfiche-bullet {
+	display: inline-block;
+	cursor: pointer;
+	width: 10px; height: 10px;
+	border-radius: 6px;
+	background: #000;
+	overflow: hidden;
+	text-indent: -1000px;
+	margin: 0 5px;
+	appearance: none;
+	border: none;
+	outline: none;
+	padding: 0;
+}
+.microfiche-bullet.selected {
+}
+.microfiche-button {
+	margin: 0 15px;
+}
+.microfiche-controls2 
+{
+	display: block;
+	position:absolute;
+	text-align: center;
+	font-size: 10px;
+	padding: 0px;
+	width:50px;
+	right:-70px;
+	top:50px;
+}
+.microfiche-bullet {
+	display: inline-block;
+	cursor: pointer;
+	width: 12px; height: 12px;
+	border-radius: 6px;
+	background: #a6a6a6;
+	overflow: hidden;
+	text-indent: -1000px;
+	margin: 0 5px;
+	appearance: none;
+	border: none;
+	outline: none;
+	padding: 0;
+}
+.microfiche-bullet.selected {
+	background:#ee2e24;
+}
+.microfiche-button {
+	margin: 0 ;
+}
+.microfiche-prev-button
+{
+	background:url(setl.png) no-repeat;
+	border:none;
+	cursor:pointer;
+	width:20px;
+	height:20px;
+	padding:0;
+}
+.microfiche-next-button
+{
+	background:url(setr.png) no-repeat;
+	border:none;
+	cursor:pointer;
+	width:20px;
+	height:20px;
+	padding:0;
+}
+
+
+.wp_other .microfiche-controls 
+{
+	display: block;
+	font-size: 10px;
+	height: 100%;
+	left: 0;
+	padding: 0;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 100%;
+	z-index: 0;
+	pointer-events:none;
+}
+
+.wp_other .microfiche-controls .microfiche-prev-button
+{
+	position:absolute;
+	left:-50px;
+	top:28px;
+	pointer-events:auto;
+}
+.wp_other .microfiche-controls .microfiche-next-button
+{
+	position:absolute;
+	right:-50px;
+	top:28px;
+	pointer-events:auto;
+}
