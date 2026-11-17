@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="../scripts/style/editor.css" rel="stylesheet" type="text/css">
+    <title>Insert Youtube Video</title>
+    <script src="jquery-1.4.2.min.js" type="text/javascript"></script>
+    <link href="tubeutil/default.css" rel="stylesheet" type="text/css" />
+    <script src="tubeutil/tubeutil.js" type="text/javascript"></script>
+    <script src="common.js" type="text/javascript"></script>
+
+<script language="javascript" type="text/javascript">
+    $(function () {
+
+        jQTubeUtil.init({
+            key: 'AI39si5p9QjzNxwuV3f8XfO1P521aK58_tcFApd7APF4ipreYxow982XtbelGTAs5Qj9n_jfCkscIYAc6P8peVL0cHXDST-Wtw',
+            orderby: 'viewCount',
+            time: 'all_time',
+            maxResults: 10
+        });
+
+        $('#inpKeywords').keyup(function () {
+            var val = $(this).val();
+            jQTubeUtil.suggest(val, function (response) {
+                var html = '';
+                for (s in response.suggestions) {
+                    var sug = response.suggestions[s];
+                    html += '<li><a href="#">' + sug + '</a></li>';
+                }
+                if (response.suggestions.length)
+                    $('.autocomplete').html(html).fadeIn(500);
+                else
+                    $('.autocomplete').fadeOut(500);
+            });
+        });
+
+
+        $('#btnSearch').click(function () {
+            show_videos();
+            $('.autocomplete').fadeOut(500);
+            return false;
+        });
+
+        $('.autocomplete').find('a').live('click', function () {
+            var text = $(this).text();
+            $('.blocks').find('#inpKeywords').val(text);
+            $('.autocomplete').fadeOut(500);
+            show_videos();
+            return false;
+        });
+
+        function show_videos() {
+            $('#hidPage').val(1); /*Reset Paging*/
+
+            var val = $('.blocks').find('#inpKeywords').val();
+            var parametersObject = {
+                "q": val,
+                "start-index": document.getElementById("hidPage").value,
+                "max-results": 20
+            }
+
+            $('.videos').addClass('preloader').html('');
+            jQTubeUtil.search(parametersObject, function (response) {
+                var html = '';
+                for (v in response.videos) {
+                    var video = response.videos[v],
+					minutes = parseInt(video.duration / 60),
+					seconds = video.duration % 60;
+                    html += '<li>';
+                    html += '<p class="image"><a href="javascript:selectVideo(\'' + video.videoId + '\')">';
+                    html += '<img src="' + video.thumbs[1].url + '" alt="' + video.title + '" title="' + video.title + '" />';
+                    html += '</a></p>'
+                    html += '<p class="entry"><a href="javascript:selectVideo(\'' + video.videoId + '\')">' + video.title + '</a>';
+                    html += '<small>' + minutes + ':' + (seconds < 10 ? '0' + seconds : seconds) + '</small>';
+                    html += '</p>';
+                    html += '</li>';
+                }
+                $('.videos').removeClass('preloader').html(html);
+            });
+        }
+
+    });
+
+    function loadmore() {
+        $('#hidPage').val($('#hidPage').val() * 1 + 1);
+
+        var val = $('.blocks').find('#inpKeywords').val();
+            var parametersObject = {
+                "q": val, 
+                "start-index": $('#hidPage').val(),
+                "max-results": 20
+            }
+
+            jQTubeUtil.search(parametersObject, function (response) {
+                var html = '';
+                for (v in response.videos) {
+                    var video = response.videos[v],
+					minutes = parseInt(video.duration / 60),
+					seconds = video.duration % 60;
+                    html += '<li>';
+                    html += '<p class="image"><a href="javascript:selectVideo(\'' + video.videoId + '\')">';
+                    html += '<img src="' + video.thumbs[1].url + '" alt="' + video.title + '" title="' + video.title + '" />';
+                    html += '</a></p>'
+                    html += '<p class="entry"><a href="javascript:selectVideo(\'' + video.videoId + '\')">' + video.title + '</a>';
+                    html += '<small>' + minutes + ':' + (seconds < 10 ? '0' + seconds : seconds) + '</small>';
+                    html += '</p>';
+                    html += '</li>';
+                }
+                $('.videos').removeClass('preloader').append(html);
+            });
+    }
+
+    function selectVideo(Id) {
+        var sUrl = "http://www.youtube.com/watch?v=" + Id;
+        $('#inpURL').val(sUrl);
+    }
+
+    function I_Insert() {
+        var sEmbedUrl = "http://www.youtube.com/embed/" + getVideoId($('#inpURL').val());
+        var sHTML = "<iframe title=\"YouTube video player\" width=\"480\" height=\"390\" src=\"" + sEmbedUrl + "\" frameborder=\"0\" allowfullscreen></iframe>";
+        I_InsertHTML(sHTML)
+    }
+
+    function getVideoId(url) {
+        return url.replace(/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/, "$5");
+    }
+</script>
+
+</head>
+
+<body>
+
+<input id="hidPage" type="hidden" value="1" />
+
+<form class="blocks" action="#" method="get">
+<table cellpadding="3" cellspacing="3">
+<tr>
+     <td colspan="3">
+          
+        Search: 
+        <input id="inpKeywords" type="text" style="width:150px"/>
+        <input id="btnSearch" type="Submit" value=" Search " class="inpBtn" /> 
+		<ul class="reset autocomplete"></ul>
+
+    </td>
+</tr>
+<tr>
+    <td colspan="3">
+        <div runat="server" id="divScroll" style="width:700px;height:380px;overflow:auto;background:white;border:#ccc 1px solid">
+		<ul class="reset videos"></ul>
+        <div style="text-align:center;padding-bottom:20px;display:none">
+            <a href="javascript:loadmore()" style="font-size:10pt">Load More</a>
+        </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>
+        Youtube URL:
+    </td>
+    <td colspan="2">
+        <input id="inpURL" type="text" value="" style="width:300px"/>             
+    </td>
+</tr>
+<tr>
+    <td colspan="3" style="padding-top:20px;">
+        <table cellpadding=0 cellspacing=0 style="width:100%">
+        <tr>
+        <td><i></i> &nbsp;</td>
+        <td  style="text-align:right;">
+            <input type="button" name=btnCancel id=btnCancel value="cancel" onclick="I_Close()" class="inpBtn" onmouseover="this.className='inpBtnOver';" onmouseout="this.className='inpBtnOut'">
+            <input type="button" name=btnInsert id=btnInsert value="insert" onclick="I_Insert();I_Close()" class="inpBtn" onmouseover="this.className='inpBtnOver';" onmouseout="this.className='inpBtnOut'">
+        </td>
+        </tr>
+        </table>   
+    </td>
+</tr>
+</table>
+</form> 
+
+</body>
+</html>

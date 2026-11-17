@@ -1,0 +1,545 @@
+:root {
+  --rma-action: #f97316;
+  --rma-action-dark: #d85d08;
+  --rma-info-soft: #eaf3ff;
+  --rma-success-soft: #dcfce7;
+  --rma-warning-soft: #fef3c7;
+  --rma-danger-soft: #fee2e2;
+  --rma-workflow-line: #e4e8ef;
+  --rma-workflow-ink: #172033;
+  --rma-workflow-muted: #667085;
+}
+
+/* RMA operational summary */
+.rma-workflow-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 14px;
+  border: 1px solid var(--rma-workflow-line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(20, 29, 45, .07);
+}
+.rma-workflow-summary-item {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #edf0f4;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.rma-workflow-summary-item dt {
+  margin: 0 0 4px;
+  color: var(--rma-workflow-muted);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.rma-workflow-summary-item dd {
+  margin: 0;
+  overflow: hidden;
+  color: var(--rma-workflow-ink);
+  font-size: 12px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rma-workflow-summary-item--tracking dd {
+  color: #9a3412;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+.rma-workflow-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--rma-info-soft);
+  color: #1d4f82;
+  line-height: 1.25;
+  white-space: normal;
+}
+.rma-workflow-summary-item--status dd { overflow: visible; white-space: normal; }
+.rma-workflow-status::before { content: "i"; font-weight: 850; }
+.rma-workflow-status--success { background: var(--rma-success-soft); color: #166534; }
+.rma-workflow-status--success::before { content: "✓"; }
+.rma-workflow-status--warning { background: var(--rma-warning-soft); color: #92400e; }
+.rma-workflow-status--warning::before { content: "!"; }
+.rma-workflow-status--danger { background: var(--rma-danger-soft); color: #991b1b; }
+.rma-workflow-status--danger::before { content: "×"; }
+
+/* Clear visual hierarchy inside the RMA editor. */
+.rma-operational-form .rma-workflow-section {
+  position: relative;
+  margin: 0 0 14px !important;
+  overflow: hidden;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: 0 4px 14px rgba(20, 29, 45, .045);
+}
+.rma-operational-form .rma-workflow-section > tbody > tr > td { padding: 14px !important; }
+.rma-workflow-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: -2px -2px 14px;
+  padding: 10px 12px;
+  border-left: 3px solid #73a6dc;
+  border-radius: 8px;
+  background: var(--rma-info-soft);
+  color: #24466d;
+  font-size: 12px;
+  font-weight: 800;
+}
+.rma-workflow-section-heading::before {
+  content: attr(data-icon);
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  place-items: center;
+  border-radius: 7px;
+  background: rgba(255,255,255,.72);
+  font-size: 13px;
+}
+.rma-workflow-section--equipment .rma-workflow-section-heading { border-left-color: #f59e0b; background: var(--rma-warning-soft); color: #7c4708; }
+.rma-workflow-section--report .rma-workflow-section-heading { border-left-color: #22a35a; background: var(--rma-success-soft); color: #166534; }
+.rma-workflow-section--attachments .rma-workflow-section-heading { border-left-color: #8b5cf6; background: #f1eafe; color: #5b21b6; }
+.rma-operational-form #sub1 > table.border1 + table.border1 { margin-top: 14px !important; }
+.rma-operational-form #software,
+.rma-operational-form #hardware {
+  padding: 14px !important;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-top: 0 !important;
+  border-radius: 0 0 10px 10px !important;
+  background: #fff !important;
+}
+.rma-operational-form div[onclick*="software"],
+.rma-operational-form div[onclick*="hardware"] {
+  min-height: 42px !important;
+  padding: 10px 12px !important;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-left: 4px solid #73a6dc !important;
+  border-radius: 9px !important;
+  background: var(--rma-info-soft) !important;
+  color: #24466d !important;
+  line-height: 20px !important;
+}
+.rma-operational-form div[onclick*="hardware"] { border-left-color: #f59e0b !important; background: var(--rma-warning-soft) !important; color: #7c4708 !important; }
+
+/* Existing FAST TOOLS becomes a lighter, grouped, collapsible actions card. */
+.rma-quick-actions {
+  width: 230px !important;
+  margin: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-radius: 13px;
+  border-spacing: 0;
+  background: #fff !important;
+  box-shadow: 0 10px 28px rgba(20, 29, 45, .09);
+}
+.rma-quick-actions td { background: transparent !important; color: var(--rma-workflow-ink) !important; }
+.rma-quick-actions-header { padding: 11px 12px !important; border-bottom: 1px solid var(--rma-workflow-line) !important; }
+.rma-quick-actions-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.rma-quick-actions-title strong { font-size: 12px; font-weight: 800; }
+.rma-quick-actions-note { display: block; margin-top: 5px; color: #667085; font-size: 9px; line-height: 1.35; }
+.rma-quick-actions-toggle {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  min-height: 28px !important;
+  padding: 0 !important;
+  place-items: center;
+  border: 1px solid #d5dae3 !important;
+  border-radius: 7px !important;
+  background: #f8fafc !important;
+  color: #475467 !important;
+  cursor: pointer;
+}
+.rma-quick-actions-toggle::before { content: "−"; font-size: 17px; line-height: 1; }
+.rma-quick-actions.is-collapsed .rma-quick-actions-toggle::before { content: "+"; }
+.rma-quick-actions .rma-quick-actions-spacer { display: none !important; }
+.rma-quick-actions-group td {
+  padding: 10px 12px 5px !important;
+  color: #667085 !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .06em;
+  text-align: left !important;
+  text-transform: uppercase;
+}
+.rma-quick-actions-row td { padding: 4px 10px !important; }
+.rma-quick-actions-row:last-child td { padding-bottom: 10px !important; }
+.rma-quick-actions-row input.botao,
+.rma-quick-actions-row button.botao {
+  width: 100% !important;
+  min-height: 38px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-color: #d7dce4 !important;
+  background: #fff !important;
+  color: #344054 !important;
+  font-size: 10px !important;
+  text-align: left !important;
+  white-space: normal;
+  box-shadow: none !important;
+}
+.rma-quick-actions-row input.botao:hover,
+.rma-quick-actions-row button.botao:hover { border-color: #fdba74 !important; background: #fff7ed !important; color: #9a3412 !important; }
+.rma-quick-actions-row--disabled input.botao,
+.rma-quick-actions-row--disabled button.botao {
+  border-color: #e4e7ec !important;
+  background: #f8fafc !important;
+  color: #98a2b3 !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+}
+.rma-quick-actions-row--disabled input.botao:hover,
+.rma-quick-actions-row--disabled button.botao:hover { border-color: #e4e7ec !important; background: #f8fafc !important; color: #98a2b3 !important; }
+.rma-quick-actions-row--primary input.botao,
+.rma-quick-actions-row--primary button.botao {
+  border-color: var(--rma-action) !important;
+  background: var(--rma-action) !important;
+  color: #fff !important;
+  box-shadow: 0 5px 13px rgba(249,115,22,.18) !important;
+}
+.rma-quick-actions.is-collapsed .rma-quick-actions-group,
+.rma-quick-actions.is-collapsed .rma-quick-actions-row { display: none !important; }
+
+/* Repair report, attachments and parts. */
+.rma-operational-form #list_images {
+  overflow: hidden;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-radius: 10px;
+  background: #fff !important;
+}
+.rma-operational-form #list_images tr + tr td { border-top: 1px solid #edf0f4; }
+.rma-operational-form #list_images td { padding: 10px !important; vertical-align: middle; }
+.rma-file-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #dbe3ee;
+  border-radius: 9px;
+  background: var(--rma-info-soft);
+  color: #344054;
+  font-size: 11px;
+}
+.rma-file-preview img { width: 58px; height: 58px; border-radius: 7px; object-fit: cover; }
+.rma-file-preview strong { display: block; margin-bottom: 2px; }
+.rma-file-preview span { color: var(--rma-workflow-muted); }
+.rma-operational-form #add_img { float: none !important; margin-top: 8px; }
+.rma-operational-form #tabela-reparacao {
+  overflow: hidden;
+  border: 1px solid var(--rma-workflow-line) !important;
+  border-radius: 10px;
+  border-collapse: separate !important;
+  border-spacing: 0;
+  background: #fff;
+}
+.rma-operational-form #tabela-reparacao th {
+  padding: 10px 8px !important;
+  border: 0 !important;
+  border-bottom: 1px solid #dbe1e9 !important;
+  background: #f2f4f7;
+  color: #475467;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.rma-operational-form #tabela-reparacao td { padding: 6px !important; border: 0 !important; border-bottom: 1px solid #edf0f4 !important; }
+.rma-operational-form #tabela-reparacao tr:last-child td { border-bottom: 0 !important; }
+.rma-parts-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 18px 0 9px; color: var(--rma-workflow-ink); font-size: 13px; font-weight: 800; }
+.rma-parts-heading::before { content: "Peças e materiais"; }
+.rma-parts-add,
+.rma-parts-add:link,
+.rma-parts-add:visited { display: inline-flex; align-items: center; min-height: 36px; margin: 10px 0; padding: 7px 11px; border: 1px solid #cfd6e1; border-radius: 8px; background: #fff; color: #344054 !important; font-size: 11px; font-weight: 750; text-decoration: none; }
+.rma-parts-add::before { content: "+"; margin-right: 6px; color: var(--rma-action); font-size: 16px; }
+.rma-operational-form #total { border-color: #fdba74 !important; background: #fff7ed !important; color: #9a3412 !important; font-weight: 850 !important; text-align: right !important; }
+.rma-save-status { position: fixed; right: 18px; bottom: 18px; z-index: 9999; max-width: 300px; padding: 11px 14px; border: 1px solid #bbf7d0; border-radius: 10px; background: var(--rma-success-soft); color: #166534; font-size: 11px; font-weight: 750; box-shadow: 0 8px 24px rgba(20,29,45,.12); }
+
+/* RMA list productivity */
+.rma-quick-filters { padding: 0 20px 16px; border-top: 1px solid var(--rma-workflow-line); background: #fff; }
+.rma-quick-filters-title { display: block; padding: 13px 0 8px; color: #475467; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.rma-quick-filters-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.rma-quick-filter {
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid #d6dce5;
+  border-radius: 999px;
+  background: #fff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.rma-quick-filter:hover { border-color: #fdba74; background: #fff7ed; color: #9a3412; }
+.rma-quick-filter[aria-pressed="true"] { border-color: #f59e0b; background: var(--rma-warning-soft); color: #7c4708; }
+.rma-list-page .rma-list-data-table > tbody > tr:first-child:not(.rma-list-record-row) > td {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  box-shadow: 0 1px 0 var(--rma-workflow-line);
+}
+.rma-tracking-cell { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-weight: 800 !important; }
+.rma-tracking-cell .rma-list-row-link { display: inline-flex; padding: 4px 7px; border-radius: 7px; background: var(--rma-info-soft); color: #1d4f82 !important; }
+.rma-tracking-cell .rma-list-row-link.rma-customer-reply {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 0;
+  background: transparent;
+  color: #1d4f82 !important;
+  text-decoration: none !important;
+}
+.rma-customer-reply-code {
+  display: inline-flex;
+  padding: 4px 7px;
+  border-radius: 7px;
+  background: var(--rma-info-soft);
+  color: #1d4f82;
+}
+.rma-customer-reply-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 21px;
+  padding: 3px 6px;
+  border: 1px solid #fecaca;
+  border-radius: 999px;
+  background: var(--rma-danger-soft);
+  color: #991b1b;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .025em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.rma-customer-reply-badge svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
+}
+.rma-tracking-cell .rma-customer-reply:hover .rma-customer-reply-code,
+.rma-tracking-cell .rma-customer-reply:focus-visible .rma-customer-reply-code { background: #dcecff; color: #163f69; }
+.rma-tracking-cell .rma-customer-reply:hover .rma-customer-reply-badge,
+.rma-tracking-cell .rma-customer-reply:focus-visible .rma-customer-reply-badge { border-color: #fca5a5; background: #fecaca; color: #7f1d1d; }
+.rma-list-icon-action[title] { position: relative; }
+
+/* Home receives only low-impact interaction and focus refinements. */
+.rma-workflow-home .dashboard-counts .item[onclick],
+.rma-workflow-home .recent-updates .item[onclick] { border-radius: 10px; transition: background .16s ease, transform .16s ease; }
+.rma-workflow-home .dashboard-counts .item[onclick]:hover,
+.rma-workflow-home .dashboard-counts .item[onclick]:focus-visible,
+.rma-workflow-home .recent-updates .item[onclick]:hover,
+.rma-workflow-home .recent-updates .item[onclick]:focus-visible { background: #f8fafc; outline: 2px solid #fed7aa; outline-offset: 2px; transform: translateY(-1px); }
+
+/* RMA record: keep the legacy fields fluid without changing their identifiers or behaviour. */
+.rma-operational-form .rma-record-card,
+.rma-operational-form .rma-record-card #masterdiv,
+.rma-operational-form .rma-record-card .submenu,
+.rma-operational-form .rma-record-card .submenu > table {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box;
+}
+
+.rma-equipment-condition-table > tbody > tr {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.rma-equipment-condition-table > tbody > tr > td {
+  display: block;
+  width: auto !important;
+  min-width: 0;
+}
+
+.rma-equipment-condition-select,
+#m_estado_equipamento_chzn,
+#m_estado_equipamento + .chzn-container,
+#m_estado_equipamento + .chosen-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box;
+}
+
+#m_estado_equipamento_chzn .chzn-drop,
+#m_estado_equipamento + .chzn-container .chzn-drop,
+#m_estado_equipamento + .chosen-container .chosen-drop {
+  width: 100% !important;
+  min-width: 100% !important;
+  box-sizing: border-box;
+}
+
+#m_estado_equipamento_chzn .chzn-single,
+#m_estado_equipamento + .chzn-container .chzn-single,
+#m_estado_equipamento + .chosen-container .chosen-single {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1250px) {
+  .rma-workflow-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1180px) {
+  .rma-form-page TABLE.rma-form-shell {
+    display: table;
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    table-layout: fixed !important;
+    overflow: visible;
+  }
+  .rma-form-page .rma-form-shell > tbody > tr { display: block; }
+  .rma-form-page .rma-form-shell > tbody > tr > td { display: block; width: 100% !important; }
+  .rma-form-page .rma-form-shell > tbody > tr > td[width="10px"] { display: none; }
+  .rma-form-page .rma-quick-actions { width: 100% !important; margin-top: 12px !important; }
+}
+
+@media (max-width: 900px) {
+  .rma-workflow-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; }
+  .rma-form-shell > tbody > tr > td:last-child:not(.rma-form-main) { margin-top: 12px; }
+  .rma-quick-actions { width: 100% !important; }
+  .rma-form-page TABLE.rma-form-card { width: 100% !important; max-width: 100% !important; table-layout: fixed !important; }
+  .rma-quick-actions-row input.botao,
+  .rma-quick-actions-row button.botao { text-align: center !important; }
+  .rma-operational-form #tabela-reparacao { display: block; width: 100% !important; overflow-x: auto; }
+  .rma-operational-form #tabela-reparacao tbody { min-width: 620px; }
+  .rma-operational-form,
+  .rma-operational-form .center,
+  .rma-operational-form .rma-form-main,
+  .rma-operational-form .rma-record-card td {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .rma-operational-form TABLE.t3.rma-form-shell {
+    display: table;
+    overflow: visible;
+  }
+  .rma-operational-form .rma-record-tabs {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .rma-operational-form .rma-record-tabs > tbody > tr {
+    display: flex;
+    width: max-content;
+    min-width: 100%;
+  }
+  .rma-operational-form .rma-record-tabs > tbody > tr > td[id^="pinta"] {
+    display: flex;
+    flex: 0 0 auto;
+    width: auto !important;
+    min-width: 150px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px !important;
+    white-space: normal;
+  }
+  .rma-operational-form .rma-record-tabs > tbody > tr > td:not([id^="pinta"]) img {
+    width: 4px;
+  }
+  .rma-operational-form .rma-record-status > tbody > tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .rma-operational-form .rma-record-status > tbody > tr > td {
+    display: block;
+    width: 100% !important;
+    text-align: left !important;
+  }
+  .rma-operational-form .rma-record-status table,
+  .rma-operational-form .rma-record-status table tbody,
+  .rma-operational-form .rma-record-status table tr {
+    width: 100% !important;
+  }
+  .rma-operational-form .rma-record-status table tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .rma-operational-form .rma-record-status table td {
+    width: auto !important;
+    min-width: 0;
+  }
+  .rma-operational-form .rma-record-status .chzn-container,
+  .rma-operational-form .rma-record-status .chosen-container {
+    max-width: calc(100vw - 56px);
+  }
+  .rma-operational-form .rma-equipment-details > tbody > tr:first-child > td:not(:first-child) {
+    display: none;
+  }
+  .rma-operational-form .rma-equipment-details > tbody > tr:first-child,
+  .rma-operational-form .rma-equipment-details > tbody > tr:first-child > td:first-child {
+    display: block;
+    width: 100% !important;
+  }
+  .rma-operational-form .rma-equipment-details > tbody > tr:nth-child(2) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .rma-operational-form .rma-equipment-details > tbody > tr:nth-child(2) > td {
+    display: block;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .rma-operational-form .rma-equipment-details > tbody > tr:nth-child(2) > td::before {
+    content: attr(data-mobile-label);
+    display: block;
+    margin: 0 0 6px;
+    color: var(--rma-workflow-ink);
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .rma-operational-form .rma-record-card input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]),
+  .rma-operational-form .rma-record-card select,
+  .rma-operational-form .rma-record-card textarea {
+    max-width: 100% !important;
+    box-sizing: border-box;
+    font-size: 16px !important;
+  }
+  .rma-operational-form .rma-equipment-details textarea {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .rma-workflow-summary { grid-template-columns: 1fr; }
+  .rma-quick-filters { padding: 0 12px 12px; }
+  .rma-quick-filters-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rma-quick-filter { width: 100%; }
+  .rma-file-preview { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rma-workflow-home .dashboard-counts .item,
+  .rma-workflow-home .recent-updates .item { transition: none !important; }
+}
