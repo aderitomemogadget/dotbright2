@@ -1,0 +1,226 @@
+<?php
+	ini_set('max_execution_time','0');
+	ini_set('memory_limit','1024M');
+    require_once('settings.inc.php');
+    // require_once('../layout/header.inc.php');
+    // require_once('../layout/body.inc.php');
+
+	// echo '<pre style="background:#FFF">';
+	// print_r($_POST);
+	// echo '</pre>';
+
+
+	global $DB_host,$DB_user,$DB_pass,$DB_name,$admin_lang;
+	$dbh = db_opendb_conection($DB_host,$DB_user,$DB_pass);
+
+	$sql = '
+			SELECT
+				conf_id
+			FROM
+				a_importador_configuracoes
+			';
+	$result = new DataObj;
+	$result->db_open($dbh,$DB_name,$sql);
+	if(!$result->EOF())
+	{
+		$sql = '
+			UPDATE
+				a_importador_configuracoes
+			SET
+				Marca = "'.addslashes(trim($_POST['Marca'])).'",
+				MarcaDesc = "'.addslashes(trim($_POST['MarcaDesc'])).'",
+				Categoria = "'.addslashes(trim($_POST['Categoria'])).'",
+				CategoriaDesc = "'.addslashes(trim($_POST['CategoriaDesc'])).'",
+				Sub_Categoria = "'.addslashes(trim($_POST['Sub_Categoria'])).'",
+				Sub_CategoriaDesc = "'.addslashes(trim($_POST['Sub_CategoriaDesc'])).'",
+				Sub_Categoria2 = "'.addslashes(trim($_POST['Sub_Categoria2'])).'",
+				Sub_Categoria2Desc = "'.addslashes(trim($_POST['Sub_Categoria2Desc'])).'",
+				Codigo_produto = "'.addslashes(trim($_POST['Codigo_produto'])).'",
+				Produto = "'.addslashes(trim($_POST['Produto'])).'",
+				Descricao = "'.addslashes(trim($_POST['Descricao'])).'",
+				Preco_IVA = "'.addslashes(trim($_POST['Preco_IVA'])).'",
+				EAN = "'.addslashes(trim($_POST['EAN'])).'",
+				Stock = "'.addslashes(trim($_POST['Stock'])).'",
+				Imagem1 = "'.addslashes(trim($_POST['Imagem1'])).'",
+				Imagem2 = "'.addslashes(trim($_POST['Imagem2'])).'",
+				Imagem3 = "'.addslashes(trim($_POST['Imagem3'])).'",
+				Imagem4 = "'.addslashes(trim($_POST['Imagem4'])).'",
+				Peso = "'.addslashes(trim($_POST['Peso'])).'",
+				Separador = "'.addslashes(trim($_POST['Separador'])).'",
+				Separador2 = "'.addslashes(trim($_POST['Separador2'])).'",
+				conf1 = "'.addslashes(trim($_POST['conf1'])).'",
+				conf2 = "'.addslashes(trim($_POST['conf2'])).'",
+				conf3 = "'.addslashes(trim($_POST['conf3'])).'",
+				Preco_conf = "'.addslashes(trim($_POST['Preco_conf'])).'",
+				Preco_iva_valor = "'.addslashes(trim($_POST['Preco_iva_valor'])).'",
+				Imagem_conf = "'.addslashes(trim($_POST['Imagem_conf'])).'",
+				Imagem_pasta = "'.addslashes(trim($_POST['Imagem_pasta'])).'",
+				ftp_servidor = "'.addslashes(trim($_POST['ftp_servidor'])).'",
+				ftp_porta = "'.addslashes(trim($_POST['ftp_porta'])).'",
+				ftp_user = "'.addslashes(trim($_POST['ftp_user'])).'",
+				ftp_password = "'.addslashes(trim($_POST['ftp_password'])).'",
+				ftp_passivo = "'.addslashes(trim($_POST['ftp_passivo'])).'",
+				ftp_caminho = "'.addslashes(trim($_POST['ftp_caminho'])).'",
+				ficheiro_caminho = "'.addslashes(trim($_POST['ficheiro_caminho'])).'",
+				tipo_importacao = "'.addslashes(trim($_POST['tipo_importacao'])).'",
+				ficheiro_ftp = "'.addslashes(trim($_POST['ficheiro_ftp'])).'",
+				Descricao2 = "'.addslashes(trim($_POST['Descricao2'])).'",
+				Classe_energetica = "'.addslashes(trim($_POST['Classe_energetica'])).'",
+				Link_Classe_Energetica = "'.addslashes(trim($_POST['Link_Classe_Energetica'])).'",
+				Stock1 = "'.addslashes(trim($_POST['Stock1'])).'",
+				Stock2 = "'.addslashes(trim($_POST['Stock2'])).'",
+				Stock3 = "'.addslashes(trim($_POST['Stock3'])).'",
+				Stock4 = "'.addslashes(trim($_POST['Stock4'])).'",
+				codigo_importacao = "'.addslashes(trim($_POST['codigo_importacao'])).'",
+				Eliminar_conf = "'.addslashes(trim($_POST['Eliminar_conf'])).'",
+				fora_gama = "'.addslashes(trim($_POST['fora_gama'])).'",
+				fora_gama_codigo = "'.addslashes(trim($_POST['fora_gama_codigo'])).'"
+			WHERE
+				conf_id="'.$result->db_data['conf_id'].'"
+		';
+	}
+	else
+	{
+		$sql = '
+			INSERT INTO
+				a_importador_configuracoes
+				(
+					Marca,
+					MarcaDesc,
+					Categoria,
+					CategoriaDesc
+					Sub_Categoria,
+					Sub_CategoriaDesc,
+					Sub_Categoria2,
+					Sub_Categoria2Desc,
+					Codigo_produto,
+					Produto,
+					Descricao,
+					Preco_IVA,
+					EAN,
+					Stock,
+					Imagem1,
+					Imagem2,
+					Imagem3,
+					Imagem4,
+					Peso,
+					Separador,
+					Separador2,
+					conf1,
+					conf2,
+					conf3,
+					Preco_conf,
+					Preco_iva_valor,
+					Imagem_conf,
+					Imagem_pasta,
+					ftp_servidor,
+					ftp_porta,
+					ftp_user,
+					ftp_password,
+					ftp_passivo,
+					ftp_caminho,
+					ficheiro_caminho,
+					tipo_importacao,
+					ficheiro_ftp,
+					Descricao2,
+					Classe_energetica,
+					Link_Classe_Energetica,
+					Stock1,
+					Stock2,
+					Stock3,
+					Stock4,
+					codigo_importacao,
+					Eliminar_conf,
+					fora_gama,
+					fora_gama_codigo
+				)
+				VALUES
+				(
+					"'.addslashes(trim($_POST['Marca'])).'",
+					"'.addslashes(trim($_POST['MarcaDesc'])).'",
+					"'.addslashes(trim($_POST['Categoria'])).'",
+					"'.addslashes(trim($_POST['CategoriaDesc'])).'",
+					"'.addslashes(trim($_POST['Sub_Categoria'])).'",
+					"'.addslashes(trim($_POST['Sub_CategoriaDesc'])).'",
+					"'.addslashes(trim($_POST['Sub_Categoria2'])).'",
+					"'.addslashes(trim($_POST['Sub_Categoria2Desc'])).'",
+					"'.addslashes(trim($_POST['Codigo_produto'])).'",
+					"'.addslashes(trim($_POST['Produto'])).'",
+					"'.addslashes(trim($_POST['Descricao'])).'",
+					"'.addslashes(trim($_POST['Preco_IVA'])).'",
+					"'.addslashes(trim($_POST['EAN'])).'",
+					"'.addslashes(trim($_POST['Stock'])).'",
+					"'.addslashes(trim($_POST['Imagem1'])).'",
+					"'.addslashes(trim($_POST['Imagem2'])).'",
+					"'.addslashes(trim($_POST['Imagem3'])).'",
+					"'.addslashes(trim($_POST['Imagem4'])).'",
+					"'.addslashes(trim($_POST['Peso'])).'",
+					"'.addslashes(trim($_POST['Separador'])).'",
+					"'.addslashes(trim($_POST['Separador2'])).'",
+					"'.addslashes(trim($_POST['conf1'])).'",
+					"'.addslashes(trim($_POST['conf2'])).'",
+					"'.addslashes(trim($_POST['conf3'])).'",
+					"'.addslashes(trim($_POST['Preco_conf'])).'",
+					"'.addslashes(trim($_POST['Preco_iva_valor'])).'",
+					"'.addslashes(trim($_POST['Imagem_conf'])).'",
+					"'.addslashes(trim($_POST['Imagem_pasta'])).'",
+					"'.addslashes(trim($_POST['ftp_servidor'])).'",
+					"'.addslashes(trim($_POST['ftp_porta'])).'",
+					"'.addslashes(trim($_POST['ftp_user'])).'",
+					"'.addslashes(trim($_POST['ftp_password'])).'",
+					"'.addslashes(trim($_POST['ftp_passivo'])).'",
+					"'.addslashes(trim($_POST['ftp_caminho'])).'",
+					"'.addslashes(trim($_POST['ficheiro_caminho'])).'",
+					"'.addslashes(trim($_POST['tipo_importacao'])).'",
+					"'.addslashes(trim($_POST['ficheiro_ftp'])).'",
+					"'.addslashes(trim($_POST['Descricao2'])).'",
+					"'.addslashes(trim($_POST['Classe_energetica'])).'",
+					"'.addslashes(trim($_POST['Link_Classe_Energetica'])).'",
+					"'.addslashes(trim($_POST['Stock1'])).'",
+					"'.addslashes(trim($_POST['Stock2'])).'",
+					"'.addslashes(trim($_POST['Stock3'])).'",
+					"'.addslashes(trim($_POST['Stock4'])).'",
+					"'.addslashes(trim($_POST['codigo_importacao'])).'",
+					"'.addslashes(trim($_POST['Eliminar_conf'])).'",
+					"'.addslashes(trim($_POST['fora_gama'])).'",
+					"'.addslashes(trim($_POST['fora_gama_codigo'])).'"
+				)
+		';
+	}
+	$res = Runquery($dbh, $DB_name, $sql);
+
+	$c = count($_POST);
+	$keys = array_keys($_POST);
+	$fams = array();
+	$marcas = array();
+	$i=0;
+	while($i < $c)
+	{
+
+		if(substr_count($keys[$i], 'fam_')) $fams[] = array('fam_id' => str_replace('fam_', '', $keys[$i]), 'fam_codigo' => $_POST[$keys[$i]]);
+		elseif(substr_count($keys[$i], 'marca_')) $marcas[] = array('marca_id' => str_replace('marca_', '', $keys[$i]), 'marca_codigo' => $_POST[$keys[$i]]);
+		$i++;
+	}
+
+	if(count($fams) > 0)
+	{
+		for($a=0; $a<count($fams); $a++)
+		{
+			$sql = 'UPDATE products_families SET codigo_importacao=";'.$fams[$a]['fam_codigo'].';" WHERE ID="'.$fams[$a]['fam_id'].'"';
+			$res = Runquery($dbh, $DB_name, $sql);
+		}
+	}
+
+	if(count($marcas) > 0)
+	{
+		for($a=0; $a<count($marcas); $a++)
+		{
+			$sql = 'UPDATE brands SET codigo_importacao=";'.$marcas[$a]['marca_codigo'].';" WHERE ID="'.$marcas[$a]['marca_id'].'"';
+			$res = Runquery($dbh, $DB_name, $sql);
+		}
+	}
+
+	if(isset($_POST['tab_sel'])) echo '<script>window.open("import.php?tab_sel='.$_POST['tab_sel'].'","_self");</script>';
+	else echo '<script>window.open("import.php","_self");</script>';
+	// require_once('../layout/bottom.inc.php');
+?>

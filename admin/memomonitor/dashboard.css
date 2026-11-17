@@ -1,0 +1,146 @@
+@charset "utf-8";
+
+div.padding{padding:10px;background:#FFF;}
+div.p1{background:#FFF;height:50px;color:#2f353b !important;padding-top:14px;font-family: 'Open Sans', sans-serif;font-weight:700;font-size: 16px;}
+div.p2{background-color:#FFF}
+div.header{padding:15px 0}
+div.bg-warning{border-bottom: 1px solid #f7f8f9; margin: 0; padding: 15px 0;background:#FFF}
+div.bg-info{border-bottom: 1px solid #f7f8f9; margin: 0; padding: 15px 0;background:#FFF}
+.info1{border:none; margin: 0; padding: 0;background:#FFF;font-weight:bold;line-height:13px}
+.info2{border-bottom: 1px solid #e4e4e4; margin: 0; padding: 15px 0;background:#FFF}
+.info2_1{border-bottom: 1px solid #e4e4e4; margin: 0; padding: 15px 0;background:#eefff4}
+.info2_2{border-bottom: 1px solid #e4e4e4; margin: 0; padding: 15px 0;background:#ffe0e0}
+
+
+.tabs{background:#FFF}
+.tabs .tab{float:left; cursor:pointer;text-transform:uppercase}
+.tabs .tab .titulo-edit{text-align:left;color:#2f353b;font-size:14px; font-weight:600; padding:4px 8px;text-transform: uppercase;background:#FFF;border-bottom:4px solid #2f353b;margin:0 5px}
+.tabs .active .titulo-edit{color:#36c6d3  !important;background:#FFF;border-bottom:4px solid #36c6d3;margin:0 5px}
+
+.tabs-content{margin-top:0}
+.tabs-content .tab-content{display:none}
+.tabs-content .active {display:block}
+
+.circle-artist{display:inline-block;width:100%; width:40px;background-image:url(../images/test.png);/* background-color:#000; */background-repeat:no-repeat;background-position:center center;height:40px;border-radius:40%;-moz-border-radius:40%;margin:0 auto;-webkit-background-size: cover;  -moz-background-size: cover;  -o-background-size: cover;  background-size: cover;filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";}
+
+.aprovar-off{color:#8a8888;font-size:30px;text-align:center;text-decoration:none}
+.aprovar-off:hover{color:#00c942;text-decoration:none}
+.aprovar-on{color:#00c942;font-size:30px;text-align:center;text-decoration:none;font-weight:bold}
+.aprovar-on:hover{color:#000;text-decoration:none}
+
+
+
+.deaprovar-off{color:#8a8888;font-size:30px;text-align:center;text-decoration:none}
+.deaprovar-off:hover{color:#e7505a;text-decoration:none}
+.deaprovar-on{color:#e7505a;font-size:30px;text-align:center;text-decoration:none;font-weight:bold}
+.deaprovar-on:hover{color:#000;text-decoration:none}
+
+
+/* POST AND SELL*/ 
+
+.bg-black-top{background:#1e1e1e;min-height:33px;box-sizing:border-box;padding:7px;}
+.bg-black-top .titulo{color:#FFF;text-align:center;padding:0; font-size:12px;font-weight:600}
+.bg-black-top .titulo span{color:#f23377;}
+
+.bg-grey-bot{background:#e4e4e4;min-height:66px;box-sizing:border-box;padding:24px;}
+.bg-grey-bot .titulo{color:#1e1e1e;text-align:center;padding:0; font-size:12px;font-weight:600}
+
+.bg-gray-bot{background:none;height:156px;box-sizing:border-box;}
+.bg-gray-bot .titulo{color:#1e1e1e;text-align:center;padding:0; font-size:15px;font-weight:700; text-transform:uppercase}
+.bg-gray-bot .titulo2{color:#1e1e1e;text-align:center;padding:0; font-size:15px;font-weight:600}
+.bg-gray-bot .padd{padding:8px; padding-bottom:0}
+.bg-gray-bot .padd-left{padding:0; padding-bottom:0}
+.bg-gray-bot .padd-left3{padding:14px 0; padding-bottom:0}
+.bg-gray-bot .padd-left2{padding:8px 0}
+.bg-gray-bot .padd-left .titulo{color:#d4d4d6}
+.bg-gray-bot .padd-left3 .titulo{color:#d4d4d6;font-size:15px}
+.bg-gray-bot .align-right{text-align:right}
+
+.bg-gray-bot2{background:none;box-sizing:border-box;min-height: 90px;padding: 0 0 22px;}
+.bg-gray-bot2 .titulo{color:#1e1e1e;text-align:center;padding:0; font-size:15px;font-weight:700}
+.final2 {min-height:138px}
+.final2 .button-reg3{height:33px}
+.final {min-height:138px}
+.final .titulo3{color:#1e1e1e;text-align:center;padding:0; font-size:14px;font-weight:400;padding-top:40px;padding-bottom: 69px}
+.bg-gray-bot2 .padd{padding:8px}
+
+.bg-white-loading{background:#f5f5f5;height:94px;box-sizing:border-box;padding:32px 0;position:relative}
+.bg-white-loading .titulo{color:#ceced0;text-align:left;padding:0; font-size:14px;font-weight:600}
+
+.bg-gray-top{background:#e4e4e4;min-height:33px;box-sizing:border-box;padding:7px}
+.bg-gray-top .titulo{color:#1e1e1e;text-align:center;padding:0; font-size:17px;font-weight:600}
+.bg-gray-top .titulo span{color:#f23377;}
+
+.bg-gray2-top{background:#f6f3f4;min-height:116px;box-sizing:border-box;padding:9px;padding-left:0}
+.bg-gray2-top .titulo{color:#d4d4d6;text-align:right;padding:0; font-size:17px;font-weight:700}
+.bg-gray2-top .titulo span{color:#f23377;}
+
+#color-levels{padding-bottom:22px;min-height:103px; box-sizing:border-box}
+#category-levels{min-height:248px;padding-top:33px;}
+.padding-post-left{padding:15px;padding-right:0; box-sizing:border-box}
+.padding-post-left .titulo{color:#1e1e1e;text-align:left;padding:0; font-size:20px;font-weight:700}
+
+.padding-post-right{padding:15px;  padding-top:0; padding-right:0; box-sizing:border-box;}
+.padding-post-right .titulo{color:#1e1e1e;text-align:left;padding:0; font-size:20px;font-weight:700}
+
+.inputregisto-post{font-size:14px;border:none;background:none;padding:0;outline:none;color:#d4d4d6;vertical-align:top; width:100%; height:30px;line-height:30px;text-indent:10px;font-weight:700}
+.inputregisto-post:focus{font-size:14px;border:none;padding:0;outline:none;color:#d4d4d6;vertical-align:middle}
+
+
+.margins { margin-left:8px; margin-right:8px; } 
+.margin_left { padding-left:18px; } 
+.margin_right { margin-right:8px; } 
+
+.align-left{text-align:left !important}
+.category{}
+.category .titulo{color:#1e1e1e;text-align:right;padding:0; font-size:17px;font-weight:700}
+
+.sub-category{}
+.sub-category .titulo{color:#1e1e1e;text-align:right;padding:0; font-size:14px;font-weight:700}
+
+.sub-category2{/* padding:0; */box-sizing:border-box}
+.sub-category2 .titulo{color:#1e1e1e;text-align:right;padding:0; font-size:14px;font-weight:700}
+
+.color-post-sell{padding:0;margin:0}
+.color-post-sell li{width:100%;max-width:120px;display:inline-block}
+
+.label_check_ps{width:100%;padding:0;border-top:none;color:#000;font-size:13px;position:relative;text-transform:uppercase;padding:0;margin:0 }
+.label_check_ps .f_color{width:100%;margin:0;height:34px }
+
+.label_check_ps:hover{color:#000}
+.label_check_ps{ background-image:url(f_off.png);background-position:center;background-repeat:no-repeat}
+.c_on_ps{ackground-position:left;background-repeat:no-repeat;color:#000;position:relative}
+/* .c_on_ps:after{content: "\f00c";font-family: fontawesome;position: absolute; right: 5%; top: 8px; font-size: 24px;font-weight:bold;color:#000;text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;} */
+.c_on_ps:after{ display: block;  content: " "; width:100%; height:100%; border: 7px inset rgba(245,245,245,1);/*background:rgba(255, 255, 255, 0.5);*/position: absolute;right: 0; top: 0;}
+.label_check_ps input{left:-9999px;position:absolute}
+
+.label_check_ps2{width:100%;padding:8px;border-top:none;color:#000;font-size:17px;position:relative;text-transform:uppercase;margin:0;box-sizing:border-box;height:34px }
+.label_check_ps2 .f_left2{width:100%;margin:0;height:33px;color:#ceced0;text-align:center;font-size:15px; }
+.label_check_ps2:hover{color:#000}
+.label_check_ps2{ background-image:url(f_off.png);background-position:center;background-repeat:no-repeat}
+.c_on_ps2{ background:#e4e4e4;background-position:left;background-repeat:no-repeat;color:#000 !important;position:relative}
+.c_on_ps2 span{ color:#000 !important;}
+.label_check_ps2 input{left:-9999px;position:absolute}
+
+
+
+.label_check_ps3{padding:8px;border-top:none;color:#000;font-size:12px;position:relative;text-transform:uppercase;margin:0;box-sizing:border-box;height:34px;display:inline-block;color:#FFF }
+.label_check_ps3:hover{color:#FFF}
+.label_check_ps3{ background-image:url(tasks/check-off.png);background-position:left;background-repeat:no-repeat;padding-left:24px;padding-top: 10px;}
+.c_on_ps3{ background-image:url(tasks/check-on.png);}
+.label_check_ps3 input{left:-9999px;position:absolute}
+
+#slidebottom
+{
+	position:fixed;
+	background:#D1D7DF;
+	margin-top:5px;
+	margin-bottom:0;
+	width:1100px;	
+	padding-top:10px;
+	padding-left:10px;
+	padding-bottom:10px;
+	z-index:999991;
+	bottom: 0; 
+	
+}

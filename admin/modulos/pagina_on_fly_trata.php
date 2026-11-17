@@ -1,0 +1,22 @@
+<?php
+	include 'settings.inc.php';	
+	if(isset($_POST['slashes']))
+	{		
+		$result = submeteDados();
+		$res = $result['resultado'];
+		$id_acao = $result['id_acao'];
+
+		$acao = $result['acao']=='insere' ? 1 : 2;
+		if($res)
+		{
+			submeteimagens($id_acao);
+		}
+		
+		if(isset($_POST[TBID]) && $_POST[TBID] > 0 || $id_acao > 0) $retorno = 'pagina_on_fly.php?'.TBID.'='.((isset($id_acao) && $id_acao > 0) ? $id_acao : $_POST[TBID]).'&tab=';
+		else $retorno = 'list.php';
+	
+		if($res) show_box_OK($acao, $retorno);
+		else show_box_ERROR($acao, $retorno);
+	}
+	else show_box_ERROR(4,$retorno);
+?>

@@ -1,0 +1,52 @@
+a, abbr, acronym, address, applet, article, aside, audio,
+b, blockquote, big, body,
+center, canvas, caption, cite, code, command,
+datalist, dd, del, details, dfn, dl, div, dt,
+em, embed,
+fieldset, figcaption, figure, font, footer, form,
+h1, h2, h3, h4, h5, h6, header, hgroup, html,
+i, iframe, img, ins,
+kbd,
+keygen,
+label, legend,
+meter,
+nav,
+object, output,
+p, pre, progress,
+q,
+s, samp, section, small, span, source, strike, strong, sub, sup,
+table, tbody, tfoot, thead, th, tr, tdvideo, tt,
+u,
+var{background:transparent;border:0 none;font-size:100%;margin:0;padding:0;border:0;outline:0/*;vertical-align:top*/}
+/*ol, ul{list-style:none}*/
+blockquote, q{quotes:none}
+table, table td{padding:0;border:none;border-collapse:collapse}
+img{vertical-align:top}
+embed{vertical-align:top}
+
+
+
+.breadcrumbs ol, .breadcrumbs ul{list-style:none}
+.dropdown ol, .dropdown ul{list-style:none}
+footer ol, footer ul{list-style:none}
+.page-slider ol, .page-slider ul{list-style:none}
+#resp-menu ol, #resp-menu ul{list-style:none}
+
+/*.main_content ul {
+   list-style-type: disc;
+   list-style-position: inside;
+}
+.main_content ol {
+   list-style-type: decimal;
+   list-style-position: inside;
+}
+.main_content ul ul, .main_content ol ul {
+   list-style-type: circle;
+   list-style-position: inside;
+   margin-left: 15px;
+}
+.main_content ol ol, .main_content ul ol {
+   list-style-type: lower-latin;
+   list-style-position: inside;
+   margin-left: 15px;
+}*/

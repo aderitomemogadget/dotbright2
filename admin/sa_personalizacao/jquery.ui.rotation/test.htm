@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html><head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+
+  
+  
+
+  
+  
+  
+
+  
+
+  <script type="text/javascript" src="test/jquery-1.js"></script>
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="test/normalize.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" type="text/css" href="test/result-light.css">
+  
+
+  
+    
+      <link rel="stylesheet" type="text/css" href="test/jquery-ui.css">
+    
+  
+    
+      <script type="text/javascript" src="test/jquery-ui.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="test/jquery_002.js"></script>
+    
+  
+    
+      <script type="text/javascript" src="test/jquery.js"></script>
+    
+  
+
+  <style type="text/css">
+    .box {position: absolute; width:300px; height: 300px; border: 1px black solid; top: 210px; z-index:10; left: 0px;}
+.box1 {background-color: #d0d0d0;}
+.box2 {position: absolute; top: 30px; left: 10px; width:200px; height: 200px; border: 1px blue solid; background-color: white;}
+.box.ui-resizable-disabled { opacity: 1.0; filter: Alpha(Opacity=100);}
+.infobox {position: absolute; width:400px; height: 175px; border: 1px green solid; font-size: 10px}
+li{ list-style-type: bold; padding: 0; margin-left: 36px;} 
+button {position: relative; left: 20px;}
+  </style>
+
+  <title>awesome resize skew rotate example by slashdottir</title>
+
+  
+    
+
+
+
+
+<script type="text/javascript">//<![CDATA[
+$(window).load(function(){
+$(function() {
+    //instructions and change log is in the jquery.transformable.js
+    //click "Manage Resouces to the left to get the link.
+    var b=$('.box');
+    var ib=$('.infobox');
+    b.draggable({stop: showinfo});
+    b.resizable({stop: showinfo});
+    b.transformable( {
+        rotateStop: showinfo,
+        skewStop: showinfo,
+        scaleStop: showinfo,
+        rotate: showrotate,
+        scale: constrainscale
+    });
+    
+    //containment is still a bit expiramental
+    $('#box3').draggable('option','containment','parent')
+        .transformable('option','containment',true)
+        .resizable('option','containment','parent');
+    
+    function constrainscale(e,ui) {
+        //uncomment to see how you can set value to constrain size
+        //if (ui.scalex<0.5) ui.scalex=0.5;
+        //if (ui.scaley<0.5) ui.scaley=0.5;
+    }
+    
+    function showrotate(e,ui) {
+        $('#rotate').html(ui.angle.rad);
+        //uncomment these to see how you can set the value to constrain angle
+        //if(ui.angle.rad>1)ui.angle.rad=1;
+        //if(ui.angle.rad<-1) ui.angle.rad=-1;
+    }
+    
+    function showinfo (e,ui) {
+        var u=$(this).getTransform();
+        var o=$(this).tOffset();
+        function xytostr(c) {
+            return(parseInt(c.x)+','+parseInt(c.y));
+        }
+        ib.html(
+            'Div Transformation Info:<ul>Current Matrix:<li>'
+            + $(this).matrixToArray()+'</li></ul><ul>Rotation:<li id="rotate">'
+            +u.rotate+'</li></ul><ul>Skew:<li>'
+            +u.skew+"</li></ul><ul>Scale:<li>"
+            +u.scale+'</li></ul><ul>Offset:<li>'
+            +'left:'+parseInt(o.left)+", top:"+parseInt(o.top)
+            +', right:'+parseInt(o.right)+'bottom:'+parseInt(o.bottom)
+            +'</li></ul>'
+            +'<ul>Corners:<li>lt:'+xytostr(o.corners[0])
+            +', rt:'+xytostr(o.corners[1])
+            +', rb:'+xytostr(o.corners[2])
+            +', lb:'+xytostr(o.corners[3])
+        );
+    }
+    $('.reset').click(function() {
+        $(this).parent().transformable('reset');
+        showinfo.call($(this).parent());
+    });
+});
+});//]]> 
+
+</script>
+
+  
+</head>
+
+<body>
+  <a target="_top" href="http://jsfiddle.net/aflin/vbSMy/embedded/result/">Full Screen Demo</a>
+<div class="box box1 ui-draggable ui-resizable">
+    <button class="reset">Reset Me</button>
+        <div class="box box2 ui-draggable ui-resizable">
+            <button class="reset">Reset Me</button><br>
+            <img src="test/Dogs_guardian_angel.jpg" height="119" width="200">  
+<br>this box is not contained<div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div style="z-index: 1001;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"></div><div title="Rotate" class="transformable-handle-rotate transformable-handle ui-icon ui-icon-arrowrefresh-1-s" style="right: 1px; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew x-axis" class="transformable-handle-skew-h transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-e-w" style="left: 50%; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew y-axis" class="transformable-handle-skew-v transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-n-s" style="right: 1px; top: 50%; position: absolute; z-index: 2000;"></div><div class="transformable-handle-scale transformable-handle ui-icon ui-icon-search" title="Scale" style="left: 1px; top: 1px; position: absolute; z-index: 2000;"></div></div>
+<div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div style="z-index: 1001;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"></div><div title="Rotate" class="transformable-handle-rotate transformable-handle ui-icon ui-icon-arrowrefresh-1-s" style="right: 1px; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew x-axis" class="transformable-handle-skew-h transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-e-w" style="left: 50%; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew y-axis" class="transformable-handle-skew-v transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-n-s" style="right: 1px; top: 50%; position: absolute; z-index: 2000;"></div><div class="transformable-handle-scale transformable-handle ui-icon ui-icon-search" title="Scale" style="left: 1px; top: 1px; position: absolute; z-index: 2000;"></div></div>
+<div class="box box1 ui-draggable ui-resizable" style="top:550px">
+    <button class="reset">Reset Me</button>
+        <div id="box3" class="box box2 ui-draggable ui-resizable">
+            <button class="reset">Reset Me</button><br>
+            <img src="test/200px-Week_z00.jpg" height="150" width="200">This one is contained<div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div style="z-index: 1001;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"></div><div title="Rotate" class="transformable-handle-rotate transformable-handle ui-icon ui-icon-arrowrefresh-1-s" style="right: 1px; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew x-axis" class="transformable-handle-skew-h transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-e-w" style="left: 50%; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew y-axis" class="transformable-handle-skew-v transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-n-s" style="right: 1px; top: 50%; position: absolute; z-index: 2000;"></div><div class="transformable-handle-scale transformable-handle ui-icon ui-icon-search" title="Scale" style="left: 1px; top: 1px; position: absolute; z-index: 2000;"></div></div>
+    <div style="bottom: 0px; left: 10px; position: absolute; font-size: 12px">An example with parent containment</div>
+<div class="ui-resizable-handle ui-resizable-e"></div><div class="ui-resizable-handle ui-resizable-s"></div><div style="z-index: 1001;" class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"></div><div title="Rotate" class="transformable-handle-rotate transformable-handle ui-icon ui-icon-arrowrefresh-1-s" style="right: 1px; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew x-axis" class="transformable-handle-skew-h transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-e-w" style="left: 50%; top: 1px; position: absolute; z-index: 2000;"></div><div title="Skew y-axis" class="transformable-handle-skew-v transformable-handle-skew transformable-handle ui-icon ui-icon-arrow-2-n-s" style="right: 1px; top: 50%; position: absolute; z-index: 2000;"></div><div class="transformable-handle-scale transformable-handle ui-icon ui-icon-search" title="Scale" style="left: 1px; top: 1px; position: absolute; z-index: 2000;"></div></div>
+<div class="infobox">Div Transformation Info:</div>
+  
+
+
+
+
+</body></html>

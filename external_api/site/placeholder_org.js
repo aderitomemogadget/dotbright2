@@ -1,0 +1,394 @@
+/****************************
+* jQuery PlaceHolder
+* Version: 2.4
+* Author: Zynaga
+* Release: 15-03-2012
+* jQ Required Version: 1.4.1
+*****************************
+* @params
+* @attr 		= 	String 	- 	Wich HTML attribute should the pluggin take as placeholder
+* @html5 		= 	Boolean - 	If tag supports html5 real placeholder, 
+								uses that instead of the plugin.
+****************************/
+
+(function($) {
+	
+	var methods = {
+		about: {
+			consoleName: null,
+			name: "jQuery Placeholder",
+			version: 2.4
+		},
+		warn: function () {
+		
+			return methods.options["warn"] ? console.warn(methods.about.consoleName, "\r\n", arguments[0], arguments[1]) : false;
+		
+		},
+		error: function () {
+			
+			return console.error(methods.about.consoleName, "\r\n", arguments[0], arguments[1]);
+			
+		},
+		options: null,
+		init: function(options) {
+			
+			methods.about.consoleName = methods.about.name + " v" + methods.about.version;
+			
+			var deny = ["checkbox", "radio", "hidden", "button", "submit", "image", "file", "reset"];
+			
+			var defaults = {
+				attr: "alt",
+				html5: false,
+				warn: false
+			}
+			
+			methods.options = $.extend(defaults, options);
+			
+			return this.each(function() {
+				
+				var $this = $(this);
+				
+				if (!$this.is("input, textarea")) {
+					methods.warn("Invalid selector element", $this);
+					return;
+				} else if ($.inArray($this.attr("type"), deny) >= 0) {
+					methods.warn("Invalid selector input type", $this.attr("type"));
+					return;
+				} else if (typeof $this.attr(methods.options.attr) == "undefined") {
+					methods.warn("Element does not support specified attribute", $this);
+					return;
+				} else if ($this.attr(methods.options.attr).length == 0) {
+					methods.warn("No text defined on attribute", methods.options.attr);
+					return;
+				}
+				
+				// NO NEED IF HTML5 SUPPORT
+				if ("placeholder" in $this && $this.attr("placeholder") == "" && methods.options.html5 == true) {
+					$this.attr("placeholder", $this.attr("alt"));
+					return;
+				}
+				
+				var data = $this.data('placeholder');
+		
+				if (!data) {
+				
+					var placeholder = {
+						settings: methods.options,
+						source: $this.hide(),
+						core: $,
+						className: {
+							core: "jquery-placeholder"
+						},
+						methods: {
+							init: function () {
+								
+								if (typeof placeholder.core == "object") {
+									placeholder.core.remove();
+								}
+								
+								if (!placeholder.source.attr("title")) {
+									placeholder.source.attr({
+										"title": placeholder.source.attr("alt")
+									});
+								}
+								
+								
+								placeholder.core.insertAfter(placeholder.source);
+								
+								placeholder.core.attr({
+									"id": "",
+									"alt": "",
+									"readonly": "readonly",
+									"name":	"",
+									"class": placeholder.source.attr("class"),
+									"style": placeholder.source.attr("style")
+								});
+								
+								placeholder.core.addClass(placeholder.className.core);
+								
+								placeholder.core.val(placeholder.source.attr(placeholder.settings.attr));
+								
+								placeholder.methods.input.core.bind();
+								placeholder.methods.input.source.bind();
+								
+								placeholder.core.show();
+								
+								placeholder.events.input.source.blur(null);
+								placeholder.events.input.resize(null);
+								
+								if (placeholder.source.attr("id")) {
+									var id = placeholder.source.attr("id");
+									$("label[for=" + id).unbind("click", placeholder.events.label.click);
+									$("label[for=" + id).bind("click", placeholder.events.label.click);
+								}
+								
+							},
+							input: {
+								core: {
+									bind: function () {
+										
+										placeholder.core.unbind();
+										
+										placeholder.core.bind("focus", placeholder.events.input.core.focus);
+										
+										placeholder.core.bind("mouseup", placeholder.events.input.resize);
+										
+									}
+								},
+								source: {
+									bind: function () {
+									
+										placeholder.source.unbind("change", placeholder.events.input.source.change);
+										placeholder.source.bind("change", placeholder.events.input.source.change);
+										
+										placeholder.source.unbind("focus", placeholder.events.input.source.focus);
+										placeholder.source.bind("focus", placeholder.events.input.source.focus);
+										
+										placeholder.source.unbind("blur", placeholder.events.input.source.blur);
+										placeholder.source.bind("blur", placeholder.events.input.source.blur);
+										
+										placeholder.source.unbind("mouseup", placeholder.events.input.resize);
+										placeholder.source.bind("mouseup", placeholder.events.input.resize);
+									
+									}
+								}
+							}
+						},
+						events: {
+							input: {
+								source: {
+									change: function (e) {
+										
+										placeholder.events.input.source.blur(e);
+										
+									},
+									focus: function (e) {
+										
+										placeholder.core.hide();
+										placeholder.source.show();
+										
+										placeholder.methods.input.core.bind();
+										
+									},
+									blur: function (e) {
+										
+										if (placeholder.source.val() == "") {
+											
+											placeholder.core.show();
+											placeholder.source.hide();
+											
+										} else {
+										
+											placeholder.core.hide();
+											placeholder.source.show();
+										
+										}
+										
+									}
+								},
+								core: {
+									focus: function(e){
+										
+										placeholder.core.hide();
+										placeholder.source.show().focus();
+										
+										return false;
+										
+									}
+								},
+								resize: function (e) {
+									
+									if (placeholder.core.is(":visible")) {
+										if (placeholder.source.width() != placeholder.core.width()) {
+											placeholder.source.width(placeholder.core.width());
+										}
+										if (placeholder.source.height() != placeholder.core.height()) {
+											placeholder.source.height(placeholder.core.height());
+										}
+									} else {
+										if (placeholder.core.width() != placeholder.source.width()) {
+											placeholder.core.width(placeholder.source.width());
+										}
+										if (placeholder.core.height() != placeholder.source.height()) {
+											placeholder.core.height(placeholder.source.height());
+										}
+									}
+									
+									return false;
+								}
+							},
+							label: {
+								click: function (e) {
+								
+									var id = $(this).attr("for");
+									
+									$("#" + id).trigger("focus");
+									
+									return true;
+								
+								}
+							}
+						}
+					}
+					
+					if ($this.is("textarea")) {
+						placeholder.core = $("<textarea></textarea>");
+					} else {
+						placeholder.core = $("<input type='text' />");
+					}
+						
+				
+					$this.data("placeholder", { 
+						"target": $this,
+						"placeholder": placeholder
+					});
+					
+					data = $this.data("placeholder");
+					
+					data.placeholder.core.data("placeholder", {
+						"target": $this
+					});
+					
+					
+					data.placeholder.methods.init();
+				
+				} else {
+				
+					if (!data["placeholder"] && data["target"]) {
+						data = data.target.data("placeholder");
+					}
+					
+					if (data == null) {
+						return;
+					}
+				
+					data.placeholder.settings = options;
+				
+				}
+				
+			});
+			
+		},
+		reload: function() {
+			
+			return this.each(function(){
+				
+				var $this = $(this);
+				var data = $this.data("placeholder");
+				
+				if (data != null) {
+					data = data.target.data("placeholder");
+				}
+				
+				if (data == null) {
+					return;
+				}
+				
+				data.placeholder.methods.init();
+			
+			});
+			
+		},
+		destroy: function() {
+			
+			return this.each(function(i){
+				
+				var $this = $(this);
+				var data = $this.data("placeholder");
+					
+				if (data != null) {
+					data = data.target.data("placeholder");
+				}
+				
+				if (data == null) {
+					return;
+				}
+				
+				data.placeholder.source.show();
+				data.placeholder.core.remove();
+				
+				data.placeholder.source.unbind("change", data.placeholder.events.input.source.change);
+				data.placeholder.source.unbind("focus", data.placeholder.events.input.source.focus);
+				data.placeholder.source.unbind("blur", data.placeholder.events.input.source.blur);
+				
+				$this.removeData("placeholder");
+			
+			})
+
+		}, 
+		change: function() {
+			
+			return this.each(function(){
+				
+				var $this = $(this);
+				var data = $this.data("placeholder");
+				
+				if (data != null) {
+					data = data.target.data("placeholder");
+				}
+				
+				if (data == null) {
+					return;
+				}
+				
+				data.placeholder.source.change();
+			
+			});
+			
+		},
+		option: function(option, value) {
+			
+			return this.each(function(i){
+					
+				var $this = $(this);
+				var data = $this.data("placeholder");
+				
+				if (data != null) {
+					data = data.target.data("placeholder");
+				}
+				
+				if (data == null) {
+					return;
+				}
+				
+				if (typeof option == "object") {
+					
+					data.placeholder.settings = $.extend(data.placeholder.settings, option);
+					
+				} else {
+				
+					data.placeholder.settings[option] = value;
+					
+				}
+				
+				data.placeholder.methods.init(data.placeholder.settings);
+			
+			});
+			
+		}
+	};
+	
+	$.fn.placeholder = function(method) {
+		
+		if (typeof methods[method] === "function") {
+			
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+			
+		} else if (typeof method === 'object' || !method) {
+			
+			return methods.init.apply(this, arguments);
+			
+		} else {
+		
+			methods.error("Invalid method", method);
+			return this;
+			
+		}   
+	
+	}
+	
+})(jQuery);  
+
+$(document).ready(function () {
+	$("input:text, input:password, textarea").placeholder();
+});

@@ -1,0 +1,69 @@
+.db-order-detail,
+.db-order-detail > table,
+.db-order-detail #area_impressao {
+  width: 100%;
+  max-width: 100%;
+  table-layout: fixed;
+}
+
+.db-order-detail :is(.db-order-customer, .db-order-addresses) > tbody > tr > td {
+  display: block;
+  box-sizing: border-box;
+  width: 100% !important;
+}
+
+.db-order-detail .db-order-fields,
+.db-order-detail .db-order-fields > tbody {
+  display: block;
+  width: 100%;
+}
+
+.db-order-detail .db-order-fields > tbody > tr {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+.db-admin #content .db-order-detail .db-order-fields > tbody > tr > td {
+  min-width: 0;
+  width: auto !important;
+  overflow-wrap: break-word;
+}
+
+.db-order-detail .db-order-fields > tbody > .db-order-payment {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.db-order-detail .db-order-payment > td:first-child {
+  display: none;
+}
+
+.db-order-detail .db-order-payment table {
+  box-sizing: border-box;
+  width: 100% !important;
+  max-width: 100%;
+}
+
+.db-order-detail .db-order-payment img {
+  max-width: min(100%, 110px);
+  height: auto;
+}
+
+.db-order-detail .db-order-products {
+  table-layout: fixed;
+}
+
+.db-admin #content .db-order-detail .db-order-products-scroll {
+  overflow-x: auto;
+}
+
+.db-admin #content .db-order-detail .db-order-products-grid {
+  min-width: 900px;
+}
+
+.db-admin #content .db-order-detail .db-order-products-grid > tbody > tr > td {
+  overflow-wrap: break-word;
+}
+
+.db-order-detail .db-order-products-grid > tbody > tr > td:nth-child(3) {
+  min-width: 180px;
+}

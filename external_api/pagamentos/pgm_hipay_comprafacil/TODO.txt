@@ -1,0 +1,13 @@
++---------------------------------------------+
+| TODO                                        |
++---------------------------------------------+
+
+// Geral
+* Adicionar método para gerar referência temporária s\ valor e s\ informação do cliente
+* Adicionar método para gerar referência temporária s\ valor e c\ informação do cliente
+* Adicionar método para gerar referência s\ limite c\ valor e s\ informação do cliente
+* Adicionar método para gerar referência s\ limite c\ valor e c\ informação do cliente
+* Adicionar método para gerar referência s\ limite s\ valor e s\ informação do cliente
+* Adicionar método para gerar referência s\ limite s\ valor e c\ informação do cliente
+* Adicionar método para recolher referência PayShop
+* Adicionar método para testar se uma referência PayShop foi paga

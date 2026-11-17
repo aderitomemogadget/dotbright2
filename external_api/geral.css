@@ -1,0 +1,68 @@
+/*html, body, form, fieldset, table, tr, td, img {margin:0;padding:0;font:100%/150% verdana,arial;letter-spacing:0.005em;}
+input, button, select, textarea, optgroup, option {font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+body {font-size:0.875em;transition:background-color 3s ease}
+ul, ol {margin:30px 0;padding:0;}
+p{margin:30px 0;}*/
+.checklist li {padding-left:1.3em;}
+.checklist li::before {
+    content:"\f00c";
+    font-family:FontAwesome;
+    display:inline-block;
+    margin-left:-1.3em;
+    width:1.3em;
+}
+#mobile-menu button img{height:15px;width:auto;}
+#mobile-menu a img{height:15px;width:auto;}
+.search .bt_search{float:right}
+.search .input_search{width:auto;border:none}
+.navbar-toggle{font-size:16px !important}
+.navbar-inner .search{text-align:left;padding:15px 15px;margin:15px 5px;background-color:#fff;border:1px solid #ccc}
+
+.navbar-inner .search #search{border:1px solid #ccc !important}
+.navbar-inner a img:hover{opacity:0.8}
+header .row #header_logo a img:hover{opacity:0.8}
+.cart-bonus .itensvalue:hover{opacity:0.8}
+.cart-bonus .itens:hover{opacity:0.8}
+.cursor:hover{opacity:0.8}
+
+.col-sm-1,.col-sm-2,.col-sm-3,.col-sm-4,.col-sm-5,.col-sm-6,.col-sm-7,.col-sm-8,.col-sm-9,.col-sm-10,.col-sm-11,.col-sm-12{float:left}
+.modal-open .modal {overflow:auto;/*display:flex;*/align-items:center;justify-content:center}
+
+
+
+
+/* MENUS */
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, a, .dropcap.clean {color:#d42e12}
+#resp-menu li {line-height:30px}
+#resp-menu li:not(:last-child){border-bottom:1px solid rgba(255,255,255,0.1)}
+#resp-menu li {padding:5px 0;line-height:30px}
+.mainarrow {float:right}
+a:hover, a:active, a:link {outline:0 !important;text-decoration:none !important}
+.btn-pesq {border:none;background:#d42e12;border-radius:20px;padding:3px 10px;color:#ffffff}
+.txtpesquisa{border-radius:20px;border:none;padding:3px 10px;background:#d42e12;color:#ffffff;outline:0 !important}
+.newsletter-momenu #m_email {height:40px;background:#d42e12;border:none;color:#ffffff;border-top-left-radius:20px;border-bottom-left-radius:20px;padding-left:10px}
+.newsletter-momenu input {height:40px}
+#mobile-menu {margin: 12px 10px 0 0}
+.newsletter-redes {text-align:center;margin:10px auto}
+.newsletter-redes a {margin:10px}
+#resp-menu li:not(:last-child) {border-bottom:1px solid rgba(255,255,255,0.1)}
+#resp-menu li {padding:5px 0;line-height:30px}
+
+.modal-backdrop{position:relative !important}
+
+@media only screen and (max-width :768px)
+{
+	.breadcrumbs .container {margin-bottom:15px}
+	.breadcrumbs ul {padding:10px 0;margin:0;display:inline-block;line-height:0}
+	.breadcrumbs ul li:first-child {padding-left:0}
+	.breadcrumbs ul li {display:inline-block;vertical-align:middle;list-style-type:none;position:relative;padding-left:7px}
+	#resp-menu {text-align:left;padding:0 15px;margin:0 -15px;clear:both;box-shadow:none}
+	#resp-menu > li > a {padding:10px 10px}
+	#lang-menu > li > a {padding:10px 10px}
+
+	.footer3{padding:15px}
+	.footer2{padding:15px}
+	.m_social{font-size:16px}
+	.fix_container{margin:auto}
+	nav.powerlistmenu .join-m > a {font-size:14px}
+}

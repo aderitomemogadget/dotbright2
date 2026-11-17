@@ -1,0 +1,1 @@
+<?php if(isset($_GET['file_del']) && $_GET['file_del']!='') unlink(str_replace('?embedded=true','',$_GET['file_del']));?>

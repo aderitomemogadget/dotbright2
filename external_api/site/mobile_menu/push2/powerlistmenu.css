@@ -1,0 +1,76 @@
+nav.powerlistmenu {display:block;position:relative;width:280px;height:100%;overflow-x:hidden;overflow-y:scroll;}
+nav.powerlistmenu div.loadingscreen{position:absolute;z-index:1001;width:100%;height:100%;background:black;color:white;font-weight:bold;opacity:0.7;text-align:center;vertical-align:middle}
+nav.powerlistmenu div.loadingscreen > *{position:relative;top:50%;transform:translateY(-50%)}
+
+nav.powerlistmenu div.drawer{position:absolute;height:100%;list-style:none;margin:0;padding:0;overflow-y:auto;left:0;top:0;background:#fff;font-weight:bold}
+nav.powerlistmenu div.drawer.submenu{}
+
+nav.powerlistmenu div.drawer{height:100vh}
+
+nav.powerlistmenu div.drawer div.breadcrumb{display:block;float:left;margin-top:0;padding:10px;border-bottom:1px solid #FFF;background:#f9f9f9;font-weight:bold;cursor:pointer;text-align:left;color:#403a3b;line-height:20px;margin-bottom:10px;text-transform:uppercase;font-size:15px}
+nav.powerlistmenu div.drawer div.breadcrumb span.left{margin-right:5px;font-weight:normal;font-size:18px;color:#403a3b}
+nav.powerlistmenu div.drawer div.breadcrumb svg.left{margin-right:5px;font-weight:normal;font-size:18px;color:#403a3b;padding-top:5px}
+
+nav div.drawer ul{margin:0;padding:10px;padding-top:10px;padding-right:10px;padding-top:10px;list-style:none}
+nav.powerlistmenu div.drawer ul li{}
+
+nav.powerlistmenu div.drawer ul li a{text-transform:uppercase !important;text-decoration:none;display:block;padding:6px;color:#403a3b;border-bottom:1px solid rgba(0, 0, 0, 0.1);text-align:left;font:500 12px "Montserrat",Arial,Helvetica,sans-serif}
+nav.powerlistmenu div.drawer ul li a img{height:18px;margin-right:5px}
+nav.powerlistmenu div.drawer .loginbox{display:block;position:relative;right:0;top:0;z-index:0;padding:0;border:none}
+nav.powerlistmenu div.drawer ul li a:hover{color:#000}
+nav.powerlistmenu div.drawer ul li a span.right{position:absolute;right:8px;font-weight:bold;font-size:18px}
+nav.powerlistmenu div.drawer ul li a svg.right{position:absolute;right:8px;font-weight:bold;font-size:18px}
+nav.powerlistmenu div.drawer ul li.login-m a span.right{display:none}
+nav.powerlistmenu div.drawer ul li.login-m a svg.right{display:none}
+
+nav.powerlistmenu2 {position:relative;width:280px;min-height:600px;overflow:hidden}
+nav.powerlistmenu2 .select{text-align:center !important}
+nav.powerlistmenu2 .select a{text-align:center !important;color:#50c0bd !important}
+nav.powerlistmenu2 .select2{text-align:center !important}
+nav.powerlistmenu2 .select2 a{text-align:center !important;color:#50c0bd !important;border-bottom:none !important}
+nav.powerlistmenu2 .picture{text-align:center !important}
+nav.powerlistmenu2 .picture a{text-align:center !important;color:#000 !important;background:#e3e3e4;border-bottom:none !important}
+nav.powerlistmenu2 .join-m{width:50%;float:left}
+nav.powerlistmenu2 .join-m > a{border-bottom:none !important}
+nav.powerlistmenu2 .login-m{width:50%;float:left;text-align:right}
+nav.powerlistmenu2 .pesqm{}
+nav.powerlistmenu2 .pesqm a{border:none !important}
+nav.powerlistmenu2 .pesqm > .line{border-bottom:1px solid #000}
+nav.powerlistmenu2 .pesquisa-m{width:31px;float:left;text-align:right;cursor:pointer;font-size:18px}
+nav.powerlistmenu2 .text-m{float:left !important;width:222px !important;position:relative !important;background-image:url(../../../layout/umbigo/images_mobile/bg.png) !important;background-position:0 39px;background-repeat:repeat-x}
+nav.powerlistmenu2 .text-m input{width:100%;height:30px;border:#FFF 1px solid;-webkit-appearance:none}
+nav.powerlistmenu2 .text-m span{position:absolute;right:-11px;top:0;width:48px}
+nav.powerlistmenu2 .login-m > a{text-align:right !important;border-bottom:none !important}
+nav.powerlistmenu2 .login-m > a .fa-user{background:url(../../../layout/umbigo/images/ios-person-contour.svg) no-repeat;width:21px;background-size:cover;text-indent:-9999999 !important}
+nav.powerlistmenu2 .login-m > a.online .fa-user{background:url(../../../layout/umbigo/images/ios-person.svg) no-repeat;width:21px;background-size:cover;text-indent:-9999999 !important}
+nav.powerlistmenu2 .login-m > a .fa-user:before{content:" "}
+nav.powerlistmenu2 .login-m:after{clear:both}
+nav.powerlistmenu2 div.loadingscreen{position:absolute;z-index:1001;width:100%;height:100%;background:black;color:white;font-weight:bold;opacity:0.7;text-align:center;vertical-align:middle}
+nav.powerlistmenu2 div.loadingscreen > *{position:relative;top:50%;transform:translateY(-50%)}
+nav.powerlistmenu2 div.drawer{position:absolute;width:100%;height:100%;list-style:none;margin:0;padding:0;overflow-y:auto;left:0;top:0;background:#f5f5f5;font-weight:bold;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+nav.powerlistmenu2 div.drawer.submenu{}
+nav.powerlistmenu2 div.drawer div.breadcrumb{position:relative;margin:0 10px 16px 16px;border-bottom:1px solid #000;background:#f5f5f5;font-weight:normal;cursor:pointer;text-align:center;color:#50c0bd;line-height:27px;margin-bottom:2px;text-transform:uppercase;border-radius:0;text-transform:lowercase;padding-left:0}
+nav.powerlistmenu2 div.drawer div.breadcrumb span.left{margin-right:5px;font-weight:normal;font-size:24px;color:#000;float:left}
+nav.powerlistmenu2 div.drawer ul li{}
+nav.powerlistmenu2 div.drawer ul li a{text-decoration:none;display:block;padding:10px 0;color:black;border-bottom:1px solid #000;text-align:left;font-size:17px;font-weight:normal;text-transform:lowercase}
+nav.powerlistmenu2 div.drawer ul li a:hover{color:#50c0bd}
+nav.powerlistmenu2 div.drawer .loginbox{display:block;position:relative;right:0;top:0;z-index:0;padding:0;border:none}
+nav.powerlistmenu2 div.drawer ul li a span.right{position:absolute;right:8px;font-weight:normal;font-size:30px}
+nav.powerlistmenu2 div.drawer ul li a svg.right{position:absolute;right:8px;font-weight:normal;font-size:30px}
+nav.powerlistmenu2 div.drawer ul li.login-m a span.right{display:none}
+nav.powerlistmenu2 div.drawer ul li.login-m a svg.right{display:none}
+
+nav.powerlistmenu .reservado{}
+nav.powerlistmenu .join-m{width:50%;float:left}
+nav.powerlistmenu .join-m > a{border-bottom:none;font-size:15px}
+nav.powerlistmenu .login-m{width:50%;float:left;text-align:right}
+nav.powerlistmenu .pesqm{}
+nav.powerlistmenu .pesqm a{border:none !important}
+nav.powerlistmenu .pesqm > .line{border-bottom:1px solid #c2c0c1}
+nav.powerlistmenu .pesquisa-m{width:31px;float:left;text-align:right;cursor:pointer}
+nav.powerlistmenu .text-m{float:left !important;width:222px !important;position:relative !important}
+nav.powerlistmenu .text-m input{width:100%;height:30px;border:#c2c0c1 1px solid;-webkit-appearance:none}
+nav.powerlistmenu .text-m span{position:absolute;right:-11px;top:0;width:48px}
+nav.powerlistmenu .text-m svg{position:absolute;right:-11px;top:0;width:48px}
+nav.powerlistmenu .login-m > a{text-align:right !important;border-bottom:none !important;font-size:16px !important}
+nav.powerlistmenu .login-m:after{clear:both}

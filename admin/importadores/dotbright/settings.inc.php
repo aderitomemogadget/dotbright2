@@ -1,0 +1,21 @@
+<?php
+	$path="../../../core/";
+	include $path.'core_files.php';
+	include $path.'admin_globals.php';
+	include 'funcoes.inc.php';
+	define('FILE_PATH','../../../files/importar/');
+	define("IMPORT_POS_FAMILIA",0);
+	define("IMPORT_POS_REF",1);
+	define("IMPORT_POS_NOME",2);
+	define("IMPORT_POS_MODELO",3);	
+	define("IMPORT_POS_PVP",4);
+	define("IMPORT_POS_PVP_PROMO",5);
+	define("IMPORT_POS_PROMO",6);
+	define("IMPORT_POS_DESTAQUE",7);
+	define("IMPORT_POS_STOCK",8);
+	define("IMPORT_POS_PESO",9);
+	define("IMPORT_POS_MEDIDAS",10);
+	define("IMPORT_POS_SINONIMOS",11);
+	define("IMPORT_POS_CARRINHO",12);
+	define("IMPORT_POS_VISIVEL",13);
+	define("IMPORT_POS_ORDEM",14);

@@ -1,0 +1,1 @@
+a:6:{s:6:"status";s:2:"ok";s:7:"message";a:1:{i:0;s:37:"Your request was successfully created";}s:2:"id";s:36:"39d9ec17-566f-49e8-8ccf-d9e952a59be8";s:6:"method";a:2:{s:4:"type";s:3:"mbw";s:6:"status";s:7:"pending";}s:8:"customer";a:1:{s:2:"id";s:36:"e8c2ca85-43d2-4b8f-88a7-eb271a5c6b5f";}s:7:"capture";a:1:{s:2:"id";s:36:"adf7850f-c537-409c-a9f1-85d7fe80090c";}}

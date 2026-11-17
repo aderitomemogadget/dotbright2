@@ -1,0 +1,48 @@
+/* Accessibility and responsive refinements shared by Admin and RMA sign-in. */
+body.auth-body {
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.auth-button,
+.auth-links a {
+  transition: filter 180ms ease, transform 180ms ease,
+    color 180ms ease, box-shadow 180ms ease;
+}
+
+.auth-button:active { transform: translateY(1px); }
+
+.auth-button:focus-visible,
+.auth-links a:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 800px) {
+  body.auth-body { padding: 16px; }
+  .auth-shell { border-radius: 20px; }
+  .auth-panel { min-height: 0; padding: 36px 26px; }
+  .auth-panel h2 { font-size: 28px; }
+  .auth-links { align-items: center; flex-wrap: wrap; }
+  .auth-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-panel { padding: 32px 20px; }
+  .auth-links { flex-direction: column; align-items: flex-start; gap: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field input,
+  .auth-button,
+  .auth-links a { transition: none; }
+  .auth-button:active { transform: none; }
+}

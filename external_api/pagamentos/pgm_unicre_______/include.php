@@ -1,0 +1,4 @@
+<?php
+	$path = dirname( __FILE__ ).'/../../../core/';
+	require_once $path.'core_files.php';
+?>
