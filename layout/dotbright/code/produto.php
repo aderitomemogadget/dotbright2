@@ -2684,37 +2684,51 @@ REPAIR_CUSTOMER_PANEL;
 </div>
 REPAIR_ADDRESS_PANEL;
 
-						$return .= '<div id="passo3" class="reparacao-painel" style="display:none">';
-                        $return .= '<h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 4 de 4 — Resumo e conclusão do pedido</h2>';
-
-
-							
-							$return .= '<div style="width:100%;float:left;margin-top:50px;color:#ff8900;font-weight:600">RESUMO E CONCLUSÃO DO SEU PEDIDO DE PREPARAÇÃO DE EQUIPAMENTO:</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">O seu pedido de recolha está quase concluído!</div>';
-
-							$return .= '<div style="width:100%;float:left;border-radius:10px;border:solid 1px #ccc;margin-top:10px;padding:15px">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;color:#ff8900">Resumo dos seus dados</div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Nome completo: <span id="resumo_nome"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Morada para recolha: <span id="resumo_recolha"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Morada para entrega: <span id="resumo_entrega"></span></div>';
-
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Código Postal: <span id="resumo_CP"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Telemovel: <span id="resumo_telefone"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Email: <span id="resumo_email"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Recolha: <span id="resumo_periodoRecolha"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">NIF: <span id="resumo_nif"></span></div>';
-
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;color:#ff8900;margin-top:10px">Resumo dos seus dados Faturação</div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Nome completo: <span id="resumo_nome2"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Morada: <span id="resumo_morada"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Código Postal: <span id="resumo_CP2"></span></div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">NIF: <span id="resumo_nif2"></span></div>';
-							$return .= '</div>';
-
-							$return .= '<div style="width:100%;float:left;border-radius:10px;border:solid 1px #ccc;margin-top:10px;padding:15px">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;color:#ff8900">Resumo da avaria</div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">';
-
+                        $return .= <<<'REPAIR_SUMMARY_OPEN'
+<div id="passo3" class="reparacao-painel db-summary-panel" style="display:none">
+    <div class="db-summary-header">
+        <span class="db-summary-step"><b>4</b> Etapa 4 de 4</span>
+        <h2 class="reparacao-etapa-titulo" tabindex="-1">Resumo e conclusão do pedido</h2>
+    </div>
+    <div class="db-summary-content">
+        <p class="db-summary-intro">O seu pedido de recolha está quase concluído! Confirme os dados antes de concluir.</p>
+        <div class="db-summary-columns">
+            <div class="db-summary-main">
+                <div class="db-summary-data-grid">
+                    <section class="db-summary-card" aria-labelledby="repair-summary-customer">
+                        <h3 id="repair-summary-customer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M3 22v-3a9 9 0 0 1 18 0v3Z"/></svg><span>Dados do cliente</span></h3>
+                        <dl class="db-summary-data">
+                            <div><dt>Nome completo</dt><dd id="resumo_nome"></dd></div>
+                            <div><dt>Telemóvel</dt><dd id="resumo_telefone"></dd></div>
+                            <div><dt>Email</dt><dd id="resumo_email"></dd></div>
+                            <div><dt>NIF</dt><dd id="resumo_nif"></dd></div>
+                        </dl>
+                    </section>
+                    <section class="db-summary-card" aria-labelledby="repair-summary-billing">
+                        <h3 id="repair-summary-billing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h10l4 4v16H5ZM15 2v5h4M8 11h8M8 15h8M8 19h5"/></svg><span>Dados de faturação</span></h3>
+                        <dl class="db-summary-data">
+                            <div><dt>Nome completo</dt><dd id="resumo_nome2"></dd></div>
+                            <div><dt>Morada</dt><dd id="resumo_morada"></dd></div>
+                            <div><dt>Código Postal</dt><dd id="resumo_CP2"></dd></div>
+                            <div><dt>NIF</dt><dd id="resumo_nif2"></dd></div>
+                        </dl>
+                    </section>
+                </div>
+                <section class="db-summary-card db-summary-address" aria-labelledby="repair-summary-address">
+                    <h3 id="repair-summary-address"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Recolha e entrega</span></h3>
+                    <dl class="db-summary-data db-summary-address-data">
+                        <div><dt>Morada para recolha</dt><dd id="resumo_recolha"></dd></div>
+                        <div><dt>Código Postal</dt><dd id="resumo_CP"></dd></div>
+                        <div><dt>Morada para entrega</dt><dd id="resumo_entrega"></dd></div>
+                        <div><dt>Período de recolha</dt><dd id="resumo_periodoRecolha"></dd></div>
+                    </dl>
+                </section>
+            </div>
+            <div class="db-summary-side">
+                <section class="db-summary-card" aria-labelledby="repair-summary-service">
+                    <h3 id="repair-summary-service"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m14 7-9 9a3 3 0 0 0 4 4l9-9M14 7a5 5 0 0 1 6-5l-3 3 2 2 3-3a5 5 0 0 1-6 6"/></svg><span>Resumo da avaria</span></h3>
+                    <div class="db-summary-service">
+REPAIR_SUMMARY_OPEN;
 								$return .= rtrim($prods['prod_nome'], '-').'<br>';
 								if($prods['prod_ref']) $return .= '<b>REF:</b> '.$prods['prod_ref'].'<br>';
 								if($prods['Ref_Ean']) $return .= '<b>EAN:</b> '.$prods['Ref_Ean'].'<br>';
@@ -2735,52 +2749,32 @@ REPAIR_ADDRESS_PANEL;
 								}	
 
 
-							$return .= '</div>';
-							$return .= '</div>';
-
-							$portes=3.9837;
-							$iva_portes=4.90-3.9837;
-
-							$return .= '<div style="width:100%;float:left;border-radius:10px;border:solid 1px #ccc;margin-top:10px;padding:15px">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;color:#ff8900">Valor estimado</div>';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">';
-									$return .= '<div style="width:33%;float:left">AVARIA<br>'.numberformat($pvp_sem_iva).'</div>';
-									$return .= '<div style="width:33%;float:left">PORTES<br>'.numberformat($portes).'</div>';
-									$return .= '<div style="width:33%;float:left">IVA: '.numberformat($pvp_com_iva-$pvp_sem_iva+$iva_portes).'<br></div>';
-									$return .= '<div style="width:33%;float:left">TOTAL: '.numberformat($pvp_com_iva+$portes).'</div>';
-								$return .= '</div>';
-							$return .= '</div>';
-
-							$return .= '
-							<div style="width:100%;float:left;border-radius:10px;border:solid 1px #ccc;margin-top:10px;padding:15px">
-
-							<div class="checkbox" style="width:100%;float:left;font-size:11px;font-weight:600">
-					            <label for="m_termos" style="color:#000"> <input type="checkbox" id="m_termos" name="m_termos" value="1"> <strong>Li e Aceito os Termos e Condições</strong><span class="mandatory">*</span> </label> (<a href="p37-termos-e-condicoes-pt?popup=1" class="fancy_content">Ler os termos e condições</a>)
-					            <br><label for="m_termos1" style="color:#000"> <input type="checkbox" id="m_termos1" name="m_termos1" value="1"> <strong>Li e Aceito os Termos de Confidencialidade </strong><span class="mandatory">*</span> </label> (<a href="p43-politica-de-privacidade-pt?popup=1" class="fancy_content">Política de Privacidade</a>)
-					        </div>
-
-					        </div>
-
-					        ';
-
-
-
-
-							/*
-							$return .= '<div style="width:100%;float:left;border:solid 1px #ccc;margin-top:10px;background-color:#f5f5f5;padding:15px">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Antes de concluir, considere aproveitar esta oportunidade para <span style="color:#ff8900">reparar outros equipamentos</span> que necessitem da sua atenção ou de alguma melhoria técnica ou até estética. Veja algumas sugestões:</div>';
-							$return .= '</div>';
-							*/
-
-
-							$return .= '<div style="width:100%;float:left;margin-top:50px;background-color:#9f9f9f;border-radius:10px;text-align:center;color:#fff;padding:5px;cursor:pointer" onclick="reparacaoEtapa(3)">RETROCEDER E CORRIGIR</div>';
-							
-							$return .= '<div style="width:100%;float:left;margin-top:5px;font-weight:600">Observações:</div>';
-							$return .= '<div style="width:100%;float:left;font-weight:600;font-size:10px">Após submeter este pedido, irá receber um email de confirmação do seu pedido de recolha.</div>';
-							$return .= '<button type="button" style="width:100%;float:left;margin-top:5px;background-color:#ff8900;border:soldi 1px #ff8900;border-radius:10px;text-align:center;color:#fff;padding:5px;cursor:pointer" onclick="passo4()">CONCLUIR PEDIDO</button>';
-
-
-						$return .= '</div>';
+                        $return .= '</div></section>';
+                        $portes=3.9837;
+                        $iva_portes=4.90-3.9837;
+                        $return .= '<section class="db-summary-card db-summary-amounts" aria-labelledby="repair-summary-amounts"><h3 id="repair-summary-amounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M7 6h10M7 11h3M14 11h3M7 15h3M14 15h3M7 19h3M14 19h3"/></svg><span>Valor estimado</span></h3><dl class="db-summary-prices"><div><dt>Avaria</dt><dd>'.numberformat($pvp_sem_iva).'</dd></div><div><dt>Portes</dt><dd>'.numberformat($portes).'</dd></div><div><dt>IVA</dt><dd>'.numberformat($pvp_com_iva-$pvp_sem_iva+$iva_portes).'</dd></div><div class="db-summary-total"><dt>Total</dt><dd>'.numberformat($pvp_com_iva+$portes).'</dd></div></dl></section>';
+                        $return .= <<<'REPAIR_SUMMARY_CLOSE'
+            </div>
+        </div>
+        <section class="db-summary-terms" aria-labelledby="repair-summary-terms">
+            <h3 id="repair-summary-terms">Confirmação do pedido</h3>
+            <div class="db-summary-consent">
+                <label for="m_termos"><input type="checkbox" id="m_termos" name="m_termos" value="1"><span>Li e aceito os <strong>Termos e Condições</strong> <span class="mandatory">*</span></span></label>
+                <a href="p37-termos-e-condicoes-pt?popup=1" class="fancy_content">Ler os termos e condições</a>
+            </div>
+            <div class="db-summary-consent">
+                <label for="m_termos1"><input type="checkbox" id="m_termos1" name="m_termos1" value="1"><span>Li e aceito os <strong>Termos de Confidencialidade</strong> <span class="mandatory">*</span></span></label>
+                <a href="p43-politica-de-privacidade-pt?popup=1" class="fancy_content">Política de Privacidade</a>
+            </div>
+        </section>
+        <p class="db-summary-note"><strong>Observações:</strong> Após submeter este pedido, irá receber um email de confirmação do seu pedido de recolha.</p>
+    </div>
+    <div class="reparacao-navegacao">
+        <button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(3)">Voltar e corrigir</button>
+        <button type="button" class="reparacao-avancar" onclick="passo4()">Concluir pedido <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
+    </div>
+</div>
+REPAIR_SUMMARY_CLOSE;
 
 					$return .= '</form>';
 

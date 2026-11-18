@@ -119,7 +119,73 @@
 #passo2 .reparacao-navegacao .reparacao-avancar { min-width: 230px; background: linear-gradient(110deg, #ff9100, #ff6900); color: #fff; }
 #passo2 .reparacao-navegacao svg { width: 20px; height: 20px; }
 #passo2 button:focus-visible, #passo2 input[type="radio"]:focus-visible { outline: 3px solid #ffb66c; outline-offset: 3px; }
+#reparacao-formulario #passo3.db-summary-panel {
+  --summary-ink: #071c31;
+  --summary-orange: #ff7900;
+  border: 1px solid #dce1ea;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 6px 20px #071c3108;
+  color: var(--summary-ink);
+}
+#passo3.db-summary-panel * { box-sizing: border-box; }
+#passo3 .db-summary-header { display: flex; align-items: center; gap: 14px; padding: 16px 24px; border-radius: 17px 17px 0 0; background: linear-gradient(110deg, #071c31, #001338); color: #fff; }
+#passo3 .db-summary-header .reparacao-etapa-titulo { margin: 0; color: #fff; font-size: 22px; font-weight: 700; line-height: 1.3; }
+#passo3 .db-summary-step { display: inline-flex; flex-shrink: 0; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; background: #fff; color: #d65e00; border-radius: 24px; font-size: 12px; font-weight: 700; }
+#passo3 .db-summary-step b { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #ff7900; color: #fff; font-size: 18px; }
+#passo3 .db-summary-content { padding: 26px; }
+#passo3 .db-summary-intro { margin: 0 0 22px; font-size: 14px; line-height: 1.6; color: #596577; }
+#passo3 .db-summary-columns { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+#passo3 .db-summary-main, #passo3 .db-summary-side { display: grid; min-width: 0; gap: 22px; }
+#passo3 .db-summary-data-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+#passo3 .db-summary-card { min-width: 0; padding: 22px; border: 1px solid #e2e6ee; border-radius: 12px; background: #fff; }
+#passo3 .db-summary-card h3 { display: flex; align-items: start; gap: 10px; margin: 0 0 20px; font-size: 17px; font-weight: 800; line-height: 1.35; color: var(--summary-ink); }
+#passo3 .db-summary-card h3 > span { position: relative; padding-bottom: 7px; }
+#passo3 .db-summary-card h3 > span::after { position: absolute; bottom: 0; left: 0; width: 42px; height: 3px; border-radius: 3px; background: var(--summary-orange); content: ""; }
+#passo3 h3 svg { flex-shrink: 0; width: 23px; height: 23px; }
+#passo3 .db-summary-data { display: grid; gap: 17px; margin: 0; }
+#passo3 .db-summary-data > div { min-width: 0; }
+#passo3 .db-summary-data dt { margin: 0 0 4px; font-size: 11px; font-weight: 400; color: #707b8b; }
+#passo3 .db-summary-data dd { min-height: 18px; margin: 0; font-size: 13px; line-height: 1.5; font-weight: 600; color: var(--summary-ink); overflow-wrap: anywhere; }
+#passo3 .db-summary-data dd:empty::before { content: "—"; font-weight: 400; color: #8b94a2; }
+#passo3 .db-summary-address-data { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#passo3 .db-summary-service { font-size: 13px; line-height: 1.7; overflow-wrap: anywhere; }
+#passo3 .db-summary-amounts { background: #f5f6fa; }
+#passo3 .db-summary-prices { display: grid; gap: 15px; margin: 0; }
+#passo3 .db-summary-prices > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+#passo3 .db-summary-prices dt { margin: 0; font-size: 13px; font-weight: 400; }
+#passo3 .db-summary-prices dd { margin: 0; font-size: 15px; font-weight: 700; text-align: right; }
+#passo3 .db-summary-prices .db-summary-total { border-top: 1px solid #d9dfe9; padding-top: 17px; margin-top: 3px; }
+#passo3 .db-summary-total dt { font-size: 17px; font-weight: 800; }
+#passo3 .db-summary-total dd { font-size: 25px; font-weight: 800; color: #d65e00; }
+#passo3 .db-summary-terms { margin-top: 24px; padding: 22px; border: 1px solid #e2e6ee; border-radius: 12px; }
+#passo3 .db-summary-terms h3 { margin: 0 0 18px; font-size: 17px; font-weight: 700; color: var(--summary-ink); }
+#passo3 .db-summary-consent + .db-summary-consent { margin-top: 16px; }
+#passo3 .db-summary-consent label { display: flex; align-items: start; gap: 10px; margin: 0; font-size: 13px; line-height: 1.6; font-weight: 400; color: var(--summary-ink); cursor: pointer; }
+#passo3 .db-summary-consent input { position: static; flex-shrink: 0; width: 17px; height: 17px; margin: 2px 0 0; accent-color: #ff7900; }
+#passo3 .db-summary-consent a { display: inline-block; margin: 4px 0 0 27px; color: #b95000; font-size: 12px; text-decoration: underline; }
+#passo3 .db-summary-note { margin: 20px 0 0; padding: 14px 16px; border-radius: 10px; background: #fff3e2; font-size: 12px; line-height: 1.6; }
+#passo3 .reparacao-navegacao { display: flex; justify-content: space-between; gap: 16px; padding: 0 26px 26px; }
+#passo3 .reparacao-navegacao button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 11px 25px; border-radius: 26px; font-size: 15px; font-weight: 700; }
+#passo3 .reparacao-navegacao .reparacao-voltar { border: 1px solid #d9dee7; background: #fff; color: #536074; }
+#passo3 .reparacao-navegacao .reparacao-avancar { min-width: 230px; background: linear-gradient(110deg, #ff9100, #ff6900); color: #fff; }
+#passo3 .reparacao-navegacao svg { width: 20px; height: 20px; }
+#passo3 button:focus-visible, #passo3 a:focus-visible, #passo3 input:focus-visible { outline: 3px solid #ffb66c; outline-offset: 3px; }
+@media (max-width: 1024px) {
+  #passo3 .db-summary-data-grid { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 767px) {
+  #passo3 .db-summary-header { padding: 14px 16px; gap: 10px; }
+  #passo3 .db-summary-header .reparacao-etapa-titulo { font-size: 18px; }
+  #passo3 .db-summary-step { font-size: 10px; gap: 5px; }
+  #passo3 .db-summary-content { padding: 20px 16px; }
+  #passo3 .db-summary-columns { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  #passo3 .db-summary-main, #passo3 .db-summary-side, #passo3 .db-summary-data-grid { gap: 18px; }
+  #passo3 .db-summary-card, #passo3 .db-summary-terms { padding: 18px; }
+  #passo3 .db-summary-address-data { grid-template-columns: minmax(0, 1fr); }
+  #passo3 .reparacao-navegacao { padding: 0 16px 20px; flex-wrap: wrap; }
+  #passo3 .reparacao-navegacao button { padding: 11px 18px; font-size: 14px; }
+  #passo3 .reparacao-navegacao .reparacao-avancar { min-width: 0; flex: 1; }
   #passo2 .db-address-header { padding: 14px 16px; gap: 10px; }
   #passo2 .db-address-header .reparacao-etapa-titulo { font-size: 18px; }
   #passo2 .db-address-step { font-size: 10px; gap: 5px; }
