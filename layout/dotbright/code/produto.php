@@ -2628,46 +2628,61 @@ function ficha_p1_final($prods,$labels='')
 </div>
 REPAIR_CUSTOMER_PANEL;
 
-                        $return .= '<div id="passo2" class="reparacao-painel" style="display:none">';
-                        $return .= '<h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 3 de 4 — Morada de recolha</h2>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Morada de recolha  <span class="mandatory">*</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_recolha" name="r_recolha" type="text" class="ri">
-										</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Morada de entrega <span style="font-weight:300">(Se diferente da de recolha)</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_entrega" name="r_entrega" type="text" class="ri">
-										</div>';
-
-							//-----------------------------
-
-							$return .= '<div style="width:100%;float:left;margin-top:10px">';
-
-							$return .= '<div style="width:49%;float:left;margin-right:2%">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Código Postal  <span class="mandatory">*</span></div>';
-								$return .= '<div style="width:100%;float:left" class="form-group">
-												<input id="r_cp" name="r_cp" type="text" class="ri">
-											</div>';
-
-
-							$return .= '</div>';
-							$return .= '<div style="width:49%;float:left">';
-								$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Cidade  <span class="mandatory">*</span></div>';
-								$return .= '<div style="width:100%;float:left" class="form-group">
-												<input id="r_cidade" name="r_cidade" type="text" class="ri">
-											</div>';
-							$return .= '</div>';
-
-							$return .= '</div>';
-
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Periodo preferencial de recolha</div>';
-							$return .= '<div style="width:100%;float:left">
-											<input id="r_manha" name="r_periodo" type="radio" value="1">Manhã
-											<input id="r_tarde" name="r_periodo" type="radio" value="2">Tarde
-										</div>';
-
-                        $return .= '<div class="reparacao-navegacao"><button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(2)">RETROCEDER E CORRIGIR</button><button type="button" class="reparacao-avancar" onclick="reparacaoAvancar(4)">AVANÇAR PARA O PASSO SEGUINTE</button></div>';
-                        $return .= '</div>';
+                        $return .= <<<'REPAIR_ADDRESS_PANEL'
+<div id="passo2" class="reparacao-painel db-address-panel" style="display:none">
+    <div class="db-address-header">
+        <span class="db-address-step"><b>3</b> Etapa 3 de 4</span>
+        <h2 class="reparacao-etapa-titulo" tabindex="-1">Morada de recolha</h2>
+    </div>
+    <div class="db-address-content">
+        <div class="db-address-grid">
+            <section class="db-address-section" aria-labelledby="repair-collection-heading">
+                <h3 id="repair-collection-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>Morada de recolha</span></h3>
+                <div class="db-address-fields">
+                    <div class="db-address-field db-address-field-wide form-group">
+                        <label for="r_recolha">Morada de recolha <span class="mandatory">*</span></label>
+                        <input id="r_recolha" name="r_recolha" type="text" class="ri" placeholder="Ex.: Avenida da República, n.º 123, 3.º Esq.">
+                    </div>
+                    <div class="db-address-field form-group">
+                        <label for="r_cp">Código Postal <span class="mandatory">*</span></label>
+                        <input id="r_cp" name="r_cp" type="text" class="ri" placeholder="Ex.: 4470-151">
+                    </div>
+                    <div class="db-address-field form-group">
+                        <label for="r_cidade">Cidade <span class="mandatory">*</span></label>
+                        <input id="r_cidade" name="r_cidade" type="text" class="ri" placeholder="Ex.: Maia">
+                    </div>
+                </div>
+                <fieldset class="db-address-period">
+                    <legend>Período preferencial de recolha</legend>
+                    <div class="db-address-period-options">
+                        <label for="r_manha"><input id="r_manha" name="r_periodo" type="radio" value="1"><span>Manhã</span></label>
+                        <label for="r_tarde"><input id="r_tarde" name="r_periodo" type="radio" value="2"><span>Tarde</span></label>
+                    </div>
+                </fieldset>
+            </section>
+            <section class="db-address-section" aria-labelledby="repair-delivery-heading">
+                <h3 id="repair-delivery-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8"/></svg><span>Morada de entrega</span></h3>
+                <div class="db-address-field form-group">
+                    <label for="r_entrega">Morada de entrega<small>Se diferente da morada de recolha</small></label>
+                    <input id="r_entrega" name="r_entrega" type="text" class="ri" placeholder="Preencha se a morada de entrega for diferente">
+                </div>
+            </section>
+        </div>
+        <section class="db-address-packing" aria-labelledby="repair-packing-heading">
+            <h3 id="repair-packing-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-5 9 5v10l-9 5-9-5Zm0 0 9 5 9-5M12 12v10M7 4l10 6"/></svg><span>Dicas de embalamento</span></h3>
+            <div class="db-address-packing-tips">
+                <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="m3 8 9-4 9 4-9 4Zm0 0v10l9 4 9-4V8M12 12v10M3 8 1 4l9-3 2 3m9 4 2-4-9-3-2 3"/></svg><p>Utilize a caixa original, se possível, dentro de uma caixa de envio.</p></div>
+                <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="16" rx="2"/><path d="m5 9-3 4 4 9h12l4-9-3-4M11 15h2"/></svg><p>Envolva o equipamento em papel ou num pano macio e preencha os espaços vazios.</p></div>
+                <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-5 9 5v10l-9 5-9-5Zm0 0 9 5 9-5M12 12v10M7 4l10 6v5l-4 2V8"/></svg><p>Feche bem a caixa com fita adesiva.</p></div>
+            </div>
+        </section>
+    </div>
+    <div class="reparacao-navegacao">
+        <button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(2)">Voltar</button>
+        <button type="button" class="reparacao-avancar" onclick="reparacaoAvancar(4)">Continuar para o resumo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+    </div>
+</div>
+REPAIR_ADDRESS_PANEL;
 
 						$return .= '<div id="passo3" class="reparacao-painel" style="display:none">';
                         $return .= '<h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 4 de 4 — Resumo e conclusão do pedido</h2>';
