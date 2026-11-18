@@ -2083,9 +2083,10 @@ function ficha_p1_final($prods,$labels='')
     $return .= '<link rel="stylesheet" type="text/css" href="layout/'.PROJETO.'/vendor/photoswipe/photoswipe.min.css"></script> ';
     $return .= '<link rel="stylesheet" type="text/css" href="layout/'.PROJETO.'/vendor/photoswipe/default-skin/default-skin.min.css">';
     
-    $return .= '<div class="product product-single row" style="margin-top:50px">';
+    $return .= '<div class="product product-single row'.($reparacoes == 1 ? ' db-repair-panels' : '').'" style="margin-top:50px">';
     
 
+		if($reparacoes == 1) $repair_info_start = strlen($return);
 		$return .= ($reparacoes == 1 ? '<div id="reparacao-info" class="col-xs-12 reparacao-painel"><h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 1 de 4 — Informação da reparação</h2>' : '<div class="col-xs-12 col-sm-12 col-md-6">');
 		$return .= $labels;
 
@@ -2413,6 +2414,11 @@ function ficha_p1_final($prods,$labels='')
 
 		if($reparacoes == 1) $return .= '<button type="button" class="reparacao-avancar" onclick="reparacaoEtapa(2)">AVANÇAR PARA O PASSO SEGUINTE</button>';
     	$return .= '</div>';
+		if($reparacoes == 1) {
+			require_once __DIR__.'/repair_info_panel.php';
+			$repair_info_html = substr($return, $repair_info_start);
+			$return = substr($return, 0, $repair_info_start).dotbright_repair_info_panel($prods, $repair_info_html);
+		}
 
 		$return .= ($reparacoes == 1 ? '<div id="reparacao-formulario" class="product-detail col-md-12" style="display:none">' : '<div class="product-detail col-md-6">');
 			$return .= '<div class="product-info">';
@@ -2527,7 +2533,8 @@ function ficha_p1_final($prods,$labels='')
 					$return .= '</script>';
 
 					$return .= '<div>';
-					$return .= '<style>';
+					$return .= '<link rel="stylesheet" href="layout/'.PROJETO.'/css/repair-customer-panel.css?v='.filemtime(__DIR__.'/../css/repair-customer-panel.css').'">';
+                    $return .= '<style>';
 					$return .= '.ri{padding-left:10px;padding-right:10px;width:100%;border-radius:10px;border:1px solid;background-color:transparent}';
                     $return .= '.reparacao-painel{display:flow-root;max-width:900px;margin:0 auto;float:none}.reparacao-etapa-titulo{font-size:20px;margin:0 0 24px;color:#ff8900}.reparacao-etapa-titulo:focus{outline:none}.reparacao-navegacao{clear:both;padding-top:30px;display:flex;gap:12px;flex-wrap:wrap}.reparacao-avancar,.reparacao-voltar{border:0;border-radius:10px;padding:10px 18px;color:#fff;cursor:pointer}.reparacao-avancar{background:#ff8900}.reparacao-voltar{background:#9f9f9f}#reparacao-info>.reparacao-avancar{display:block;width:100%;margin-top:30px}#reparacao-formulario .product-info{width:100%;max-width:none;margin:0}#reparacao-formulario .reparacao-painel{width:100%}';
 					$return .= '</style>';
@@ -2539,91 +2546,87 @@ function ficha_p1_final($prods,$labels='')
 						$return .= '<div id="resposta"></div>';
 
 					
-                        $return .= '<div id="passo1" class="reparacao-painel" style="display:none">';
-                        $return .= '<h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 2 de 4 — Dados do cliente</h2>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Nome completo  <span class="mandatory">*</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_nome" name="r_nome" type="text" class="ri">
-										</div>';
-							//-----------------------------
-							$return .= '<div style="width:100%;float:left;margin-top:10px">';
-
-							$return .= '<div style="width:49%;float:left;margin-right:2%">';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Telefone <span class="mandatory">*</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_tel" name="r_tel" type="text" class="ri">
-										</div>';
-							$return .= '</div>';
-							$return .= '<div style="width:49%;float:left">';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Email <span class="mandatory">*</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input onchange="check_email()" maxlength="80" id="r_email" name="r_email" type="text" class="ri">
-										</div>';
-							$return .= '</div>';
-
-							$return .= '</div>';
-							//-----------------------------
-
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">NIF</div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input onchange="check_nif1()" maxlength="9" id="r_nif" name="r_nif" type="text" class="ri">
-										</div>';
-										
-
-										
-							$return .= '<div style="width:100%;float:left;margin-top:50px;color:#ff8900;font-weight:600">DADOS PARA FATURAÇÃO</div>';
-
-							//$return .= '<label for="m_dadosiguais" class="customCheckboxDadosDiferentes  customCheckboxDadosDiferentesOn "><div class="left"><input type="checkbox" name="m_dadosiguais" id="m_dadosiguais" value="1"></div><div class="right">Clique aqui se os dados de faturação forem os mesmos dos de entrega</div></label>';
-
-
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Nome ou Designação (pode ser empresa) <span style="font-weight:300">(Se diferente do indicado no pedido de recolha)</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_nome2" name="r_nome2" type="text" class="ri">
-										</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Morada <span style="font-weight:300">(Se diferente do indicado no pedido de recolha)</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_morada2" name="r_morada2" type="text" class="ri">
-										</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Código Postal <span style="font-weight:300">(Se diferente do indicado no pedido de recolha)</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_cp2" name="r_cp2" type="text" class="ri">
-										</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">NIF <span style="font-weight:300">(Se diferente do indicado no pedido de recolha)</span></div>';
-							$return .= '<div style="width:100%;float:left" class="form-group">
-											<input id="r_nif2" name="r_nif2" type="text" class="ri">
-										</div>';
-
-							$return .= '<div style="width:100%;float:left;margin-top:50px;color:#ff8900;font-weight:600">PREPARAÇÃO PARA RECOLHA DO EQUIPAMENTO</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Prepare o seu equipamento para a recolha.</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600">Acondicione devidamente o equipamento para o transporte.</div>';
-
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Para podermos testar o seu equipamento, por favor, remova ou indique o codigo de desbloqueio do equipamento a reparar.</div>';
-
-							$m_padrao=0;
-							
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600;margin-top:10px">Por favor, insira em baixo o código de desbloqueio do seu equipamento.</div>';
-							$return .= '<div style="width:100%;float:left;font-size:11px;font-weight:600" class="form-group">
-											<input maxlength="10" id="r_unlock" name="r_unlock" type="text" class="ri" style="width:120px">
-											<div style="width:100%;float:left;margin-top:5px">Padrão:</div>
-
-											<div style="position:relative;max-width:270px;display:table;width:100%">
-												<input class="ri" type="text" onclick="showpattern();$(\'#buttonpattern2\').hide();$(\'#buttonpattern\').show();" name="m_padrao" id="m_padrao" value="'.($m_padrao == 0 || $m_padrao == '' ? '' : $m_padrao).'" style="width:120px;float:left">
-												<input class="btn btn-default button-search" type="button" id="buttonpattern2" onclick="showpattern();$(\'#buttonpattern2\').hide();$(\'#buttonpattern\').show();" style="float:left;display:block;border-radius:10px;margin-left:5px;height:22px;line-height:14px" value="Mostrar">
-												<input class="btn btn-default button-search" type="button" id="buttonpattern" onclick="hidepattern();$(\'#buttonpattern\').hide();$(\'#buttonpattern2\').show();" style="float:left;display:none;border-radius:10px;margin-left:5px;height:22px;line-height:14px" value="Esconder">
-												<div id="mypattern" class="mhn-lock pattern_minha"></div>
-											</div>
-
-											<style type="text/css">
-												.pattern_minha{position:absolute;z-index:99;display:none;border-radius:10px;width:275px !important;height:273px !important;background-color:#ff8900 !important;right:-7px;top:27px;border:1px solid #000000}
-											</style>
-
-											
-
-										</div>';
-
-
-                        $return .= '<div class="reparacao-navegacao"><button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(1)">RETROCEDER E CORRIGIR</button><button type="button" class="reparacao-avancar" onclick="reparacaoAvancar(3)">AVANÇAR PARA O PASSO SEGUINTE</button></div>';
-                        $return .= '</div>';
+                        $m_padrao = 0;
+                        $return .= <<<'REPAIR_CUSTOMER_PANEL'
+<div id="passo1" class="reparacao-painel db-customer-panel" style="display:none">
+    <header class="db-customer-header">
+        <span class="db-customer-step"><b>2</b> Etapa 2 de 4</span>
+        <h2 class="reparacao-etapa-titulo" tabindex="-1">Dados do cliente</h2>
+    </header>
+    <div class="db-customer-grid">
+        <section class="db-customer-section" aria-labelledby="repair-customer-heading">
+            <h3 id="repair-customer-heading"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M3 22v-3a9 9 0 0 1 18 0v3Z"/></svg><span>Dados do cliente</span></h3>
+            <div class="db-customer-fields">
+                <div class="db-customer-field db-customer-field-wide form-group">
+                    <label for="r_nome">Nome completo <span class="mandatory">*</span></label>
+                    <input id="r_nome" name="r_nome" type="text" class="ri" placeholder="Ex.: João Silva">
+                </div>
+                <div class="db-customer-field form-group">
+                    <label for="r_tel">Telefone <span class="mandatory">*</span></label>
+                    <input id="r_tel" name="r_tel" type="text" class="ri" placeholder="Ex.: 912 345 678">
+                </div>
+                <div class="db-customer-field form-group">
+                    <label for="r_email">Email <span class="mandatory">*</span></label>
+                    <input onchange="check_email()" maxlength="80" id="r_email" name="r_email" type="text" class="ri" placeholder="Ex.: joao@mail.pt">
+                </div>
+                <div class="db-customer-field db-customer-field-wide form-group">
+                    <label for="r_nif">NIF</label>
+                    <input onchange="check_nif1()" maxlength="9" id="r_nif" name="r_nif" type="text" class="ri">
+                </div>
+            </div>
+        </section>
+        <section class="db-customer-section" aria-labelledby="repair-billing-heading">
+            <h3 id="repair-billing-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h10l4 4v16H5ZM15 2v5h4M8 11h8M8 15h8M8 19h5"/></svg><span>Dados para faturação</span></h3>
+            <div class="db-customer-fields">
+                <div class="db-customer-field db-customer-field-wide form-group">
+                    <label for="r_nome2">Nome ou Designação (pode ser empresa)<small>Se diferente do indicado no pedido de recolha</small></label>
+                    <input id="r_nome2" name="r_nome2" type="text" class="ri">
+                </div>
+                <div class="db-customer-field db-customer-field-wide form-group">
+                    <label for="r_morada2">Morada<small>Se diferente do indicado no pedido de recolha</small></label>
+                    <input id="r_morada2" name="r_morada2" type="text" class="ri">
+                </div>
+                <div class="db-customer-field form-group">
+                    <label for="r_cp2">Código Postal<small>Se diferente do indicado no pedido de recolha</small></label>
+                    <input id="r_cp2" name="r_cp2" type="text" class="ri">
+                </div>
+                <div class="db-customer-field form-group">
+                    <label for="r_nif2">NIF<small>Se diferente do indicado no pedido de recolha</small></label>
+                    <input id="r_nif2" name="r_nif2" type="text" class="ri">
+                </div>
+            </div>
+        </section>
+        <section class="db-customer-section db-customer-access" aria-labelledby="repair-access-heading">
+            <h3 id="repair-access-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="16" cy="8" r="5"/><path d="m12 12-9 9m2-2 2 2m0-6 2 2"/></svg><span>Acesso ao equipamento</span></h3>
+            <p>Para podermos testar o seu equipamento, por favor, remova ou indique o código de desbloqueio do equipamento a reparar.</p>
+            <div class="db-customer-fields">
+                <div class="db-customer-field form-group">
+                    <label for="r_unlock">Código de desbloqueio</label>
+                    <input maxlength="10" id="r_unlock" name="r_unlock" type="text" class="ri">
+                </div>
+                <div class="db-customer-field form-group">
+                    <label for="m_padrao">Padrão</label>
+                    <div class="db-customer-pattern-controls">
+                        <input class="ri" type="text" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" name="m_padrao" id="m_padrao" value="">
+                        <input class="btn btn-default button-search" type="button" id="buttonpattern2" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" value="Mostrar">
+                        <input class="btn btn-default button-search" type="button" id="buttonpattern" onclick="hidepattern();$('#buttonpattern').hide();$('#buttonpattern2').show();" style="display:none" value="Esconder">
+                        <div id="mypattern" class="mhn-lock pattern_minha"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="db-customer-notes">
+                <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><span>Sem acesso ao equipamento, poderemos não conseguir realizar alguns testes ou concluir determinados procedimentos.</span></p>
+                <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg><span>O código é tratado de forma confidencial e utilizado apenas quando necessário para a reparação e os testes.</span></p>
+            </div>
+            <p style="margin-top:16px"><strong>Preparação para recolha do equipamento</strong><br>Prepare o seu equipamento para a recolha. Acondicione devidamente o equipamento para o transporte.</p>
+        </section>
+    </div>
+    <div class="reparacao-navegacao">
+        <button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(1)">Voltar</button>
+        <button type="button" class="reparacao-avancar" onclick="reparacaoAvancar(3)">Continuar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+    </div>
+</div>
+REPAIR_CUSTOMER_PANEL;
 
                         $return .= '<div id="passo2" class="reparacao-painel" style="display:none">';
                         $return .= '<h2 class="reparacao-etapa-titulo" tabindex="-1">Etapa 3 de 4 — Morada de recolha</h2>';

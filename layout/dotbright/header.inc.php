@@ -736,7 +736,8 @@
 	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/catalogue-cards.css?v=20261029b" rel="stylesheet" type="text/css">
 	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/storefront-ux.css?v=20261029b" rel="stylesheet">
 	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/discovery.css?v=20261031a" rel="stylesheet">
-	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/homepage-polish.css?v=20261030a" rel="stylesheet">
+	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/homepage-polish.css?v=20261118a" rel="stylesheet">
+	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/site-header.css?v=20261118a" rel="stylesheet">
 	<script defer src="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/js/homepage-polish.js?v=20261029c"></script>
 	<link href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/product-page-polish.css?v=20261031h" rel="stylesheet">
 	<script defer src="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/js/storefront-ux.js?v=20261029b"></script>
