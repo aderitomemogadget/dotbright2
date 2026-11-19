@@ -3,6 +3,8 @@
 /** Presentation for the repair information panel; the request form stays in produto.php. */
 function dotbright_repair_info_panel($prods, $previous_panel)
 {
+    require_once __DIR__.'/../../../core/repair_request.php';
+    $quote = dotbright_repair_quote($prods);
     $escape = function ($value) {
         return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
     };
@@ -24,8 +26,7 @@ function dotbright_repair_info_panel($prods, $previous_panel)
     }
 
     // Keep the current warranty rules and the existing price/gallery markup.
-    $warranty = strpos($reference, 'BAT') !== false && substr($reference, 0, 3) === 'REP'
-        ? '12 meses' : ((string)$prods['fam_id'] === '163' ? '24 meses' : '36 meses');
+    $warranty = $quote['warranty'];
     preg_match('~<div class=[^>]*product-gallery-block resp2[^>]*>.*?</ul>\s*</div>~s', $previous_panel, $gallery);
     preg_match('~<p class="our_price_display".*?</p>~s', $previous_panel, $price);
 

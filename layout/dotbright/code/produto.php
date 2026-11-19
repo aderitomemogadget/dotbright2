@@ -2005,6 +2005,10 @@ function ficha_p1_final($prods,$labels='')
 
     $reparacoes = 0;
     if (!empty($fam) && is_array($fam) && $fam['reparacoes'] == 1) $reparacoes = 1;
+    if($reparacoes == 1) {
+        require_once __DIR__.'/../../../core/repair_request.php';
+        $repair_quote = dotbright_repair_quote($prods);
+    }
 
 	$wish='';$res=0;
 	if($dados_cliente)
@@ -2316,21 +2320,7 @@ function ficha_p1_final($prods,$labels='')
 					}
 					if($prods['Ref_Ean']) $return .= '<span> <b>EAN:</b> '.$prods['Ref_Ean'].' | </span>';
 
-					if(substr_count($prods['prod_ref'],'BAT')>0 && substr($prods['prod_ref'],0,3)=='REP')
-					{
-						$return .= '<span> 12 MESES DE GARANTIA</span>';
-					}
-					else
-					{
-						if($prods['fam_id'] == '163')
-						{
-							$return .= '<span> 24 MESES DE GARANTIA</span>';
-						}
-						else
-						{
-							$return .= '<span> 36 MESES DE GARANTIA</span>';
-						}						
-					}
+                    $return .= '<span> '.strtoupper($repair_quote['warranty']).' DE GARANTIA</span>';
 					$return .= '</div>';
 					$capacidade = '';
 					if (preg_match("/\b(\d+GB)\b/", $prods['prod_nome'], $matches)) $capacidade = $matches[0];
@@ -2373,38 +2363,11 @@ function ficha_p1_final($prods,$labels='')
 
 					
 
-					$txt_campanhas = '';
-					if ($prods['prod_precos']['PROMOCAO'] == 1 && (strtotime($prods['prod_precos']['Promo_data_ini']) <= $today && strtotime($prods['prod_precos']['Promo_data_fim']) >=$today))$txt_campanhas = $prods['prod_precos']['Promo_descricao'];
-								
-					$return .= '<p class="our_price_display" itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">';
-					if ($prods['prod_precos']['PROMOCAO'] == 1 && strtotime($prods['prod_precos']['Promo_data_fim']) >= strtotime($prods['prod_precos']['Promo_data_ini']) && $prods['prod_precos']['Promo_data_fim']!='0000-00-00' && $prods['prod_precos']['Promo_data_ini']!='0000-00-00')
-					{
-						$return .= '<div class="tag tag-promocao" style="font-size:30px;line-height:32px;font-weight:600;font-family:"Poppins",sans-serif">';
-							$return .= '<span style="font-size:16px;color:#ec870e">PVP:</span> <span style="color:#656565;text-decoration:line-through;font-size:18px;">'.numberformat($prods['prod_precos']['PVP'], 1).'</span> <span style="font-size:27px;color:#000;font-weight:800">'.numberformat($prods['prod_precos']['obj_promo'], 1).'</span><br>';
-						$return .= '</div>';
-					}
-					else
-					{
-						if($prods['prod_precos']['PVP'] > 0)
-						{
-							$pvp=$prods['prod_precos']['PVP'];
-					
-							if($prods['prod_precos']['IVA'] > 0)
-							{
-								$pvp_com_iva=$prods['prod_precos']['PVP'];
-								$pvp_sem_iva=($prods['prod_precos']['PVP']/(1+$prods['prod_precos']['IVA']/100));
-							}
-							else
-							{
-								$pvp_sem_iva=$prods['prod_precos']['PVP'];
-								$pvp_com_iva=($prods['prod_precos']['PVP']*(1+$prods['prod_precos']['IVA']/100));
-							}					
-							$return .= '<span style="font-size:16px;color:#ec870e">PVP:</span> 
-										<span style="font-size:27px;color:#000;font-weight:800">'.numberformat($pvp_com_iva, 1).'</span> <span style="font-size:17px;color:#000;font-weight:300">(já inclui IVA)</span>
-										<span style="font-size:10px">'.$txt_iva.'</span><br>';
-						}
-					}
-					$return .= '</p>';
+                    $return .= '<p class="our_price_display" itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">';
+                    $return .= '<span style="font-size:16px;color:#ec870e">PVP:</span> ';
+                    if($repair_quote['promotion']) $return .= '<span style="color:#656565;text-decoration:line-through;font-size:18px;">'.numberformat($repair_quote['old_price'], 1).'</span> ';
+                    $return .= '<span style="font-size:27px;color:#000;font-weight:800">'.numberformat($repair_quote['repair_gross'], 1).'</span> <span style="font-size:17px;color:#000;font-weight:300">(já inclui IVA)</span><span style="font-size:10px">'.$txt_iva.'</span><br>';
+                    $return .= '</p>';
 
 
 
@@ -2459,20 +2422,20 @@ function ficha_p1_final($prods,$labels='')
 						$return .= 'function passo3(){
 										
 
-										var nome = $("#r_nome").val();
-										var recolha = $("#r_recolha").val();
-										var entrega = $("#r_entrega").val();
-										var cp = $("#r_cp").val();
-										var cidade = $("#r_cidade").val();
-										var telefone = $("#r_tel").val();
-										var email = $("#r_email").val();
-										var nif = $("#r_nif").val();
+										var nome = $.trim($("#r_nome").val());
+										var recolha = $.trim($("#r_recolha").val());
+										var entrega = $.trim($("#r_entrega").val()) || recolha;
+										var cp = $.trim($("#r_cp").val());
+										var cidade = $.trim($("#r_cidade").val());
+										var telefone = $.trim($("#r_tel").val());
+										var email = $.trim($("#r_email").val());
+										var nif = $.trim($("#r_nif").val());
 										var periodoRecolha = $("#r_manha").is(":checked") ? "Manhã" : ($("#r_tarde").is(":checked") ? "Tarde" : "Não especificado");
-										var nome2 = $("#r_nome2").val();
-										var morada2 = $("#r_morada2").val();
-										var cp2 = $("#r_cp2").val();
-										var nif2 = $("#r_nif2").val();
-										var unlock = $("#r_unlock").val();
+										var nome2 = $.trim($("#r_nome2").val());
+										var morada2 = $.trim($("#r_morada2").val());
+										var cp2 = $.trim($("#r_cp2").val());
+										var nif2 = $.trim($("#r_nif2").val());
+										var unlock = $.trim($("#r_unlock").val());
 									
 										$("#resumo_nome").text(nome);
 										$("#resumo_recolha").text(recolha);
@@ -2490,7 +2453,6 @@ function ficha_p1_final($prods,$labels='')
 										$("#resumo_nif2").text(nif2);
 										$("#resumo_unlock").text(unlock);
 
-										console.log(morada2);
 
 										if(nome2=="")$("#resumo_nome2").text(nome);
 										if(morada2=="")$("#resumo_morada").text(recolha);
@@ -2691,7 +2653,7 @@ REPAIR_ADDRESS_PANEL;
         <h2 class="reparacao-etapa-titulo" tabindex="-1">Resumo e conclusão do pedido</h2>
     </div>
     <div class="db-summary-content">
-        <p class="db-summary-intro">O seu pedido de recolha está quase concluído! Confirme os dados antes de concluir.</p>
+        <p class="db-summary-intro">O seu pedido de recolha está quase concluído! Confirme os dados e o valor estimado antes de solicitar a recolha.</p>
         <div class="db-summary-columns">
             <div class="db-summary-main">
                 <div class="db-summary-data-grid">
@@ -2732,27 +2694,10 @@ REPAIR_SUMMARY_OPEN;
 								$return .= rtrim($prods['prod_nome'], '-').'<br>';
 								if($prods['prod_ref']) $return .= '<b>REF:</b> '.$prods['prod_ref'].'<br>';
 								if($prods['Ref_Ean']) $return .= '<b>EAN:</b> '.$prods['Ref_Ean'].'<br>';
-								if(substr_count($prods['prod_ref'],'BAT')>0 && substr($prods['prod_ref'],0,3)=='REP')
-								{
-									$return .= '<span> 3 MESES DE GARANTIA</span>';
-								}
-								else
-								{
-									if($prods['fam_id'] == '163')
-									{
-										$return .= '24 MESES DE GARANTIA';
-									}
-									else
-									{
-										$return .= '36 MESES DE GARANTIA';
-									}
-								}	
-
+                                $return .= strtoupper($repair_quote['warranty']).' DE GARANTIA';
 
                         $return .= '</div></section>';
-                        $portes=3.9837;
-                        $iva_portes=4.90-3.9837;
-                        $return .= '<section class="db-summary-card db-summary-amounts" aria-labelledby="repair-summary-amounts"><h3 id="repair-summary-amounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M7 6h10M7 11h3M14 11h3M7 15h3M14 15h3M7 19h3M14 19h3"/></svg><span>Valor estimado</span></h3><dl class="db-summary-prices"><div><dt>Avaria</dt><dd>'.numberformat($pvp_sem_iva).'</dd></div><div><dt>Portes</dt><dd>'.numberformat($portes).'</dd></div><div><dt>IVA</dt><dd>'.numberformat($pvp_com_iva-$pvp_sem_iva+$iva_portes).'</dd></div><div class="db-summary-total"><dt>Total</dt><dd>'.numberformat($pvp_com_iva+$portes).'</dd></div></dl></section>';
+                        $return .= '<section class="db-summary-card db-summary-amounts" aria-labelledby="repair-summary-amounts"><h3 id="repair-summary-amounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M7 6h10M7 11h3M14 11h3M7 15h3M14 15h3M7 19h3M14 19h3"/></svg><span>Valor estimado</span></h3><dl class="db-summary-prices"><div><dt>Avaria</dt><dd>'.numberformat($repair_quote['repair_net']).'</dd></div><div><dt>Portes</dt><dd>'.numberformat($repair_quote['shipping_net']).'</dd></div><div><dt>IVA</dt><dd>'.numberformat($repair_quote['vat']).'</dd></div><div class="db-summary-total"><dt>Total</dt><dd>'.numberformat($repair_quote['total']).'</dd></div></dl></section>';
                         $return .= <<<'REPAIR_SUMMARY_CLOSE'
             </div>
         </div>
@@ -2767,11 +2712,11 @@ REPAIR_SUMMARY_OPEN;
                 <a href="p43-politica-de-privacidade-pt?popup=1" class="fancy_content">Política de Privacidade</a>
             </div>
         </section>
-        <p class="db-summary-note"><strong>Observações:</strong> Após submeter este pedido, irá receber um email de confirmação do seu pedido de recolha.</p>
+        <p class="db-summary-note"><strong>Observações:</strong> Após submeter o pedido, a equipa confirmará os detalhes e o valor estimado, agendará a recolha e combinará consigo o pagamento. Receberá um email com o resumo do pedido.</p>
     </div>
     <div class="reparacao-navegacao">
         <button type="button" class="reparacao-voltar" onclick="reparacaoEtapa(3)">Voltar e corrigir</button>
-        <button type="button" class="reparacao-avancar" onclick="passo4()">Concluir pedido <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
+        <button type="button" class="reparacao-avancar" onclick="passo4()">Solicitar recolha <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button>
     </div>
 </div>
 REPAIR_SUMMARY_CLOSE;
