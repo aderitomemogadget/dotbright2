@@ -4,7 +4,7 @@
 
 1. Fazer uma cópia de segurança da base de dados de dotbright2.
 2. No phpMyAdmin, selecionar a base de dados usada por esta cópia de desenvolvimento (ver DB_name na configuração do projeto).
-3. No separador Importar, executar database/migrations/20261119_repair_product_settings.sql. Alternativamente, colar o conteúdo no separador SQL e executar.
+3. No separador SQL, colar e executar a migração da fase 2 fornecida diretamente no chat. As migrações são partilhadas no chat, sem criar ficheiros .sql no projeto.
 4. Confirmar que existe a tabela repair_product_settings. O SQL apenas cria esta tabela; não atualiza produtos, famílias, preços ou pedidos existentes e pode ser executado novamente.
 5. Publicar os ficheiros PHP alterados/criados, mantendo as pastas. Os ficheiros de testes e este documento não são necessários no servidor.
 6. Abrir Produtos → Catálogo → REPARAÇÕES → marca/modelo → ficha → separador REPARAÇÃO. Definir prazo, tipo/texto/ícone da peça e garantia em meses; guardar a ficha.

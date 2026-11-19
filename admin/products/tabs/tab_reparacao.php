@@ -9,7 +9,7 @@ $repair_escape = function ($v) { return htmlspecialchars((string)$v, ENT_QUOTES,
 <h3>Configuração desta reparação</h3>
 <p>Exclusivo da família REPARAÇÕES e respetivas subfamílias. O preço continua a ser definido no separador Geral.</p>
 <?php if (!$repair_ready) { ?>
-<p class="alert alert-warning">A tabela de configuração ainda não existe. Aplique primeiro database/migrations/20261119_repair_product_settings.sql. Os dados atuais da ficha mantêm-se.</p>
+<p class="alert alert-warning">A tabela de configuração ainda não existe. Aplique primeiro a migração da fase 2 fornecida no chat. Os dados atuais da ficha mantêm-se.</p>
 <?php } else { ?>
 <input type="hidden" name="repair_settings_present" value="1">
 <?php foreach (array('time_code' => 'Prazo estimado de reparação em loja', 'part_type' => 'Tipo de peça', 'part_icon' => 'Ícone da peça') as $key => $label) { ?>

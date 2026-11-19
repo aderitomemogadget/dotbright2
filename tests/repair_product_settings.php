@@ -72,10 +72,20 @@ foreach (array(array('time_code' => 'invalid'), array('part_icon' => '<svg>'), a
     try { dotbright_repair_settings_validate($bad); } catch (InvalidArgumentException $e) { $thrown = true; }
     check($thrown, 'Invalid configuration accepted.');
 }
-$GLOBALS['settings_rows'][400] = $base;
+$GLOBALS['settings_rows'][400] = array_merge($base, array('part_detail' => 'Descrição curta & confirmação'));
 $q = dotbright_repair_quote(product(400));
 $email = dotbright_repair_email_summary(product(400), dotbright_repair_request_data(array()), $q);
 check(strpos($email, '24 meses') !== false && strpos($email, '1 hora') !== false && strpos($email, 'Peça oficial Apple') !== false, 'Emails do not use configured repair details.');
+check(strpos($email, 'Descrição curta &amp; confirmação') !== false, 'Email must include and escape the configured short description.');
+// Render the actual summary fragment with the same quote used by the emails.
+$summary_source = file_get_contents(__DIR__.'/../layout/dotbright/code/produto.php');
+$summary_start = strpos($summary_source, "$"."return .= strtoupper($"."repair_quote['warranty']).' DE GARANTIA';");
+$summary_end = strpos($summary_source, "$"."return .= '</div></section>';", $summary_start);
+check($summary_start !== false && $summary_end !== false, 'Summary fragment not found.');
+$repair_quote = $q;
+$return = '';
+eval(substr($summary_source, $summary_start, $summary_end - $summary_start));
+check(strpos($return, '24 MESES DE GARANTIA') !== false && strpos($return, '1 hora') !== false && strpos($return, 'Peça oficial Apple') !== false && strpos($return, 'Descrição curta &amp; confirmação') !== false, 'Panel 4 must show the configured warranty, time, part and escaped description.');
 // Render the actual existing information-panel template, changing data only.
 require_once __DIR__.'/../layout/dotbright/code/repair_info_panel.php';
 define('PROJETO', 'dotbright');
@@ -105,4 +115,5 @@ $endpoint = preg_replace('/^<\?php\s*/', '', $endpoint);
 ob_start(); eval($endpoint); $response = ob_get_clean();
 check(strpos($response, 'Pedido de recolha solicitado com sucesso!') !== false && count($GLOBALS['settings_emails']) === 3, 'Configured repair submission failed.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, '24 meses') !== false && strpos($body, '1 hora') !== false && strpos($body, 'Peça oficial Apple') !== false, 'Configured data lost in submitted request email.');
+foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Descrição curta &amp; confirmação') !== false, 'Short description missing from staff or customer email.');
 echo "PASS: repair family isolation, settings validation/save/failures, all times/parts/warranties, original pricing, emails, panel and admin rendering. No external side effects.\n";

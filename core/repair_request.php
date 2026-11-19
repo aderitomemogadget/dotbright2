@@ -73,6 +73,7 @@ function dotbright_repair_email_summary($product, $data, $quote)
     $rows = array('Reparação' => rtrim($product['prod_nome'], '- '), 'Referência' => $reference[0], 'Garantia' => $quote['warranty']);
     $rows['Prazo estimado'] = $quote['service']['time'];
     $rows['Peça'] = $quote['service']['part'];
+    $rows['Descrição da peça'] = $quote['service']['part_detail'];
     if (!empty($product['Ref_Ean'])) $rows['EAN'] = $product['Ref_Ean'];
     $html .= $section('Resumo da avaria', $rows);
     $html .= $section('Valor estimado', array('Avaria' => numberformat($quote['repair_net']), 'Portes' => numberformat($quote['shipping_net']), 'IVA' => numberformat($quote['vat']), 'Total' => numberformat($quote['total'])));
