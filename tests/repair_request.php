@@ -57,13 +57,19 @@ repair_assert(strpos($escaped, '<script>') === false && strpos($escaped, '&lt;sc
 function get_produtc_info($id) { return $GLOBALS['repair_test_product']; }
 function db_opendb_conection($host, $user, $pass) { return true; }
 function Runquery($link, $database, $sql) { $GLOBALS['repair_test_sql'][] = $sql; return $GLOBALS['repair_test_db_ok']; }
+function dotbright_repair_order_create($product, $data, $quote, $input) {
+    if (!$GLOBALS['repair_test_db_ok']) throw new RuntimeException('Test database failure');
+    $GLOBALS['repair_test_saved'] = array('product'=>$product, 'data'=>$data, 'quote'=>$quote);
+    return 93;
+}
+function dotbright_repair_order_send($id,$role,$to,$subject,$body) { return send_email($to,$subject,$body); }
 function send_email($to, $subject, $body)
 {
     $GLOBALS['repair_test_emails'][] = array('to' => $to, 'subject' => $subject, 'body' => $body);
     return !in_array($to, $GLOBALS['repair_test_fail_recipients'], true);
 }
 $endpoint = file_get_contents(__DIR__.'/../ajax/form_rapara.php');
-foreach (array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';") as $bootstrap) {
+foreach (array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';", "require_once \$path.'repair_orders.php';") as $bootstrap) {
     repair_assert(substr_count($endpoint, $bootstrap) === 1, 'Endpoint bootstrapping changed: review test isolation.');
     $endpoint = str_replace($bootstrap, '', $endpoint);
 }

@@ -104,13 +104,15 @@ ob_start(); include __DIR__.'/../admin/products/tabs/tab_reparacao.php'; $admin 
 check($admin === '', 'Repair fields rendered for ordinary product.');
 // Submit through the actual endpoint with configured product data and captured emails.
 function get_produtc_info($id) { return product(400); }
+function dotbright_repair_order_create($product,$data,$quote,$input) { return 94; }
+function dotbright_repair_order_send($id,$role,$to,$subject,$body) { return send_email($to,$subject,$body); }
 function send_email($to, $subject, $body) { $GLOBALS['settings_emails'][] = $body; return true; }
 $GLOBALS['settings_fail'] = false;
 $GLOBALS['settings_emails'] = array();
 $_SERVER['REQUEST_METHOD'] = 'POST';
 $_POST = array('prod_id' => 400, 'r_nome' => 'Cliente teste', 'r_email' => 'cliente@example.test');
 $endpoint = file_get_contents(__DIR__.'/../ajax/form_rapara.php');
-$endpoint = str_replace(array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';"), '', $endpoint);
+$endpoint = str_replace(array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';", "require_once \$path.'repair_orders.php';"), '', $endpoint);
 $endpoint = preg_replace('/^<\?php\s*/', '', $endpoint);
 ob_start(); eval($endpoint); $response = ob_get_clean();
 check($response === 'Pedido enviado com sucesso!' && count($GLOBALS['settings_emails']) === 3, 'Configured repair submission failed.');

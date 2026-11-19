@@ -397,6 +397,11 @@ echo comprime('</div></div></div>');
 			$tabs2[$m][$m2]['list'] = $site_http_url."admin/products/list.php";
 			$m2++;
 
+            $tabs2[$m][$m2][0]='Pedidos de reparação';
+            $tabs2[$m][$m2][1]='';
+            $tabs2[$m][$m2]['list']=$site_http_url.'admin/products/repair_orders.php';
+            $m2++;
+
 			if(isset($GLOBALS['tem_importar_medida']) && $GLOBALS['tem_importar_medida']==1)
 			{
 				$tabs2[$m][$m2][0]="Importador de Produtos";
