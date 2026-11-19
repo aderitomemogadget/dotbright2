@@ -2714,6 +2714,19 @@ REPAIR_SUMMARY_OPEN;
                         $return .= <<<'REPAIR_SUMMARY_CLOSE'
             </div>
         </div>
+        <details class="db-summary-rre-conditions">
+            <summary>Consultar condições</summary>
+            <div class="db-summary-rre-conditions-copy">
+                <h3>Prazo de reparação</h3>
+                <p>O prazo de 3 dias é estimado e poderá ser alargado devido a atrasos da transportadora, indisponibilidade de peças ou outras situações imprevistas. Se houver um atraso, entraremos em contacto.</p>
+                <h3>Recolha e entrega</h3>
+                <p>A recolha e entrega são gratuitas uma vez por equipamento, para reparações de valor igual ou superior a 65 €.</p>
+                <p>Para reparações de valor inferior a 65 €, aplica-se o valor de 10 € pela recolha e entrega.</p>
+                <p>Se o equipamento não tiver reparação e não houver qualquer valor a cobrar pela intervenção, aplica-se o valor de 10 € para o envio de volta.</p>
+                <p>Se for necessária uma segunda recolha, aplica-se o valor de 10 €, que inclui a recolha e a entrega.</p>
+                <p>A aplicação deste valor numa segunda recolha deve respeitar os direitos aplicáveis, nomeadamente em situações abrangidas pela garantia.</p>
+            </div>
+        </details>
         <section class="db-summary-terms" aria-labelledby="repair-summary-terms">
             <h3 id="repair-summary-terms">Confirmação do pedido</h3>
             <div class="db-summary-consent">
