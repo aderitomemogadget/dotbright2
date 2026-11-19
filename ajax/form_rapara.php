@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     dotbright_repair_order_send($request_id, 'copy', 'aderitofernandes@gmail.com', $subject, $summary);
 
-    $html = '<p>✅ Pedido de recolha solicitado com sucesso!</p><p>Somos rápidos a responder! Em breve receberá um e-mail com os próximos passos. Fique atento à sua caixa de entrada.</p><p>Obrigado pela preferência<br>DotBright - Serviço RRE</p>';
+    $html = '<p>✅ Pedido de recolha solicitado com sucesso!</p><p>Consulte abaixo o resumo do seu pedido e os próximos passos.</p><p>Obrigado pela preferência<br>DotBright - Serviço RRE</p>';
     $html .= '<p>Recebemos o seu pedido. A equipa irá confirmar consigo os detalhes e o valor estimado, agendar a recolha e combinar o pagamento. Este email confirma a receção do pedido; a recolha ainda está sujeita a agendamento.</p>';
     $html .= $summary;
     $html .= '<h3>Próximos passos</h3>';
