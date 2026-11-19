@@ -2401,11 +2401,12 @@ function ficha_p1_final($prods,$labels='')
                                         painel.find(".reparacao-etapa-titulo").trigger("focus");
                                     }
                                     function reparacaoAvancar(etapa){
-                                        var campos = etapa == 3 ? ["r_nome", "r_tel", "r_email"] : ["r_recolha", "r_cp", "r_cidade"];
+                                        var campos = etapa == 3 ? ["r_nome", "r_tel", "r_email", "r_avaria"] : ["r_recolha", "r_cp", "r_cidade"];
                                         var primeiro = null;
                                         campos.forEach(function(id){
                                             var campo = $("#" + id);
                                             var vazio = campo.val() == "" || campo.val() == 0;
+                                            if(id === "r_avaria") vazio = $.trim(campo.val()) === "";
                                             campo.closest(".form-group").toggleClass("has-error", vazio);
                                             if(vazio && !primeiro) primeiro = campo;
                                         });
@@ -2438,6 +2439,7 @@ function ficha_p1_final($prods,$labels='')
 										var unlock = $.trim($("#r_unlock").val());
 									
 										$("#resumo_nome").text(nome);
+                                        $("#resumo_avaria").text($.trim($("#r_avaria").val()));
 										$("#resumo_recolha").text(recolha);
 										$("#resumo_entrega").text(entrega);
 										$("#resumo_CP").text(cp);
@@ -2544,6 +2546,10 @@ function ficha_p1_final($prods,$labels='')
                 <div class="db-customer-field db-customer-field-wide form-group">
                     <label for="r_nif">NIF</label>
                     <input onchange="check_nif1()" maxlength="9" id="r_nif" name="r_nif" type="text" class="ri">
+                </div>
+                <div class="db-customer-field db-customer-field-wide form-group">
+                    <label for="r_avaria">Descrição da avaria <span class="mandatory">*</span></label>
+                    <textarea id="r_avaria" name="r_avaria" class="ri" rows="4" maxlength="2000" required placeholder="Ex.: Ecrã partido, não liga, problemas de toque..."></textarea>
                 </div>
             </div>
         </section>
@@ -2709,7 +2715,7 @@ REPAIR_SUMMARY_OPEN;
                                 $return .= '<br><b>Tipo de peça:</b> '.htmlspecialchars($repair_quote['service']['part'], ENT_QUOTES, 'UTF-8');
                                 $return .= '<br><b>Descrição da peça:</b> '.htmlspecialchars($repair_quote['service']['part_detail'], ENT_QUOTES, 'UTF-8');
 
-                        $return .= '</div></section>';
+                        $return .= '<p class="db-summary-fault"><strong>Descrição da avaria:</strong><span id="resumo_avaria"></span></p></div></section>';
                         $return .= '<section class="db-summary-card db-summary-amounts" aria-labelledby="repair-summary-amounts"><h3 id="repair-summary-amounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M7 6h10M7 11h3M14 11h3M7 15h3M14 15h3M7 19h3M14 19h3"/></svg><span>Valor estimado</span></h3><dl class="db-summary-prices"><div><dt>Avaria</dt><dd>'.numberformat($repair_quote['repair_net']).'</dd></div><div><dt>Portes</dt><dd>'.numberformat($repair_quote['shipping_net']).'</dd></div><div><dt>IVA</dt><dd>'.numberformat($repair_quote['vat']).'</dd></div><div class="db-summary-total"><dt>Total</dt><dd>'.numberformat($repair_quote['total']).'</dd></div></dl></section>';
                         $return .= <<<'REPAIR_SUMMARY_CLOSE'
             </div>

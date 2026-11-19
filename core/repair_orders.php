@@ -46,14 +46,14 @@ function dotbright_repair_order_decrypt($cipher)
 function dotbright_repair_order_payload($product, $quote, $input)
 {
     if (!dotbright_is_repair_family(isset($product['fam_id'])?$product['fam_id']:0)) throw new InvalidArgumentException('Este artigo não pertence à família de reparações.');
-    $limits=array('r_nome'=>180,'r_tel'=>50,'r_email'=>254,'r_nif'=>30,'r_recolha'=>1000,'r_entrega'=>1000,'r_cp'=>30,'r_cidade'=>180,'r_nome2'=>180,'r_morada2'=>1000,'r_cp2'=>30,'r_nif2'=>30,'r_unlock'=>10,'m_padrao'=>50,'r_periodo'=>1);
+    $limits=array('r_avaria'=>2000,'r_nome'=>180,'r_tel'=>50,'r_email'=>254,'r_nif'=>30,'r_recolha'=>1000,'r_entrega'=>1000,'r_cp'=>30,'r_cidade'=>180,'r_nome2'=>180,'r_morada2'=>1000,'r_cp2'=>30,'r_nif2'=>30,'r_unlock'=>10,'m_padrao'=>50,'r_periodo'=>1);
     $clean=array();
     foreach ($limits as $key=>$limit) {
         $value=isset($input[$key])?$input[$key]:'';
         if (!is_string($value) || !preg_match('//u',$value) || preg_match('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/',$value) || preg_match_all('/./us',$value,$unused)>$limit) throw new InvalidArgumentException('Verifique os dados introduzidos no pedido.');
         $clean[$key]=trim($value);
     }
-    foreach (array('r_nome','r_tel','r_email','r_recolha','r_cp','r_cidade') as $field) if ($clean[$field]==='') throw new InvalidArgumentException('Preencha os dados obrigatórios do pedido.');
+    foreach (array('r_avaria','r_nome','r_tel','r_email','r_recolha','r_cp','r_cidade') as $field) if ($clean[$field]==='') throw new InvalidArgumentException('Preencha os dados obrigatórios do pedido.');
     if (!filter_var($clean['r_email'],FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Indique um email válido.');
     if (!in_array($clean['r_periodo'],array('','1','2'),true)) throw new InvalidArgumentException('Período de recolha inválido.');
     foreach (array('m_termos','m_termos1') as $field) if (!isset($input[$field]) || !is_scalar($input[$field]) || (string)$input[$field]!=='1') throw new InvalidArgumentException('Aceite os Termos e Condições e os Termos de Confidencialidade.');

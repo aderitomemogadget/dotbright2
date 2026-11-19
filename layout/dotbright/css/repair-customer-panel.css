@@ -221,3 +221,9 @@
   #passo1 .reparacao-navegacao button { padding: 11px 18px; font-size: 14px; }
   #passo1 .reparacao-navegacao .reparacao-avancar { min-width: 0; flex: 1; }
 }
+
+/* Customer-entered fault description; all existing repair panel rules stay unchanged. */
+#passo1.db-customer-panel textarea.ri { height:auto; min-height:104px; resize:vertical; }
+#passo3 .db-summary-fault { margin:14px 0 0; padding-top:12px; border-top:1px solid #e2e6ee; }
+#passo3 .db-summary-fault strong, #passo3 #resumo_avaria { display:block; }
+#passo3 #resumo_avaria { margin-top:6px; white-space:pre-wrap; overflow-wrap:anywhere; }

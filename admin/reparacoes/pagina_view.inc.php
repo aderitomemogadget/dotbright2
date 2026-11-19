@@ -24,7 +24,7 @@ $ro_start_tab=$ro_access!==null || (($_POST['action'] ?? '')==='reveal')?'access
 </div></section>
 <section class="ro-detail-panel" id="ro-panel-repair" role="tabpanel" aria-labelledby="ro-tab-repair"><div class="ro-grid ro-repair-grid">
 <section class="ro-card"><h3>Reparação no momento do pedido</h3><dl><?php
-$ro_show('Produto ID',$ro_row['product_id']);$ro_show('Nome',$ro_product['name'] ?? null);$ro_show('Referência',$ro_product['reference'] ?? null);$ro_show('EAN',$ro_product['ean'] ?? null);$ro_show('Prazo em loja',$ro_quote['service']['time'] ?? null);$ro_show('Peça',$ro_quote['service']['part'] ?? null);$ro_show('Descrição da peça',$ro_quote['service']['part_detail'] ?? null);$ro_show('Garantia',$ro_quote['warranty'] ?? null);
+$ro_show('Produto ID',$ro_row['product_id']);$ro_show('Nome',$ro_product['name'] ?? null);$ro_show('Referência',$ro_product['reference'] ?? null);$ro_show('EAN',$ro_product['ean'] ?? null);$ro_show('Prazo em loja',$ro_quote['service']['time'] ?? null);$ro_show('Peça',$ro_quote['service']['part'] ?? null);$ro_show('Descrição da peça',$ro_quote['service']['part_detail'] ?? null);$ro_show('Garantia',$ro_quote['warranty'] ?? null);$ro_show('Descrição da avaria',$ro_customer['r_avaria'] ?? null);
 ?></dl></section>
 <section class="ro-card"><h3>Valores registados</h3><dl><?php foreach(array('repair_gross'=>'Reparação com IVA','repair_net'=>'Reparação sem IVA','shipping_gross'=>'Portes com IVA','shipping_net'=>'Portes sem IVA','vat'=>'IVA','total'=>'Total') as $field=>$label) $ro_show($label,isset($ro_quote[$field])?number_format($ro_quote[$field],2,',','.').' €':null); ?></dl></section>
 </div></section>

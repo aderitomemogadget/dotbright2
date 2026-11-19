@@ -45,7 +45,7 @@ function dotbright_repair_quote($product, $now = null)
 function dotbright_repair_request_data($input)
 {
     $data = array();
-    foreach (array('r_nome', 'r_recolha', 'r_entrega', 'r_cp', 'r_cidade', 'r_tel', 'r_email', 'r_nif', 'r_nome2', 'r_morada2', 'r_cp2', 'r_nif2') as $key) {
+    foreach (array('r_avaria', 'r_nome', 'r_recolha', 'r_entrega', 'r_cp', 'r_cidade', 'r_tel', 'r_email', 'r_nif', 'r_nome2', 'r_morada2', 'r_cp2', 'r_nif2') as $key) {
         $data[$key] = isset($input[$key]) && is_scalar($input[$key]) ? trim((string)$input[$key]) : '';
     }
     foreach (array('r_entrega' => 'r_recolha', 'r_nome2' => 'r_nome', 'r_morada2' => 'r_recolha', 'r_cp2' => 'r_cp', 'r_nif2' => 'r_nif') as $key => $fallback) {
@@ -61,7 +61,11 @@ function dotbright_repair_email_summary($product, $data, $quote)
     $escape = function ($value) { return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8'); };
     $section = function ($title, $rows) use ($escape) {
         $html = '<div style="border:1px solid #ddd;border-radius:10px;margin:15px 0;padding:15px"><h3>'.$escape($title).'</h3>';
-        foreach ($rows as $label => $value) $html .= '<p><strong>'.$escape($label).':</strong> '.$escape($value === '' ? '—' : $value).'</p>';
+        foreach ($rows as $label => $value) {
+            $text = $escape($value === '' ? '—' : $value);
+            if ($label === 'Descrição da avaria') $text = nl2br($text);
+            $html .= '<p><strong>'.$escape($label).':</strong> '.$text.'</p>';
+        }
         return $html.'</div>';
     };
     $html = $section('Dados do cliente e recolha', array(
@@ -72,6 +76,7 @@ function dotbright_repair_email_summary($product, $data, $quote)
     $html .= $section('Dados de faturação', array('Nome completo' => $data['r_nome2'], 'Morada' => $data['r_morada2'], 'Código Postal' => $data['r_cp2'], 'NIF' => $data['r_nif2']));
     $reference = explode('_', $product['prod_ref']);
     $rows = array('Reparação' => rtrim($product['prod_nome'], '- '), 'Referência' => $reference[0], 'Garantia' => $quote['warranty']);
+    $rows['Descrição da avaria'] = isset($data['r_avaria']) ? $data['r_avaria'] : '';
     $rows['Prazo estimado'] = $quote['service']['time'];
     $rows['Peça'] = $quote['service']['part'];
     $rows['Descrição da peça'] = $quote['service']['part_detail'];

@@ -62,16 +62,18 @@ foreach (explode("\n",$summary_source) as $summary_line) {
 }
 repair_assert(!empty($summary_verified), 'Repair amounts template not found.');
 
-$input = array('prod_id' => '115852', 'r_nome' => ' Cliente Teste ', 'r_recolha' => ' Rua de Teste 10 ', 'r_cp' => '4470-151',
+$input = array('prod_id' => '115852', 'r_avaria' => " Ecrã partido & sem toque.\nNão liga <teste>. ", 'r_nome' => ' Cliente Teste ', 'r_recolha' => ' Rua de Teste 10 ', 'r_cp' => '4470-151',
     'r_cidade' => 'Maia', 'r_tel' => '912345678', 'r_email' => 'cliente@example.test', 'r_nif' => '123456789', 'r_periodo' => '2',
     'r_nome2' => ' ', 'r_morada2' => '', 'r_cp2' => '', 'r_nif2' => '', 'r_entrega' => ' ', 'r_unlock' => 'TEST-ACCESS-CODE');
 $data = dotbright_repair_request_data($input);
+repair_assert($data['r_avaria'] === trim($input['r_avaria']), 'Fault description must preserve accents and line breaks.');
 repair_assert($data['r_entrega'] === 'Rua de Teste 10' && $data['r_morada2'] === 'Rua de Teste 10', 'Collection fallback must be shared by delivery and billing.');
 repair_assert($data['r_nome2'] === 'Cliente Teste' && $data['r_cp2'] === '4470-151' && $data['r_nif2'] === '123456789', 'Billing fallbacks differ from the browser summary.');
 repair_assert($data['period'] === 'Tarde' && dotbright_repair_request_data(array())['period'] === 'Não especificado', 'Collection period labels changed.');
 $different = dotbright_repair_request_data(array_merge($input, array('r_entrega' => 'Outra morada', 'r_morada2' => 'Morada de faturação')));
 repair_assert($different['r_entrega'] === 'Outra morada' && $different['r_morada2'] === 'Morada de faturação', 'Explicit addresses must be retained.');
 $escaped = dotbright_repair_email_summary($product, dotbright_repair_request_data(array_merge($input, array('r_nome' => '<script>test</script>'))), $quote);
+repair_assert(strpos($escaped, 'Ecrã partido &amp; sem toque.<br />') !== false && strpos($escaped, 'Não liga &lt;teste&gt;.') !== false, 'Fault description must be escaped and retain line breaks in email.');
 repair_assert(strpos($escaped, '<script>') === false && strpos($escaped, '&lt;script&gt;') !== false, 'Request text must be escaped in email HTML.');
 $paid_email=dotbright_repair_email_summary(repair_test_product(29.90),$data,$paid_rre);
 repair_assert(strpos($paid_email,'Portes:</strong> 8,13 €')!==false && strpos($paid_email,'IVA:</strong> 7,46 €')!==false && strpos($paid_email,'Total:</strong> 39,90 €')!==false, 'Emails must use the same VAT-inclusive RRE charge as the summary.');
@@ -113,6 +115,7 @@ function repair_test_endpoint($endpoint, $input, $product, $db_ok = true, $faile
     return ob_get_clean();
 }
 $result = repair_test_endpoint($endpoint, $input, $promo);
+repair_assert($GLOBALS['repair_test_saved']['data']['r_avaria'] === trim($input['r_avaria']), 'Endpoint dropped the fault description before storage.');
 repair_assert(count($GLOBALS['repair_test_emails']) === 3, 'Keep both staff recipients and the customer confirmation.');
 $shared_summary = dotbright_repair_email_summary($promo, $data, dotbright_repair_quote($promo));
 foreach ($GLOBALS['repair_test_emails'] as $email) {

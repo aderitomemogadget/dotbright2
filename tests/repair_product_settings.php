@@ -80,7 +80,7 @@ check(strpos($email, 'Descrição curta &amp; confirmação') !== false, 'Email 
 // Render the actual summary fragment with the same quote used by the emails.
 $summary_source = file_get_contents(__DIR__.'/../layout/dotbright/code/produto.php');
 $summary_start = strpos($summary_source, "$"."return .= strtoupper($"."repair_quote['warranty']).' DE GARANTIA';");
-$summary_end = strpos($summary_source, "$"."return .= '</div></section>';", $summary_start);
+$summary_end = strpos($summary_source, "$"."return .= '<section class=\"db-summary-card db-summary-amounts\"", $summary_start);
 check($summary_start !== false && $summary_end !== false, 'Summary fragment not found.');
 $repair_quote = $q;
 $return = '';
@@ -110,7 +110,7 @@ function send_email($to, $subject, $body) { $GLOBALS['settings_emails'][] = $bod
 $GLOBALS['settings_fail'] = false;
 $GLOBALS['settings_emails'] = array();
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = array('prod_id' => 400, 'r_nome' => 'Cliente teste', 'r_email' => 'cliente@example.test');
+$_POST = array('prod_id' => 400, 'r_nome' => 'Cliente teste', 'r_avaria' => 'Lente partida & fotografias desfocadas.', 'r_email' => 'cliente@example.test');
 $endpoint = file_get_contents(__DIR__.'/../ajax/form_rapara.php');
 $endpoint = str_replace(array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';", "require_once \$path.'repair_orders.php';"), '', $endpoint);
 $endpoint = preg_replace('/^<\?php\s*/', '', $endpoint);
@@ -118,4 +118,5 @@ ob_start(); eval($endpoint); $response = ob_get_clean();
 check($response === 'Pedido enviado com sucesso!' && count($GLOBALS['settings_emails']) === 3, 'Configured repair submission failed.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, '24 meses') !== false && strpos($body, '1 hora') !== false && strpos($body, 'Peça oficial Apple') !== false, 'Configured data lost in submitted request email.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Descrição curta &amp; confirmação') !== false, 'Short description missing from staff or customer email.');
+foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Lente partida &amp; fotografias desfocadas.') !== false, 'Fault description missing from customer or staff email.');
 echo "PASS: repair family isolation, settings validation/save/failures, all times/parts/warranties, original pricing, emails, panel and admin rendering. No external side effects.\n";
