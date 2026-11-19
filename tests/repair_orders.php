@@ -75,6 +75,7 @@ ro_assert(strpos($html,'action="pagina.php"')!==false && strpos($html,'href="lis
 $ro_access=dotbright_repair_order_decrypt($row['access_cipher']);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'TEST-CODE')!==false,'Explicit access reveal not rendered.');
 $ro_row=null;$ro_id=0;$ro_term=$ro_status='';$ro_result=dotbright_repair_orders_search($db,'','',1);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'Seguinte')!==false && strpos($html,'TEST-CODE')===false,'List pagination/secrecy failed.');
 ro_assert(strpos($html,'action="list.php"')!==false && strpos($html,'href="pagina.php?id=')!==false && strpos($html,'repair_orders.php')===false,'Search, import and detail links must stay inside the Repairs folder.');
+ro_assert(strpos($html,'id="content"')===false && strpos($html,'<nav')===false && strpos($html,'class="ro-pagination"')!==false,'Repairs must reuse the BO content wrapper and avoid the legacy global nav styles.');
 require_once __DIR__.'/../admin/repair_orders_widget.inc.php';
 $dashboard=dotbright_repair_orders_dashboard(7,array(8=>1),true,$db);
 ro_assert(substr_count($dashboard,'<tr>')===10 && strpos($dashboard,'Últimos pedidos de reparação')!==false,'Dashboard must show ten latest repair requests in a separate panel.');
