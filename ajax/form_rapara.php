@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $html .= '<p>Para esclarecimentos, contacte-nos pelo <a href="https://wa.me/351914228888">WhatsApp 914 228 888</a>.</p><p>Cumprimentos,<br>Equipa DotBright</p>';
 
     if (send_email($data['r_email'], $subject, $html)) {
-        echo 'Recebemos o seu pedido de recolha. Enviámos um email com o resumo; a equipa irá confirmar os detalhes, o agendamento e o pagamento.';
+        echo '✅ Pedido de recolha solicitado com sucesso!<br><br>Somos rápidos a responder! Em breve receberá um e-mail com os próximos passos. Fique atento à sua caixa de entrada.<br><br>Obrigado pela preferência<br>DotBright - Serviço RRE';
     } else {
         echo 'O pedido foi registado e enviado à assistência, mas não foi possível enviar o email de confirmação. Contacte a equipa antes de repetir o pedido.';
     }
