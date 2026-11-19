@@ -43,10 +43,27 @@ function dotbright_repair_order_decrypt($cipher)
     if (!is_array($data)) throw new RuntimeException('Dados de acesso inválidos.');
     return $data;
 }
+function dotbright_repair_order_form_data($clean)
+{
+    $data=dotbright_repair_request_data($clean);
+    $data['r_periodo']=$clean['r_periodo'];
+    return $data;
+}
 function dotbright_repair_order_payload($product, $quote, $input)
 {
     if (!dotbright_is_repair_family(isset($product['fam_id'])?$product['fam_id']:0)) throw new InvalidArgumentException('Este artigo não pertence à família de reparações.');
-    $limits=array('r_avaria'=>2000,'r_nome'=>180,'r_tel'=>50,'r_email'=>254,'r_nif'=>30,'r_recolha'=>1000,'r_entrega'=>1000,'r_cp'=>30,'r_cidade'=>180,'r_nome2'=>180,'r_morada2'=>1000,'r_cp2'=>30,'r_nif2'=>30,'r_unlock'=>10,'m_padrao'=>50,'r_periodo'=>1);
+    $version=$input['r_form_version'] ?? '';
+    if (!is_string($version) || !in_array($version,array('','2'),true)) throw new InvalidArgumentException('Versão do formulário inválida. Atualize a página.');
+    $modern=$version==='2';
+    if ($modern) {
+        if (!is_string($input['r_acesso'] ?? null) || !in_array($input['r_acesso'],array('remove','code','pattern','refuse'),true)) throw new InvalidArgumentException('Escolha como pretende disponibilizar o acesso ao equipamento.');
+        if (!is_string($input['r_entrega_tipo'] ?? null) || !in_array($input['r_entrega_tipo'],array('same','different'),true)) throw new InvalidArgumentException('Escolha a morada de entrega.');
+        if ($input['r_acesso']!=='code') $input['r_unlock']='';
+        if ($input['r_acesso']!=='pattern') $input['m_padrao']='';
+        if ($input['r_entrega_tipo']==='same') foreach(array('r_entrega','r_entrega_cp','r_entrega_cidade','r_entrega_obs') as $key) $input[$key]='';
+        $input['r_morada2']=$input['r_cp2']='';
+    }
+    $limits=array('r_form_version'=>1,'r_recolha_obs'=>1000,'r_entrega_tipo'=>9,'r_entrega_cp'=>30,'r_entrega_cidade'=>180,'r_entrega_obs'=>1000,'r_acesso'=>7,'r_avaria'=>2000,'r_nome'=>180,'r_tel'=>50,'r_email'=>254,'r_nif'=>30,'r_recolha'=>1000,'r_entrega'=>1000,'r_cp'=>30,'r_cidade'=>180,'r_nome2'=>180,'r_morada2'=>1000,'r_cp2'=>30,'r_nif2'=>30,'r_unlock'=>10,'m_padrao'=>50,'r_periodo'=>1);
     $clean=array();
     foreach ($limits as $key=>$limit) {
         $value=isset($input[$key])?$input[$key]:'';
@@ -57,17 +74,21 @@ function dotbright_repair_order_payload($product, $quote, $input)
     if (!filter_var($clean['r_email'],FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Indique um email válido.');
     if (!in_array($clean['r_periodo'],array('','1','2'),true)) throw new InvalidArgumentException('Período de recolha inválido.');
     foreach (array('m_termos','m_termos1') as $field) if (!isset($input[$field]) || !is_scalar($input[$field]) || (string)$input[$field]!=='1') throw new InvalidArgumentException('Aceite os Termos e Condições e os Termos de Confidencialidade.');
+    if ($modern) {
+        if ($clean['r_acesso']==='code' && $clean['r_unlock']==='') throw new InvalidArgumentException('Indique o código de desbloqueio.');
+        if ($clean['r_acesso']==='pattern' && !preg_match('/^[1-9]{1,9}$/D',$clean['m_padrao'])) throw new InvalidArgumentException('Desenhe um padrão de desbloqueio válido.');
+        if ($clean['r_entrega_tipo']==='different') foreach(array('r_entrega','r_entrega_cp','r_entrega_cidade') as $key) if($clean[$key]==='') throw new InvalidArgumentException('Preencha a morada, o código postal e a localidade de entrega.');
+    }
     $access=array();
     if ($clean['r_unlock']!=='') $access['code']=$clean['r_unlock'];
     if ($clean['m_padrao']!=='') $access['pattern']=$clean['m_padrao'];
-    $data=dotbright_repair_request_data($clean);
-    $data['r_periodo']=$clean['r_periodo'];
+    $data=dotbright_repair_order_form_data($clean);
     $reference=explode('_',isset($product['prod_ref'])?$product['prod_ref']:'');
     $now=gmdate('Y-m-d H:i:s');
     return array('created_at'=>$now,'status'=>'received','customer_name'=>$data['r_nome'],'customer_email'=>$data['r_email'],'customer_phone'=>$data['r_tel'],
         'product_id'=>(int)$product['prod_id'],'product_name'=>rtrim($product['prod_nome'],'- '),'product_reference'=>$reference[0], 'total_cents'=>(int)round($quote['total']*100),
-        'details_json'=>json_encode(array('customer'=>$data,'product'=>array('id'=>(int)$product['prod_id'],'name'=>rtrim($product['prod_nome'],'- '),'reference'=>$reference[0],'ean'=>isset($product['Ref_Ean'])?$product['Ref_Ean']:''),'quote'=>$quote,'consents'=>array('terms'=>true,'confidentiality'=>true,'accepted_at'=>$now)),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),
-        'access_mode'=>!$access?'not_provided':(count($access)===2?'code_and_pattern':(isset($access['code'])?'code':'pattern')), 'access_cipher'=>dotbright_repair_order_encrypt($access), 'updated_at'=>$now);
+        'details_json'=>json_encode(array('form_version'=>$modern?2:1,'customer'=>$data,'product'=>array('id'=>(int)$product['prod_id'],'name'=>rtrim($product['prod_nome'],'- '),'reference'=>$reference[0],'ean'=>isset($product['Ref_Ean'])?$product['Ref_Ean']:''),'quote'=>$quote,'consents'=>array('terms'=>true,'confidentiality'=>true,'accepted_at'=>$now)),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),
+        'access_mode'=>$modern?$clean['r_acesso']:(!$access?'not_provided':(count($access)===2?'code_and_pattern':(isset($access['code'])?'code':'pattern'))), 'access_cipher'=>dotbright_repair_order_encrypt($access), 'updated_at'=>$now);
 }
 function dotbright_repair_order_insert(PDO $db, $record)
 {

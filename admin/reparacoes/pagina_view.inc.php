@@ -4,6 +4,17 @@ $ro_details=json_decode($ro_row['details_json'],true) ?: array();
 $ro_customer=$ro_details['customer'] ?? array();
 $ro_product=$ro_details['product'] ?? array();
 $ro_quote=$ro_details['quote'] ?? array();
+$ro_modern=($ro_details['form_version'] ?? 1)>=2;
+$ro_billing_fields=$ro_modern?array('r_nome2'=>'Nome / empresa','r_nif2'=>'NIF'):array('r_nome2'=>'Nome / empresa','r_morada2'=>'Morada','r_cp2'=>'Código postal','r_nif2'=>'NIF');
+$ro_address_fields=array('r_recolha'=>'Morada de recolha','r_cp'=>'Código postal','r_cidade'=>'Cidade');
+if ($ro_modern) {
+    $ro_address_fields['r_recolha_obs']='Observações para recolha';
+    $ro_customer['delivery_choice_label']=($ro_customer['r_entrega_tipo'] ?? '')==='same'?'Igual à morada de recolha':'Morada diferente';
+    $ro_address_fields['delivery_choice_label']='Opção de entrega';
+}
+$ro_address_fields['r_entrega']='Morada de entrega';
+if ($ro_modern) $ro_address_fields+=array('r_entrega_cp'=>'Código postal de entrega','r_entrega_cidade'=>'Localidade de entrega','r_entrega_obs'=>'Observações para entrega');
+$ro_address_fields['period']='Período de recolha';
 $ro_start_tab=$ro_access!==null || (($_POST['action'] ?? '')==='reveal')?'access':'customer';
 ?>
 <div class="ro-detail" data-start-tab="<?=$re($ro_start_tab)?>">
@@ -19,7 +30,7 @@ $ro_start_tab=$ro_access!==null || (($_POST['action'] ?? '')==='reveal')?'access
 <button type="button" role="tab" id="ro-tab-<?=$key?>" aria-controls="ro-panel-<?=$key?>" aria-selected="<?=$key==='customer'?'true':'false'?>" tabindex="<?=$key==='customer'?'0':'-1'?>" data-tab="<?=$key?>"><?=$re($label)?></button>
 <?php } ?></div>
 <section class="ro-detail-panel" id="ro-panel-customer" role="tabpanel" aria-labelledby="ro-tab-customer"><div class="ro-grid ro-customer-grid">
-<?php foreach (array('Dados do cliente'=>array('r_nome'=>'Nome','r_tel'=>'Telefone','r_email'=>'Email','r_nif'=>'NIF'),'Recolha e entrega'=>array('r_recolha'=>'Morada de recolha','r_cp'=>'Código postal','r_cidade'=>'Cidade','r_entrega'=>'Morada de entrega','period'=>'Período de recolha'),'Faturação'=>array('r_nome2'=>'Nome / empresa','r_morada2'=>'Morada','r_cp2'=>'Código postal','r_nif2'=>'NIF')) as $title=>$fields) { ?>
+<?php foreach (array('Dados do cliente'=>array('r_nome'=>'Nome','r_tel'=>'Telefone','r_email'=>'Email','r_nif'=>'NIF'),'Recolha e entrega'=>$ro_address_fields,'Faturação'=>$ro_billing_fields) as $title=>$fields) { ?>
 <section class="ro-card"><h3><?=$re($title)?></h3><dl><?php foreach($fields as $field=>$label) $ro_show($label,$ro_customer[$field] ?? null); ?></dl></section><?php } ?>
 </div></section>
 <section class="ro-detail-panel" id="ro-panel-repair" role="tabpanel" aria-labelledby="ro-tab-repair"><div class="ro-grid ro-repair-grid">
@@ -34,7 +45,8 @@ $ro_show('Produto ID',$ro_row['product_id']);$ro_show('Nome',$ro_product['name']
 </div></section>
 <section class="ro-detail-panel ro-access-panel" id="ro-panel-access" role="tabpanel" aria-labelledby="ro-tab-access">
 <section class="ro-card"><h3>Acesso ao equipamento</h3>
-<?php if (!$ro_row['access_cipher']) { ?><p>Dados de acesso não fornecidos ou indisponíveis no registo antigo.</p>
+<dl><?php $ro_access_labels=dotbright_repair_access_labels();$ro_show('Opção indicada pelo cliente',$ro_access_labels[$ro_row['access_mode']] ?? $ro_row['access_mode']); ?></dl>
+<?php if (!$ro_row['access_cipher']) { ?><p><?=$ro_modern?'Não foi fornecido um código ou padrão.':'Dados de acesso não fornecidos ou indisponíveis no registo antigo.'?></p>
 <?php } elseif (!$ro_can_reveal) { ?><p>A consulta exige permissões de Produtos e Encomendas.</p>
 <?php } elseif ($ro_access!==null) { ?><dl><?php foreach(array('code'=>'Código','pattern'=>'Padrão') as $field=>$label) if(isset($ro_access[$field])) $ro_show($label,$ro_access[$field]); ?></dl><p>Dados confidenciais, apenas para reparação e testes.</p>
 <?php } else { ?><form method="post" action="pagina.php"><input type="hidden" name="_csrf" value="<?=$re($ro_csrf)?>"><input type="hidden" name="id" value="<?=(int)$ro_row['id']?>"><input type="hidden" name="action" value="reveal"><label><input type="checkbox" name="confirm" value="1" required> Preciso de consultar os dados para esta reparação.</label><button type="submit">Revelar dados de acesso</button></form><?php } ?>

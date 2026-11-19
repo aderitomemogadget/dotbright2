@@ -2415,13 +2415,14 @@ function ficha_p1_final($prods,$labels='')
                                             primeiro.trigger("focus");
                                             return false;
                                         }
+                                        if(window.reparacaoValidarOpcoes && !window.reparacaoValidarOpcoes(etapa)) return false;
                                         if(etapa == 4) passo3();
                                         else reparacaoEtapa(etapa);
                                         return false;
                                     }';
 
 						$return .= 'function passo3(){
-										
+
 
 										var nome = $.trim($("#r_nome").val());
 										var recolha = $.trim($("#r_recolha").val());
@@ -2433,11 +2434,11 @@ function ficha_p1_final($prods,$labels='')
 										var nif = $.trim($("#r_nif").val());
 										var periodoRecolha = $("#r_manha").is(":checked") ? "Manhã" : ($("#r_tarde").is(":checked") ? "Tarde" : "Não especificado");
 										var nome2 = $.trim($("#r_nome2").val());
-										var morada2 = $.trim($("#r_morada2").val());
-										var cp2 = $.trim($("#r_cp2").val());
+
+
 										var nif2 = $.trim($("#r_nif2").val());
-										var unlock = $.trim($("#r_unlock").val());
-									
+
+
 										$("#resumo_nome").text(nome);
                                         $("#resumo_avaria").text($.trim($("#r_avaria").val()));
 										$("#resumo_recolha").text(recolha);
@@ -2450,22 +2451,23 @@ function ficha_p1_final($prods,$labels='')
 										$("#resumo_periodoRecolha").text(periodoRecolha);
 
 										$("#resumo_nome2").text(nome2);
-										$("#resumo_morada").text(morada2);
-										$("#resumo_CP2").text(cp2);
+
+
 										$("#resumo_nif2").text(nif2);
-										$("#resumo_unlock").text(unlock);
+
 
 
 										if(nome2=="")$("#resumo_nome2").text(nome);
-										if(morada2=="")$("#resumo_morada").text(recolha);
-										if(cp2=="")$("#resumo_CP2").text(cp);
+
+
 										if(nif2=="")$("#resumo_nif2").text(nif);
-										
+                                        if(window.reparacaoResumoOpcoes) window.reparacaoResumoOpcoes();
+
 
 										reparacaoEtapa(4);
 
 									}';
-						$return .= 'function passo4(){	
+						$return .= 'function passo4(){
 										var campos_preenchidos=0;
 
 										if(document.getElementById("m_termos") && document.getElementById("m_termos").checked == false) {campos_preenchidos = 3;}
@@ -2508,6 +2510,7 @@ function ficha_p1_final($prods,$labels='')
 
 					$return .= '<div>';
 					$return .= '<link rel="stylesheet" href="layout/'.PROJETO.'/css/repair-customer-panel.css?v='.filemtime(__DIR__.'/../css/repair-customer-panel.css').'">';
+                    $return .= '<script defer src="layout/'.PROJETO.'/js/repair-request-panels.js?v='.filemtime(__DIR__.'/../js/repair-request-panels.js').'"></script>';
                     $return .= '<style>';
 					$return .= '.ri{padding-left:10px;padding-right:10px;width:100%;border-radius:10px;border:1px solid;background-color:transparent}';
                     $return .= '.reparacao-painel{display:flow-root;max-width:900px;margin:0 auto;float:none}.reparacao-etapa-titulo{font-size:20px;margin:0 0 24px;color:#ff8900}.reparacao-etapa-titulo:focus{outline:none}.reparacao-navegacao{clear:both;padding-top:30px;display:flex;gap:12px;flex-wrap:wrap}.reparacao-avancar,.reparacao-voltar{border:0;border-radius:10px;padding:10px 18px;color:#fff;cursor:pointer}.reparacao-avancar{background:#ff8900}.reparacao-voltar{background:#9f9f9f}#reparacao-info>.reparacao-avancar{display:block;width:100%;margin-top:30px}#reparacao-formulario .product-info{width:100%;max-width:none;margin:0}#reparacao-formulario .reparacao-painel{width:100%}';
@@ -2515,7 +2518,7 @@ function ficha_p1_final($prods,$labels='')
 					
 					$return .= '<form id="form_repara" name="form_repara" onsubmit="return validaCampos()">';
 
-						$return .= '<input type="hidden" id="step" value="1">';
+						$return .= '<input type="hidden" name="r_form_version" value="2"><input type="hidden" id="step" value="1">';
 						$return .= '<input type="hidden" id="prod_id" name="prod_id" value="'.$prods['prod_id'].'">';
 						$return .= '<div id="resposta"></div>';
 
@@ -2554,46 +2557,39 @@ function ficha_p1_final($prods,$labels='')
             </div>
         </section>
         <section class="db-customer-section" aria-labelledby="repair-billing-heading">
-            <h3 id="repair-billing-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h10l4 4v16H5ZM15 2v5h4M8 11h8M8 15h8M8 19h5"/></svg><span>Dados para faturação</span></h3>
+            <h3 id="repair-billing-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h10l4 4v16H5ZM15 2v5h4M8 11h8M8 15h8M8 19h5"/></svg><span>Dados de faturação <small>(opcional)</small></span></h3>
             <div class="db-customer-fields">
-                <div class="db-customer-field db-customer-field-wide form-group">
-                    <label for="r_nome2">Nome ou Designação (pode ser empresa)<small>Se diferente do indicado no pedido de recolha</small></label>
-                    <input id="r_nome2" name="r_nome2" type="text" class="ri">
-                </div>
-                <div class="db-customer-field db-customer-field-wide form-group">
-                    <label for="r_morada2">Morada<small>Se diferente do indicado no pedido de recolha</small></label>
-                    <input id="r_morada2" name="r_morada2" type="text" class="ri">
-                </div>
-                <div class="db-customer-field form-group">
-                    <label for="r_cp2">Código Postal<small>Se diferente do indicado no pedido de recolha</small></label>
-                    <input id="r_cp2" name="r_cp2" type="text" class="ri">
-                </div>
-                <div class="db-customer-field form-group">
-                    <label for="r_nif2">NIF<small>Se diferente do indicado no pedido de recolha</small></label>
-                    <input id="r_nif2" name="r_nif2" type="text" class="ri">
-                </div>
+                <div class="db-customer-field db-customer-field-wide form-group"><label for="r_nome2">Nome ou nome da empresa</label><input id="r_nome2" name="r_nome2" type="text" class="ri"></div>
+                <div class="db-customer-field db-customer-field-wide form-group"><label for="r_nif2">NIF / contribuinte</label><input id="r_nif2" name="r_nif2" type="text" class="ri" maxlength="30"></div>
             </div>
+            <p class="db-repair-help">Se não preencher estes dados, a fatura será emitida em nome do cliente indicado no pedido.</p>
         </section>
         <section class="db-customer-section db-customer-access" aria-labelledby="repair-access-heading">
             <h3 id="repair-access-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="16" cy="8" r="5"/><path d="m12 12-9 9m2-2 2 2m0-6 2 2"/></svg><span>Acesso ao equipamento</span></h3>
-            <p>Para podermos testar o seu equipamento, por favor, remova ou indique o código de desbloqueio do equipamento a reparar.</p>
+            <p>Para testarmos o equipamento e concluirmos alguns procedimentos de reparação, poderá ser necessário aceder ao sistema.</p>
+            <fieldset class="db-repair-options form-group" id="repair-access-options"><legend>Como pretende disponibilizar o acesso? <span class="mandatory">*</span></legend>
+                <label><input type="radio" name="r_acesso" value="remove" required> <span>Vou remover temporariamente o código de desbloqueio.</span></label>
+                <label><input type="radio" name="r_acesso" value="code"> <span>Vou indicar o código de desbloqueio.</span></label>
+                <label><input type="radio" name="r_acesso" value="pattern"> <span>Vou desenhar o padrão de desbloqueio.</span></label>
+                <label><input type="radio" name="r_acesso" value="refuse"> <span>Não pretendo facultar o acesso.</span></label>
+            </fieldset>
             <div class="db-customer-fields">
-                <div class="db-customer-field form-group">
-                    <label for="r_unlock">Código de desbloqueio</label>
-                    <input maxlength="10" id="r_unlock" name="r_unlock" type="text" class="ri">
+                <div class="db-customer-field db-customer-field-wide form-group" id="repair-access-code" data-repair-conditional hidden>
+                    <label for="r_unlock">Código de desbloqueio <span class="mandatory">*</span></label><input maxlength="10" id="r_unlock" name="r_unlock" type="text" class="ri" disabled autocomplete="off">
                 </div>
-                <div class="db-customer-field form-group">
-                    <label for="m_padrao">Padrão</label>
+                <div class="db-customer-field db-customer-field-wide form-group" id="repair-access-pattern" data-repair-conditional hidden>
+                    <label for="m_padrao">Padrão de desbloqueio <span class="mandatory">*</span></label>
                     <div class="db-customer-pattern-controls">
-                        <input class="ri" type="text" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" name="m_padrao" id="m_padrao" value="">
+                        <input class="ri" type="text" name="m_padrao" id="m_padrao" value="" readonly disabled aria-label="Padrão desenhado">
                         <input class="btn btn-default button-search" type="button" id="buttonpattern2" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" value="Mostrar">
                         <input class="btn btn-default button-search" type="button" id="buttonpattern" onclick="hidepattern();$('#buttonpattern').hide();$('#buttonpattern2').show();" style="display:none" value="Esconder">
                         <div id="mypattern" class="mhn-lock pattern_minha"></div>
+                        <button type="button" class="btn btn-default" id="repair-pattern-clear">Limpar e repetir</button>
                     </div>
                 </div>
             </div>
             <div class="db-customer-notes">
-                <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><span>Sem acesso ao equipamento, poderemos não conseguir realizar alguns testes ou concluir determinados procedimentos.</span></p>
+                <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><span>Sem acesso ao equipamento, poderemos não conseguir realizar alguns testes ou concluir determinados procedimentos. Se necessário, explicaremos como poderá concluir os passos em falta após a devolução.</span></p>
                 <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg><span>O código é tratado de forma confidencial e utilizado apenas quando necessário para a reparação e os testes.</span></p>
             </div>
             <p style="margin-top:16px"><strong>Preparação para recolha do equipamento</strong><br>Prepare o seu equipamento para a recolha. Acondicione devidamente o equipamento para o transporte.</p>
@@ -2629,6 +2625,7 @@ REPAIR_CUSTOMER_PANEL;
                         <label for="r_cidade">Cidade <span class="mandatory">*</span></label>
                         <input id="r_cidade" name="r_cidade" type="text" class="ri" placeholder="Ex.: Maia">
                     </div>
+                    <div class="db-address-field db-address-field-wide form-group"><label for="r_recolha_obs">Observações para a recolha <small>(opcional)</small></label><textarea id="r_recolha_obs" name="r_recolha_obs" class="ri" rows="3" maxlength="1000" placeholder="Ex.: Portaria, horário, etc."></textarea></div>
                 </div>
                 <fieldset class="db-address-period">
                     <legend>Período preferencial de recolha</legend>
@@ -2640,9 +2637,15 @@ REPAIR_CUSTOMER_PANEL;
             </section>
             <section class="db-address-section" aria-labelledby="repair-delivery-heading">
                 <h3 id="repair-delivery-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m2 11 10-9 10 9M5 9v13h14V9M9 22v-8h6v8"/></svg><span>Morada de entrega</span></h3>
-                <div class="db-address-field form-group">
-                    <label for="r_entrega">Morada de entrega<small>Se diferente da morada de recolha</small></label>
-                    <input id="r_entrega" name="r_entrega" type="text" class="ri" placeholder="Preencha se a morada de entrega for diferente">
+                <fieldset class="db-repair-options"><legend>Morada de entrega</legend>
+                    <label><input type="radio" name="r_entrega_tipo" value="same" checked> <span>Igual à morada de recolha</span></label>
+                    <label><input type="radio" name="r_entrega_tipo" value="different"> <span>Quero indicar uma morada diferente</span></label>
+                </fieldset>
+                <div class="db-address-fields" id="repair-delivery-fields" data-repair-conditional hidden>
+                    <div class="db-address-field db-address-field-wide form-group"><label for="r_entrega">Morada completa <span class="mandatory">*</span></label><input id="r_entrega" name="r_entrega" type="text" class="ri" disabled></div>
+                    <div class="db-address-field form-group"><label for="r_entrega_cp">Código postal <span class="mandatory">*</span></label><input id="r_entrega_cp" name="r_entrega_cp" type="text" class="ri" disabled></div>
+                    <div class="db-address-field form-group"><label for="r_entrega_cidade">Localidade <span class="mandatory">*</span></label><input id="r_entrega_cidade" name="r_entrega_cidade" type="text" class="ri" disabled></div>
+                    <div class="db-address-field db-address-field-wide form-group"><label for="r_entrega_obs">Observações para a entrega <small>(opcional)</small></label><textarea id="r_entrega_obs" name="r_entrega_obs" class="ri" maxlength="1000" rows="3" disabled></textarea></div>
                 </div>
             </section>
         </div>
@@ -2680,14 +2683,13 @@ REPAIR_ADDRESS_PANEL;
                             <div><dt>Telemóvel</dt><dd id="resumo_telefone"></dd></div>
                             <div><dt>Email</dt><dd id="resumo_email"></dd></div>
                             <div><dt>NIF</dt><dd id="resumo_nif"></dd></div>
+                            <div><dt>Acesso ao equipamento</dt><dd id="resumo_acesso"></dd></div>
                         </dl>
                     </section>
                     <section class="db-summary-card" aria-labelledby="repair-summary-billing">
                         <h3 id="repair-summary-billing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M5 2h10l4 4v16H5ZM15 2v5h4M8 11h8M8 15h8M8 19h5"/></svg><span>Dados de faturação</span></h3>
                         <dl class="db-summary-data">
                             <div><dt>Nome completo</dt><dd id="resumo_nome2"></dd></div>
-                            <div><dt>Morada</dt><dd id="resumo_morada"></dd></div>
-                            <div><dt>Código Postal</dt><dd id="resumo_CP2"></dd></div>
                             <div><dt>NIF</dt><dd id="resumo_nif2"></dd></div>
                         </dl>
                     </section>
@@ -2697,7 +2699,13 @@ REPAIR_ADDRESS_PANEL;
                     <dl class="db-summary-data db-summary-address-data">
                         <div><dt>Morada para recolha</dt><dd id="resumo_recolha"></dd></div>
                         <div><dt>Código Postal</dt><dd id="resumo_CP"></dd></div>
+                        <div><dt>Localidade de recolha</dt><dd id="resumo_cidade"></dd></div>
+                        <div><dt>Observações para a recolha</dt><dd id="resumo_recolha_obs"></dd></div>
+                        <div><dt>Opção de entrega</dt><dd id="resumo_entrega_tipo"></dd></div>
                         <div><dt>Morada para entrega</dt><dd id="resumo_entrega"></dd></div>
+                        <div><dt>Código postal de entrega</dt><dd id="resumo_entrega_cp"></dd></div>
+                        <div><dt>Localidade de entrega</dt><dd id="resumo_entrega_cidade"></dd></div>
+                        <div><dt>Observações para a entrega</dt><dd id="resumo_entrega_obs"></dd></div>
                         <div><dt>Período de recolha</dt><dd id="resumo_periodoRecolha"></dd></div>
                     </dl>
                 </section>

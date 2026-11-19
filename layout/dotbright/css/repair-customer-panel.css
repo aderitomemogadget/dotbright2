@@ -227,3 +227,16 @@
 #passo3 .db-summary-fault { margin:14px 0 0; padding-top:12px; border-top:1px solid #e2e6ee; }
 #passo3 .db-summary-fault strong, #passo3 #resumo_avaria { display:block; }
 #passo3 #resumo_avaria { margin-top:6px; white-space:pre-wrap; overflow-wrap:anywhere; }
+
+/* Conditional address/access fields keep the existing four-panel styling. */
+#reparacao-formulario [data-repair-conditional][hidden]{display:none}
+#reparacao-formulario .db-repair-options{border:0;padding:0;margin:18px 0;min-width:0}
+#reparacao-formulario .db-repair-options legend{float:none;width:auto;border:0;margin:0 0 10px;font-size:13px;font-weight:700;line-height:1.5;color:#071c31}
+#reparacao-formulario .db-repair-options label{display:flex;align-items:start;gap:9px;margin:0 0 10px;font-size:13px;line-height:1.5;cursor:pointer}
+#reparacao-formulario .db-repair-options input[type=radio]{flex-shrink:0;width:16px;height:16px;margin:2px 0 0;accent-color:#ff7900}
+#reparacao-formulario .db-repair-options.has-error{outline:1px solid #c63d36;outline-offset:6px;border-radius:4px}
+#passo1 .db-repair-help{font-size:12px;line-height:1.6;margin-top:12px;color:#687383}
+#passo1 .db-customer-section h3 small{font-size:12px;font-weight:400}
+#passo1 .db-customer-pattern-controls{flex-wrap:wrap}
+#passo2.db-address-panel textarea.ri{height:auto;min-height:86px;resize:vertical}
+#passo3 #resumo_recolha_obs,#passo3 #resumo_entrega_obs{white-space:pre-wrap;overflow-wrap:anywhere}

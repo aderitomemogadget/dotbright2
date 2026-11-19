@@ -111,4 +111,35 @@ ro_assert(strpos($eligible_html,'65,00 €')!==false && strpos($eligible_html,'0
 $ro_row=$legacy;$ro_access=null;
 ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$legacy_html=ob_get_clean();
 ro_assert(!isset(json_decode($legacy['details_json'],true)['customer']['r_avaria']) && strpos($legacy_html,'Descrição da avaria')!==false,'Older requests without fault descriptions must remain readable without inventing data.');
+// New form: delivery choice/notes, four access options and two-field billing.
+$modern_db=new PDO('sqlite::memory:',null,null,array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));$modern_db->exec($schema);
+$case_quote=dotbright_repair_quote($p);
+$modern=array_merge($in,array('r_form_version'=>'2','r_acesso'=>'remove','r_entrega_tipo'=>'same','r_nome2'=>'','r_nif2'=>'','r_recolha_obs'=>"Portaria & campainha\nAté às 18h.",'r_entrega'=>'STALE ADDRESS','r_entrega_cp'=>'STALE CP','r_entrega_cidade'=>'STALE CITY','r_entrega_obs'=>'STALE NOTE'));
+$key=getenv('DOTBRIGHT_REPAIR_ACCESS_KEY');putenv('DOTBRIGHT_REPAIR_ACCESS_KEY');
+foreach(array('remove','refuse') as $mode) {
+    $order_id=dotbright_repair_order_create($p,array(),$case_quote,array_merge($modern,array('r_acesso'=>$mode)),$modern_db);
+    $new_row=dotbright_repair_order_find($modern_db,$order_id);$new_details=json_decode($new_row['details_json'],true);$new_data=$new_details['customer'];
+    ro_assert($new_row['access_mode']===$mode && $new_row['access_cipher']===null && $new_details['form_version']===2,'Non-secret access choices must be distinct and work without encryption configuration.');
+    ro_assert($new_data['r_entrega']===$in['r_recolha'] && $new_data['r_entrega_cp']===$in['r_cp'] && $new_data['r_entrega_cidade']===$in['r_cidade'] && $new_data['r_entrega_obs']==='' && $new_data['r_recolha_obs']===$modern['r_recolha_obs'],'Same delivery must copy collection address and ignore stale alternative inputs.');
+    ro_assert($new_data['r_nome2']===$in['r_nome'] && $new_data['r_nif2']===$in['r_nif'] && !isset($new_data['r_morada2']) && !isset($new_data['r_cp2']),'New billing must contain only name/NIF with customer fallbacks.');
+    ro_assert(strpos($new_row['details_json'],'TEST-CODE')===false && strpos($new_row['details_json'],'1,2,3,6')===false,'Inactive access secrets leaked into the new request.');
+}
+ro_throws(function()use($modern,$p,$case_quote,$modern_db){dotbright_repair_order_create($p,array(),$case_quote,array_merge($modern,array('r_acesso'=>'code')),$modern_db);},'Secret code accepted without configured key.');
+putenv('DOTBRIGHT_REPAIR_ACCESS_KEY='.$key);
+foreach(array('code'=>array('code'=>'TEST-CODE'),'pattern'=>array('pattern'=>'12369')) as $mode=>$expected) {
+    $order_id=dotbright_repair_order_create($p,array(),$case_quote,array_merge($modern,array('r_acesso'=>$mode,'m_padrao'=>'12369')),$modern_db);
+    $new_row=dotbright_repair_order_find($modern_db,$order_id);
+    ro_assert($new_row['access_mode']===$mode && dotbright_repair_order_decrypt($new_row['access_cipher'])===$expected,'Access selection must encrypt only the chosen secret.');
+}
+$different=array_merge($modern,array('r_acesso'=>'refuse','r_entrega_tipo'=>'different','r_entrega'=>'Rua entrega <teste>','r_entrega_cp'=>'1000-001','r_entrega_cidade'=>'Lisboa','r_entrega_obs'=>"Entregar à tarde.\nPorta B.",'r_nome2'=>'Empresa nova','r_nif2'=>'999123456'));
+$order_id=dotbright_repair_order_create($p,array(),$case_quote,$different,$modern_db);$new_row=dotbright_repair_order_find($modern_db,$order_id);$new_data=json_decode($new_row['details_json'],true)['customer'];
+foreach(array('r_entrega','r_entrega_cp','r_entrega_cidade','r_entrega_obs','r_recolha_obs','r_nome2','r_nif2') as $field) ro_assert($new_data[$field]===$different[$field],'Delivery/billing field not preserved: '.$field);
+foreach(array(array('r_acesso'=>''),array('r_acesso'=>'invalid'),array('r_acesso'=>'code','r_unlock'=>''),array('r_acesso'=>'pattern','m_padrao'=>'abc'),array('r_entrega_cp'=>''),array('r_entrega_cidade'=>''),array('r_entrega'=>''),array('r_entrega_tipo'=>'invalid'),array('r_recolha_obs'=>str_repeat('x',1001))) as $bad) ro_throws(function()use($p,$case_quote,$different,$bad,$modern_db){dotbright_repair_order_create($p,array(),$case_quote,array_merge($different,$bad),$modern_db);},'New-form invalid or missing conditional fields accepted.');
+$ro_row=$new_row;$ro_access=null;
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$modern_html=ob_get_clean();
+ro_assert(strpos($modern_html,'Rua entrega &lt;teste&gt;')!==false && strpos($modern_html,'Lisboa')!==false && strpos($modern_html,'Portaria &amp; campainha')!==false && strpos($modern_html,'Não pretendo facultar o acesso.')!==false,'New address/notes/access choice missing or unescaped in the BO.');
+ro_assert(strpos($modern_html,'Rua B')===false && strpos($modern_html,'4000-001')===false,'Old billing address fields must not appear for new requests.');
+$ro_row=dotbright_repair_order_find($db,$id);$ro_access=null;
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$old_html=ob_get_clean();
+ro_assert(strpos($old_html,'Rua B')!==false && strpos($old_html,'4000-001')!==false,'Historical billing address must remain visible.');
 echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering, fault descriptions, latest-repairs dashboard and RRE rates/history. SQLite memory only.\n";

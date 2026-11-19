@@ -133,4 +133,33 @@ $result = repair_test_endpoint($endpoint, $input, $product, true, array('assiste
 repair_assert(count($GLOBALS['repair_test_emails']) === 1 && strpos($result, 'ficou registado') !== false, 'Staff email failure must be distinguishable from registration failure.');
 $result = repair_test_endpoint($endpoint, $input, $product, true, array('cliente@example.test'));
 repair_assert(strpos($result, 'não foi possível enviar o email de confirmação') !== false, 'Customer email failure must not claim confirmation was sent.');
-echo "PASS: repair quotes, VAT, catalogue promotions, warranties, address defaults and isolated request emails/failures. No DB or email side effects.\n";
+$modern = array_merge($input, array('r_form_version'=>'2','r_acesso'=>'refuse','r_entrega_tipo'=>'different',
+    'r_recolha_obs'=>"Portaria & campainha\nAté às 18h.",'r_entrega'=>'Rua entrega <teste>','r_entrega_cp'=>'4000-002',
+    'r_entrega_cidade'=>'Porto','r_entrega_obs'=>"Balcão <B>\nPiso 2.",'r_nome2'=>'Empresa & Filhos','r_nif2'=>'500000000',
+    'r_morada2'=>'BILLING-ADDRESS-NOT-USED','r_cp2'=>'BILLING-CP-NOT-USED','m_padrao'=>'SECRET-PATTERN'));
+$result = repair_test_endpoint($endpoint, $modern, repair_test_product(29.90));
+$modern_data = dotbright_repair_request_data($modern);
+$modern_summary = dotbright_repair_email_summary(repair_test_product(29.90), $modern_data, $paid_rre);
+repair_assert($result === 'Pedido enviado com sucesso!' && count($GLOBALS['repair_test_emails']) === 3, 'Modern request must prepare all three emails.');
+foreach ($GLOBALS['repair_test_emails'] as $email) {
+    repair_assert(strpos($email['body'], $modern_summary) !== false && strpos($email['body'], 'Pedido: REP-93') !== false, 'Recipients must share the same modern summary and request number.');
+    foreach (array('Portaria &amp; campainha<br />', 'Até às 18h.', 'Rua entrega &lt;teste&gt;', '4000-002', 'Porto', 'Balcão &lt;B&gt;<br />', 'Piso 2.', 'Empresa &amp; Filhos', '500000000', 'Não pretendo facultar o acesso.', 'Total:</strong> 39,90 €') as $expected) {
+        repair_assert(strpos($email['body'], $expected) !== false, 'Missing or unescaped new email detail: '.$expected);
+    }
+    foreach (array('TEST-ACCESS-CODE', 'SECRET-PATTERN', 'BILLING-ADDRESS-NOT-USED', 'BILLING-CP-NOT-USED') as $secret) repair_assert(strpos($email['body'], $secret) === false, 'Email must exclude secrets and removed billing fields.');
+}
+preg_match('/<h3>Dados de faturação<\/h3>(.*?)<\/div>/s', $modern_summary, $billing_section);
+repair_assert(strpos($billing_section[1], 'Morada') === false && strpos($billing_section[1], 'Código Postal') === false, 'Modern billing email must only contain name/company and NIF.');
+$same = array_merge($modern, array('r_entrega_tipo'=>'same','r_nome2'=>'','r_nif2'=>''));
+$same_data = dotbright_repair_request_data($same);
+repair_assert($same_data['r_entrega'] === trim($input['r_recolha']) && $same_data['r_entrega_cp'] === $input['r_cp'] && $same_data['r_entrega_cidade'] === $input['r_cidade'] && $same_data['r_entrega_obs'] === '', 'Same delivery must use collection details and exclude stale delivery notes in email.');
+repair_assert($same_data['r_nome2'] === trim($input['r_nome']) && $same_data['r_nif2'] === $input['r_nif'], 'Email billing fallback must match stored request.');
+foreach (array('remove','code','pattern','refuse') as $mode) {
+    $mode_data = dotbright_repair_request_data(array_merge($same, array('r_acesso'=>$mode)));
+    $body = dotbright_repair_email_summary($product, $mode_data, $quote);
+    repair_assert(strpos($body, dotbright_repair_access_labels()[$mode]) !== false, 'Email must show the selected access intent.');
+    repair_assert(strpos($body, 'TEST-ACCESS-CODE') === false && strpos($body, 'SECRET-PATTERN') === false, 'No access credential may be included in an email.');
+    repair_assert(strpos($body, 'Rua entrega') === false && strpos($body, 'Piso 2.') === false && strpos($body, 'Igual à morada de recolha') !== false, 'Inactive delivery details must not appear in email.');
+}
+
+echo "PASS: repair quotes, VAT, catalogue promotions, warranties, modern/legacy details and isolated request emails/failures. No DB or email side effects.\n";

@@ -42,6 +42,11 @@ function dotbright_repair_quote($product, $now = null)
     );
 }
 
+function dotbright_repair_access_labels()
+{
+    return array('remove'=>'Vou remover temporariamente o código de desbloqueio.', 'code'=>'Vou indicar o código de desbloqueio.', 'pattern'=>'Vou desenhar o padrão de desbloqueio.', 'refuse'=>'Não pretendo facultar o acesso.', 'code_and_pattern'=>'Código e padrão indicados (registo anterior)', 'not_provided'=>'Não indicado (registo anterior)');
+}
+
 function dotbright_repair_request_data($input)
 {
     $data = array();
@@ -53,6 +58,19 @@ function dotbright_repair_request_data($input)
     }
     $period = isset($input['r_periodo']) && is_scalar($input['r_periodo']) ? (string)$input['r_periodo'] : '';
     $data['period'] = $period === '1' ? 'Manhã' : ($period === '2' ? 'Tarde' : 'Não especificado');
+    if (($input['r_form_version'] ?? '') === '2') {
+        $data['r_form_version'] = '2';
+        unset($data['r_morada2'], $data['r_cp2']);
+        foreach (array('r_recolha_obs','r_entrega_tipo','r_entrega_cp','r_entrega_cidade','r_entrega_obs','r_acesso') as $key) {
+            $data[$key] = isset($input[$key]) && is_scalar($input[$key]) ? trim((string)$input[$key]) : '';
+        }
+        if ($data['r_entrega_tipo'] === 'same') {
+            $data['r_entrega'] = $data['r_recolha'];
+            $data['r_entrega_cp'] = $data['r_cp'];
+            $data['r_entrega_cidade'] = $data['r_cidade'];
+            $data['r_entrega_obs'] = '';
+        }
+    }
     return $data;
 }
 
@@ -63,17 +81,32 @@ function dotbright_repair_email_summary($product, $data, $quote)
         $html = '<div style="border:1px solid #ddd;border-radius:10px;margin:15px 0;padding:15px"><h3>'.$escape($title).'</h3>';
         foreach ($rows as $label => $value) {
             $text = $escape($value === '' ? '—' : $value);
-            if ($label === 'Descrição da avaria') $text = nl2br($text);
+            $text = nl2br($text);
             $html .= '<p><strong>'.$escape($label).':</strong> '.$text.'</p>';
         }
         return $html.'</div>';
     };
-    $html = $section('Dados do cliente e recolha', array(
+    $modern = ($data['r_form_version'] ?? '') === '2';
+    $rows = array(
         'Nome completo' => $data['r_nome'], 'Telemóvel' => $data['r_tel'], 'Email' => $data['r_email'], 'NIF' => $data['r_nif'],
-        'Morada para recolha' => $data['r_recolha'], 'Código Postal' => $data['r_cp'], 'Cidade' => $data['r_cidade'],
-        'Morada para entrega' => $data['r_entrega'], 'Período de recolha' => $data['period']
-    ));
-    $html .= $section('Dados de faturação', array('Nome completo' => $data['r_nome2'], 'Morada' => $data['r_morada2'], 'Código Postal' => $data['r_cp2'], 'NIF' => $data['r_nif2']));
+        'Morada para recolha' => $data['r_recolha'], 'Código Postal' => $data['r_cp'], 'Cidade' => $data['r_cidade']
+    );
+    if ($modern) $rows['Observações para a recolha'] = $data['r_recolha_obs'];
+    $rows['Morada para entrega'] = $data['r_entrega'];
+    if ($modern) {
+        $rows['Opção de entrega'] = $data['r_entrega_tipo'] === 'same' ? 'Igual à morada de recolha' : 'Morada diferente';
+        $rows['Código postal de entrega'] = $data['r_entrega_cp'];
+        $rows['Localidade de entrega'] = $data['r_entrega_cidade'];
+        $rows['Observações para a entrega'] = $data['r_entrega_obs'];
+        $labels = dotbright_repair_access_labels();
+        $rows['Acesso ao equipamento'] = $labels[$data['r_acesso']] ?? 'Não indicado';
+    }
+    $rows['Período de recolha'] = $data['period'];
+    $html = $section('Dados do cliente e recolha', $rows);
+    $billing = array('Nome / empresa' => $data['r_nome2']);
+    if (!$modern) $billing += array('Morada' => $data['r_morada2'], 'Código Postal' => $data['r_cp2']);
+    $billing['NIF'] = $data['r_nif2'];
+    $html .= $section('Dados de faturação', $billing);
     $reference = explode('_', $product['prod_ref']);
     $rows = array('Reparação' => rtrim($product['prod_nome'], '- '), 'Referência' => $reference[0], 'Garantia' => $quote['warranty']);
     $rows['Descrição da avaria'] = isset($data['r_avaria']) ? $data['r_avaria'] : '';

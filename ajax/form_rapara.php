@@ -1,5 +1,5 @@
 <?php
-$repair_order_input = array_intersect_key($_POST, array_flip(array('prod_id','r_avaria','r_nome','r_tel','r_email','r_nif','r_recolha','r_entrega','r_cp','r_cidade','r_nome2','r_morada2','r_cp2','r_nif2','r_unlock','m_padrao','r_periodo','m_termos','m_termos1')));
+$repair_order_input = array_intersect_key($_POST, array_flip(array('r_form_version','r_recolha_obs','r_entrega_tipo','r_entrega_cp','r_entrega_cidade','r_entrega_obs','r_acesso','prod_id','r_avaria','r_nome','r_tel','r_email','r_nif','r_recolha','r_entrega','r_cp','r_cidade','r_nome2','r_morada2','r_cp2','r_nif2','r_unlock','m_padrao','r_periodo','m_termos','m_termos1')));
 $_GET = $_POST = $_REQUEST = $_FILES = array();
 $_COOKIE = array_intersect_key($_COOKIE, array_flip(array(session_name())));
 $path = dirname(__FILE__).'/../core/';
