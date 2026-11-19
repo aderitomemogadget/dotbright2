@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__.'/repair_product_settings.php';
 
 /** Shared values for repair product pages, request summaries and emails. */
 function dotbright_repair_quote($product, $now = null)
@@ -22,7 +23,11 @@ function dotbright_repair_quote($product, $now = null)
     $months = substr($reference[0], 0, 3) === 'REP' && strpos($reference[0], 'BAT') !== false
         ? 12 : (isset($product['fam_id']) && (string)$product['fam_id'] === '163' ? 24 : 36);
 
+    $service = dotbright_repair_service_info($product);
+    if ($service['warranty_months'] !== null) $months = $service['warranty_months'];
+
     return array(
+        'service' => $service,
         'repair_gross' => $gross / 100,
         'repair_net' => $net / 100,
         'shipping_gross' => $shipping_gross / 100,
@@ -66,6 +71,8 @@ function dotbright_repair_email_summary($product, $data, $quote)
     $html .= $section('Dados de faturação', array('Nome completo' => $data['r_nome2'], 'Morada' => $data['r_morada2'], 'Código Postal' => $data['r_cp2'], 'NIF' => $data['r_nif2']));
     $reference = explode('_', $product['prod_ref']);
     $rows = array('Reparação' => rtrim($product['prod_nome'], '- '), 'Referência' => $reference[0], 'Garantia' => $quote['warranty']);
+    $rows['Prazo estimado'] = $quote['service']['time'];
+    $rows['Peça'] = $quote['service']['part'];
     if (!empty($product['Ref_Ean'])) $rows['EAN'] = $product['Ref_Ean'];
     $html .= $section('Resumo da avaria', $rows);
     $html .= $section('Valor estimado', array('Avaria' => numberformat($quote['repair_net']), 'Portes' => numberformat($quote['shipping_net']), 'IVA' => numberformat($quote['vat']), 'Total' => numberformat($quote['total'])));

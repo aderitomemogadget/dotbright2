@@ -553,6 +553,10 @@ function get_precos(a)
 
 		<div id="masterdiv">
 
+        <?php
+        require_once __DIR__.'/../../core/repair_product_settings.php';
+        $repair_settings_tab = dotbright_is_repair_family($ID_Fam);
+        ?>
 		<div class="tabs-bar" role="tablist" aria-label="Ficha de produto">
 			<div class="branco tab" onClick="showmenu_prod('sub1','pinta1')" id="pinta1">GERAL</div>
 			<div class="branco tab" onClick="showmenu_prod('sub2','pinta2')" id="pinta2"><? echo write_lang('key_imagens_ficheiros','IMAGENS/FICHEIROS')?></div>
@@ -566,10 +570,12 @@ function get_precos(a)
 			<div class="branco tab" onClick="load_html('#sub8','tab_vendas.php?ID=<?=$ID?>');showmenu_prod('sub8','pinta8')" id="pinta8">VENDAS</div>
 			<?php if(isset($GLOBALS['tem_importadores'] ) && $GLOBALS['tem_importadores'] == 1){?><div class="branco tab" onClick="load_html('#sub9','tab_historico.php?ID=<?=$ID?>');showmenu_prod('sub9','pinta9')" id="pinta9">HISTÓRICO PREÇOS</div><?php }?>
 			<div class="branco tab" onClick="showmenu_prod('sub17','pinta17')" id="pinta17">ÍCONES</div>
+			<?php if ($repair_settings_tab) { ?><div class="branco tab" onClick="showmenu_prod('sub31','pinta31')" id="pinta31">REPARAÇÃO</div><?php } ?>
 			<div class="branco tab" onClick="showmenu_prod('sub20','pinta20')" id="pinta20">SEMINOVOS</div>
 		</div>
 
 		<div style="position:relative; width: 100%; display:block;border-radius: 5px 5px 0px 0px;" class="submenu" id="sub1"><?php include 'tabs/tab_dados.php'; ?></div>
+        <?php if ($repair_settings_tab) { ?><div class="submenu" id="sub31" style="width:100%;display:none"><?php include 'tabs/tab_reparacao.php'; ?></div><?php } ?>
 
 		<div style="position:relative; width: 100%; display:none;border-radius: 5px 5px 0px 0px;" class="submenu" id="sub2"><?php include 'tabs/tab_imagens.php'; ?></div>
 

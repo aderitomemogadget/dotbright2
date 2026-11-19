@@ -103,6 +103,25 @@
 			}
 		}
 
+        require_once __DIR__.'/../../core/repair_product_settings.php';
+        $repair_settings_to_save = null;
+        // Validate before modifying the product; ordinary products ignore these fields.
+        if (in_array($task_form, array('insere', 'altera', 'duplicar'), true) && isset($_POST['repair_settings_present']) && dotbright_is_repair_family(isset($_POST['m_familia']) && is_scalar($_POST['m_familia']) ? $_POST['m_familia'] : 0)) {
+            try {
+                if (!dotbright_repair_settings_ready()) throw new InvalidArgumentException('Aplique primeiro a migração SQL da fase 2.');
+                $repair_input = isset($_POST['repair_settings']) ? $_POST['repair_settings'] : array();
+                if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc() && is_array($repair_input)) $repair_input = array_map('stripslashes', $repair_input);
+                $repair_settings_to_save = dotbright_repair_settings_validate($repair_input);
+            } catch (InvalidArgumentException $e) {
+                exit('<p>'.htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8').'</p><p>Volte atrás para corrigir. A ficha não foi alterada.</p>');
+            }
+        }
+        $save_repair_settings = function ($product_id) use ($repair_settings_to_save) {
+            if ($repair_settings_to_save !== null && !dotbright_repair_settings_save($product_id, $_POST['m_familia'], $repair_settings_to_save)) {
+                exit('<p>A ficha foi guardada, mas não foi possível guardar a configuração da reparação. Reabra a ficha e volte a guardar os dados no separador Reparação.</p>');
+            }
+        };
+
 		if($task_form=="insere")
 		{
 			$retorno="products_families.php?ID=".$_POST['m_familia'];
@@ -113,6 +132,7 @@
 				exit;
 			}
 			$prod_id_new=(int)$result['prod_id'];
+            $save_repair_settings($prod_id_new);
 			if(isset($prod_conf) && $prod_conf['tem_filtros']==1)
 			{
 				if(isset($_POST['filtro']))
@@ -139,6 +159,7 @@
 			$result=ChangeProd($ID,$_POST['m_familia'],$ordem,$cabecalho,$ref,$cod_ean,$tamanho,$cor,$texto1,$texto2,$texto3,$img_path,$Img_peq, $Apagar_img, $tem_foto,$preco1,$preco2,$precopromo1,$precopromo2,$margem,$margem_activa,$destaque,$novidade,$promocao,$home,$saldo,$aproved,$tipo,$preco_prec,$strSearchWords,$marca,$peso,$usado,$stock_txt,$configurado,$configurador,$medidas,$precocusto,$stock,$download,$img_path_download,$Download_peq,$Apagar_download,$tem_download,$decumentario,$texto4,$cabecalho_texto5,$texto5,$sync,$preco_revenoff, $SEO_title, $SEO_description, $SEO_keywords, $SEO_alt, $SEO_h1,$tem_prod_destaque_homepage,$preco_custo_custom,$store_icons,$bateria,$estado,$localizacao_fisica);
 			if($result)
 			{
+                $save_repair_settings($ID);
 				if(isset($prod_conf) && $prod_conf['tem_filtros']==1)
 				{
 					if(isset($_POST['filtro']))
@@ -188,6 +209,7 @@
 			$result=InsertNewProd($_POST['m_familia'],$ordem,$cabecalho,$ref,$cod_ean,$tamanho,$cor,$texto1,$texto2,$texto3,$img_path,$Img_peq,$preco1,$preco2,$precopromo1,$precopromo2,$margem,$margem_activa,$destaque,$novidade,$promocao,$home,$saldo,$aproved,$tipo,$preco_prec,$strSearchWords,$marca,$peso,$usado,$stock_txt,$configurado,$configurador,$medidas,$precocusto,$stock,$download,$img_path_download,$Download_peq,$decumentario,$texto4,$cabecalho_texto5,$texto5,$sync,$preco_revenoff, $SEO_title, $SEO_description, $SEO_keywords, $SEO_alt, $SEO_h1,$store_icons,$bateria,$estado,$localizacao_fisica);
 			if($result['res'])
 			{
+                $save_repair_settings((int)$result['prod_id']);
 				show_box_OK(1,$retorno);
 
 				if(isset($prod_conf) && $prod_conf['tem_filtros']==1)

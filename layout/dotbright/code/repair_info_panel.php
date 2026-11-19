@@ -11,19 +11,9 @@ function dotbright_repair_info_panel($prods, $previous_panel)
     $name = rtrim($prods['prod_nome'], '- ');
     $reference = explode('_', $prods['prod_ref']);
     $reference = $reference[0];
-    $piece = 'Tipo de peça sob consulta';
-    $piece_detail = 'Confirme com a equipa a peça indicada para esta intervenção.';
-    if (preg_match('/premium/iu', $name)) {
-        $piece = 'Qualidade premium';
-        $piece_detail = 'Peça compatível de qualidade premium.';
-    } elseif (preg_match('/original|oficial/iu', $name)) {
-        $piece = preg_match('/take[ -]?out/iu', $name) ? 'Peça original take-out' : 'Peça original';
-        $piece_detail = preg_match('/take[ -]?out/iu', $name)
-            ? 'Peça original retirada de outro equipamento.' : 'Intervenção com a peça original indicada nesta ficha.';
-    } elseif (preg_match('/compat.vel/iu', $name)) {
-        $piece = 'Peça compatível';
-        $piece_detail = 'Intervenção com a peça compatível indicada nesta ficha.';
-    }
+    $piece = $quote['service']['part'];
+    $piece_detail = $quote['service']['part_detail'];
+    $piece_icon = $quote['service']['part_icon'];
 
     // Keep the current warranty rules and the existing price/gallery markup.
     $warranty = $quote['warranty'];
@@ -57,12 +47,12 @@ function dotbright_repair_info_panel($prods, $previous_panel)
     $html .= '<h1 itemprop="name" class="product-title">'.$escape($name).'</h1>';
     $html .= '<p class="db-repair-reference">REF: '.$escape($reference).'</p>';
     $html .= '<div class="db-repair-price">'.(isset($price[0]) ? $price[0] : '').'</div>';
-    $html .= '<span class="db-repair-piece-badge">'.$icon('shield').$escape($piece).'</span></div>';
+    $html .= '<span class="db-repair-piece-badge">'.$icon($piece_icon).$escape($piece).'</span></div>';
     $html .= '<div class="db-repair-facts">';
-    $html .= '<div class="db-repair-fact db-repair-time"><span class="db-repair-icon">'.$icon('clock').'</span><div><span class="db-repair-caption">Tempo estimado de reparação</span><strong>Sob consulta</strong><details class="db-repair-time-note"><summary>Informação sobre o prazo</summary><p>O prazo é estimado e pode variar consoante a disponibilidade da peça, o diagnóstico e o volume de trabalho. Refere-se à reparação em loja; o prazo RRE é comunicado separadamente.</p></details></div></div>';
+    $html .= '<div class="db-repair-fact db-repair-time"><span class="db-repair-icon">'.$icon('clock').'</span><div><span class="db-repair-caption">Tempo estimado de reparação</span><strong>'.$escape($quote['service']['time']).'</strong><details class="db-repair-time-note"><summary>Informação sobre o prazo</summary><p>O prazo é estimado e pode variar consoante a disponibilidade da peça, o diagnóstico e o volume de trabalho. Refere-se à reparação em loja; o prazo RRE é comunicado separadamente.</p></details></div></div>';
     $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon('calendar').'</span><div><strong>Sem necessidade de marcação</strong><p>Sujeito à disponibilidade da peça.</p><a class="db-repair-whatsapp" href="'.$escape($whatsapp).'" target="_blank" rel="noopener noreferrer">'.$icon('chat').'Confirmar disponibilidade</a></div></div>';
     $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon('pin').'</span><div><span class="db-repair-caption">Local de reparação</span><strong>Loja da Maia</strong><p>Avenida Visconde Barreiros 167<br>4470-151 Maia</p><a class="db-repair-map" href="'.$escape($map).'" target="_blank" rel="noopener noreferrer">'.$icon('pin').'Ver no mapa</a></div></div>';
-    $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon('shield').'</span><div><strong>'.$escape($piece).'</strong><p>'.$escape($piece_detail).'</p></div></div>';
+    $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon($piece_icon).'</span><div><strong>'.$escape($piece).'</strong><p>'.$escape($piece_detail).'</p></div></div>';
     $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon('team').'</span><div><strong>Técnicos qualificados</strong><p>Equipa especializada e experiente.</p></div></div>';
     $html .= '<div class="db-repair-fact"><span class="db-repair-icon">'.$icon('shield').'</span><div><strong>Garantia: '.$escape($warranty).'</strong><p>Consulte as condições aplicáveis à reparação.</p></div></div></div></div>';
 
