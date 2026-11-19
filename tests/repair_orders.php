@@ -72,4 +72,17 @@ ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html
 ro_assert(strpos($html,'Cliente &lt;script&gt;')!==false && strpos($html,'TEST-CODE')===false && strpos($html,$row['access_cipher'])===false && strpos($html,'Descrição curta &amp; confirmação')!==false,'Detail escaped data incorrectly or exposed secrets.');
 $ro_access=dotbright_repair_order_decrypt($row['access_cipher']);ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'TEST-CODE')!==false,'Explicit access reveal not rendered.');
 $ro_row=null;$ro_id=0;$ro_term=$ro_status='';$ro_result=dotbright_repair_orders_search($db,'','',1);ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'Seguinte')!==false && strpos($html,'TEST-CODE')===false,'List pagination/secrecy failed.');
-echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF and BO rendering. SQLite memory only.\n";
+require_once __DIR__.'/../admin/repair_orders_widget.inc.php';
+$dashboard=dotbright_repair_orders_dashboard(7,array(8=>1),true,$db);
+ro_assert(substr_count($dashboard,'<tr>')===10 && strpos($dashboard,'Últimos pedidos de reparação')!==false,'Dashboard must show ten latest repair requests in a separate panel.');
+ro_assert(strpos($dashboard,'repair_orders.php?id=')!==false && strpos($dashboard,'Ver todos os pedidos de reparação')!==false && strpos($dashboard,'encomendas/')===false,'Dashboard links point to shop orders instead of repair requests.');
+ro_assert(strpos($dashboard,'TEST-CODE')===false && strpos($dashboard,'Cliente &lt;script&gt;')!==false,'Dashboard exposes access data or unescaped customer text.');
+$latest=(int)$db->query('SELECT MAX(id) FROM repair_orders')->fetchColumn();
+ro_assert(strpos($dashboard,'REP-'.$latest)!==false && strpos($dashboard,'REP-'.$id.'</a>')===false,'Dashboard must select newest IDs, limited to ten.');
+ro_assert(dotbright_repair_orders_dashboard(7,array(9=>1),true,$db)==='' && dotbright_repair_orders_dashboard(0,array(8=>1),true,$db)==='' && dotbright_repair_orders_dashboard(7,array(8=>1),false,$db)==='','Dashboard permission/shop guard failed.');
+$empty=new PDO('sqlite::memory:',null,null,array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));
+$unavailable=dotbright_repair_orders_dashboard(7,array(8=>1),true,$empty);
+ro_assert(strpos($unavailable,'Não foi possível carregar')!==false && strpos($unavailable,'Ver todos os pedidos')!==false,'Missing migration must not break the homepage.');
+$schema=$db->query("SELECT sql FROM sqlite_master WHERE name='repair_orders'")->fetchColumn();$empty->exec($schema);
+ro_assert(strpos(dotbright_repair_orders_dashboard(7,array(8=>1),true,$empty),'Ainda não existem pedidos')!==false,'Empty dashboard message missing.');
+echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering and latest-repairs dashboard. SQLite memory only.\n";

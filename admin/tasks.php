@@ -1,6 +1,7 @@
 <?php
 	global $admin_id;
 	$dados = getDadosAdministrador($admin_id);
+	require_once __DIR__.'/repair_orders_widget.inc.php';
 
 	?><link type="text/css" href="dashboard.css" rel="stylesheet"><link type="text/css" href="notify.css" rel="stylesheet"><script type="text/javascript" src="notify.js"></script>
 	<script language="JavaScript" src="<?=$GLOBALS['site_http_url']?>admin/layout/theme/js/widgets.js"></script>
@@ -338,6 +339,7 @@
 		<div class="p2">
 		<?php
 		require_once 'encomendas/funcoes.inc.php';
+		echo dotbright_repair_orders_dashboard($admin_id, $dados['Permissoes'] ?? array(), $tem_loja);
 		?>
 		<div class="panel PC">
 			<div class="panel-heading">
@@ -387,6 +389,7 @@
 	else
 	{?>
 		<div id="content" class="" >
+			<?php echo dotbright_repair_orders_dashboard($admin_id, $dados['Permissoes'] ?? array(), $tem_loja); ?>
 
 			<!-- begin row -->
             <div class="row">
