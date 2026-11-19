@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     send_email('aderitofernandes@gmail.com', $subject, $summary);
 
-    $html = '<p>Muito obrigado pelo seu pedido de recolha para reparação.</p>';
+    $html = '<p>✅ Pedido de recolha solicitado com sucesso!</p><p>Somos rápidos a responder! Em breve receberá um e-mail com os próximos passos. Fique atento à sua caixa de entrada.</p><p>Obrigado pela preferência<br>DotBright - Serviço RRE</p>';
     $html .= '<p>Recebemos o seu pedido. A equipa irá confirmar consigo os detalhes e o valor estimado, agendar a recolha e combinar o pagamento. Este email confirma a receção do pedido; a recolha ainda está sujeita a agendamento.</p>';
     $html .= $summary;
     $html .= '<h3>Próximos passos</h3>';
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $html .= '<p>Para esclarecimentos, contacte-nos pelo <a href="https://wa.me/351914228888">WhatsApp 914 228 888</a>.</p><p>Cumprimentos,<br>Equipa DotBright</p>';
 
     if (send_email($data['r_email'], $subject, $html)) {
-        echo '✅ Pedido de recolha solicitado com sucesso!<br><br>Somos rápidos a responder! Em breve receberá um e-mail com os próximos passos. Fique atento à sua caixa de entrada.<br><br>Obrigado pela preferência<br>DotBright - Serviço RRE';
+        echo 'Pedido enviado com sucesso!';
     } else {
         echo 'O pedido foi registado e enviado à assistência, mas não foi possível enviar o email de confirmação. Contacte a equipa antes de repetir o pedido.';
     }

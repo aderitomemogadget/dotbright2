@@ -89,7 +89,8 @@ foreach ($GLOBALS['repair_test_emails'] as $email) {
     repair_assert(strpos($email['body'], 'amanhã') === false, 'Do not promise an unbooked next-day collection.');
     repair_assert(strpos($email['body'], 'TEST-ACCESS-CODE') === false, 'Do not add unlock codes to email.');
 }
-repair_assert($result === '✅ Pedido de recolha solicitado com sucesso!<br><br>Somos rápidos a responder! Em breve receberá um e-mail com os próximos passos. Fique atento à sua caixa de entrada.<br><br>Obrigado pela preferência<br>DotBright - Serviço RRE', 'Successful request response must match the approved customer message.');
+repair_assert($result === 'Pedido enviado com sucesso!', 'Successful request response must contain only the short popup message.');
+repair_assert(strpos($GLOBALS['repair_test_emails'][2]['body'], 'Somos rápidos a responder!') !== false && strpos($GLOBALS['repair_test_emails'][2]['body'], 'DotBright - Serviço RRE') !== false, 'The full approved message must remain in the customer email.');
 repair_test_endpoint($endpoint, $input, repair_test_product(99.90, 'REPIP13BAT'));
 foreach ($GLOBALS['repair_test_emails'] as $email) repair_assert(strpos($email['body'], '12 meses') !== false, 'Battery warranty differs in email.');
 $result = repair_test_endpoint($endpoint, $input, $product, false);

@@ -2478,7 +2478,17 @@ function ficha_p1_final($prods,$labels='')
 											type: "POST",
 											url: "ajax/form_rapara.php",
 											data: dados,
-											success: function(response) {Apprise(response);},
+											success: function(response) {
+                                                if ($.trim(response) === "Pedido enviado com sucesso!") {
+                                                    Apprise("Pedido enviado com sucesso!", {
+                                                        override: false,
+                                                        buttons: {confirm: {
+                                                            text: "OK", id: "confirm", className: "red",
+                                                            action: function() {window.location.href = SITE_HTTP_URL;}
+                                                        }}
+                                                    });
+                                                } else {Apprise(response);}
+                                            },
 											error: function() {Apprise("Não foi possivel enviar os seus dados, por favor tente novamente mais tarde");}
 										});
 									}';

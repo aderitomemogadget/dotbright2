@@ -113,7 +113,7 @@ $endpoint = file_get_contents(__DIR__.'/../ajax/form_rapara.php');
 $endpoint = str_replace(array("include \$path.'core_files.php';", "require_once \$path.'repair_request.php';"), '', $endpoint);
 $endpoint = preg_replace('/^<\?php\s*/', '', $endpoint);
 ob_start(); eval($endpoint); $response = ob_get_clean();
-check(strpos($response, 'Pedido de recolha solicitado com sucesso!') !== false && count($GLOBALS['settings_emails']) === 3, 'Configured repair submission failed.');
+check($response === 'Pedido enviado com sucesso!' && count($GLOBALS['settings_emails']) === 3, 'Configured repair submission failed.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, '24 meses') !== false && strpos($body, '1 hora') !== false && strpos($body, 'Peça oficial Apple') !== false, 'Configured data lost in submitted request email.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Descrição curta &amp; confirmação') !== false, 'Short description missing from staff or customer email.');
 echo "PASS: repair family isolation, settings validation/save/failures, all times/parts/warranties, original pricing, emails, panel and admin rendering. No external side effects.\n";
