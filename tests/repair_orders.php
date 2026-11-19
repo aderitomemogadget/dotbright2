@@ -1,5 +1,6 @@
 <?php
 // Uses SQLite in memory and a catalogue double. No real database, mail or credentials.
+set_error_handler(function($severity,$message,$file,$line) { throw new ErrorException($message,0,$severity,$file,$line); });
 require_once __DIR__.'/../core/repair_orders.php';
 function ro_assert($ok,$message) { if (!$ok) throw new Exception($message); }
 function ro_throws($fn,$message) { try {$fn();} catch (Throwable $e) {return;} throw new Exception($message); }
@@ -68,14 +69,16 @@ ro_assert(!dotbright_repair_order_can_reveal(7,array(8=>1)) && dotbright_repair_
 $_SESSION=array();$token=dotbright_repair_order_csrf();ro_assert(dotbright_repair_order_verify_csrf($token) && !dotbright_repair_order_verify_csrf('bad'),'CSRF verification failed.');
 // Render the actual admin detail/list views. Secrets must not be embedded before explicit reveal.
 $ro_csrf=$token;$ro_labels=dotbright_repair_order_statuses();$ro_error=$ro_flash='';$ro_id=$id;$ro_row=dotbright_repair_order_find($db,$id);$ro_access=null;$ro_can_reveal=true;
-ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html=ob_get_clean();
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
 ro_assert(strpos($html,'Cliente &lt;script&gt;')!==false && strpos($html,'TEST-CODE')===false && strpos($html,$row['access_cipher'])===false && strpos($html,'Descrição curta &amp; confirmação')!==false,'Detail escaped data incorrectly or exposed secrets.');
-$ro_access=dotbright_repair_order_decrypt($row['access_cipher']);ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'TEST-CODE')!==false,'Explicit access reveal not rendered.');
-$ro_row=null;$ro_id=0;$ro_term=$ro_status='';$ro_result=dotbright_repair_orders_search($db,'','',1);ob_start();include __DIR__.'/../admin/products/repair_orders_view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'Seguinte')!==false && strpos($html,'TEST-CODE')===false,'List pagination/secrecy failed.');
+ro_assert(strpos($html,'action="pagina.php"')!==false && strpos($html,'href="list.php"')!==false && strpos($html,'repair_orders.php')===false,'Detail must submit to the dedicated Repairs page and return to its list.');
+$ro_access=dotbright_repair_order_decrypt($row['access_cipher']);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'TEST-CODE')!==false,'Explicit access reveal not rendered.');
+$ro_row=null;$ro_id=0;$ro_term=$ro_status='';$ro_result=dotbright_repair_orders_search($db,'','',1);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();ro_assert(strpos($html,'Seguinte')!==false && strpos($html,'TEST-CODE')===false,'List pagination/secrecy failed.');
+ro_assert(strpos($html,'action="list.php"')!==false && strpos($html,'href="pagina.php?id=')!==false && strpos($html,'repair_orders.php')===false,'Search, import and detail links must stay inside the Repairs folder.');
 require_once __DIR__.'/../admin/repair_orders_widget.inc.php';
 $dashboard=dotbright_repair_orders_dashboard(7,array(8=>1),true,$db);
 ro_assert(substr_count($dashboard,'<tr>')===10 && strpos($dashboard,'Últimos pedidos de reparação')!==false,'Dashboard must show ten latest repair requests in a separate panel.');
-ro_assert(strpos($dashboard,'repair_orders.php?id=')!==false && strpos($dashboard,'Ver todos os pedidos de reparação')!==false && strpos($dashboard,'encomendas/')===false,'Dashboard links point to shop orders instead of repair requests.');
+ro_assert(strpos($dashboard,'reparacoes/pagina.php?id=')!==false && strpos($dashboard,'Ver todos os pedidos de reparação')!==false && strpos($dashboard,'encomendas/')===false,'Dashboard links point to shop orders instead of repair requests.');
 ro_assert(strpos($dashboard,'TEST-CODE')===false && strpos($dashboard,'Cliente &lt;script&gt;')!==false,'Dashboard exposes access data or unescaped customer text.');
 $latest=(int)$db->query('SELECT MAX(id) FROM repair_orders')->fetchColumn();
 ro_assert(strpos($dashboard,'REP-'.$latest)!==false && strpos($dashboard,'REP-'.$id.'</a>')===false,'Dashboard must select newest IDs, limited to ten.');

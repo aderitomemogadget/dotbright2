@@ -7,7 +7,7 @@
 3. Confirmar PHP 7.3+ com PDO MySQL e OpenSSL.
 4. Configurar no ambiente do PHP a variável DOTBRIGHT_REPAIR_ACCESS_KEY com uma chave aleatória de 32 bytes em Base64. Para gerar uma chave no servidor: php -r "echo base64_encode(random_bytes(32)), PHP_EOL;". Guardar a chave fora do repositório e fazer cópia segura; não a enviar para logs nem substituir depois de haver pedidos cifrados. O processo PHP/FPM/Apache deve receber a variável; exportá-la apenas numa sessão SSH não é suficiente.
 5. Publicar os ficheiros PHP alterados/criados. Testes e documentação não são necessários no servidor.
-6. Abrir Produtos → Pedidos de reparação (admin/products/repair_orders.php). Requer a permissão existente Produtos, índice 8, com valor 1.
+6. Abrir Reparações → Pedidos de reparação (admin/reparacoes/list.php; detalhe em admin/reparacoes/pagina.php?id=ID). Requer a permissão existente Produtos, índice 8, com valor 1.
 7. Usar Importar / continuar pedidos antigos para importar a tabela pedidos em lotes de até 500, sem apagar os originais. Repetir até o lote indicar zero registos analisados. O ID de origem é único e impede duplicação. A família atual do artigo tem de pertencer a REPARAÇÕES (85 ou descendentes); artigos eliminados ou movidos para famílias normais são ignorados. Não se recuperam dados que nunca foram guardados nem se atribui uma data/preço histórico a partir do catálogo atual.
 8. Fazer um pedido controlado, verificar o detalhe e os valores, pesquisar e alterar o estado. Se o mailer falhar, o registo mantém-se e o BO indica o resultado da tentativa. Não repetir a submissão para tentar reenviar emails.
 
@@ -32,4 +32,4 @@ Os estados de email significam não tentado, aceite pelo serviço de envio, falh
 
 O último teste usa SQLite em memória para validar gravação, fotografia dos valores, cifra/tamper/chave errada, campos obrigatórios, famílias, estados/concorrência, pesquisa/paginação, importação sem duplicados, permissões, CSRF e apresentação dos detalhes. Não envia emails nem liga à base de dados da loja.
 
-O header e os quatro painéis públicos, incluindo os respetivos CSS/JS, não foram alterados. A única alteração no layout do backoffice é a ligação no menu Produtos e a nova área, com estilos limitados a .ro-admin.
+O header e os quatro painéis públicos, incluindo os respetivos CSS/JS, não foram alterados. O backoffice tem um menu próprio Reparações e uma pasta admin/reparacoes, com list.php, pagina.php, settings, controller, vista e CSS próprio limitado a .ro-module. As ligações antigas em admin/products/repair_orders.php redirecionam para esta área. A homepage aponta para as novas páginas.

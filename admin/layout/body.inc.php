@@ -397,11 +397,6 @@ echo comprime('</div></div></div>');
 			$tabs2[$m][$m2]['list'] = $site_http_url."admin/products/list.php";
 			$m2++;
 
-            $tabs2[$m][$m2][0]='Pedidos de reparação';
-            $tabs2[$m][$m2][1]='';
-            $tabs2[$m][$m2]['list']=$site_http_url.'admin/products/repair_orders.php';
-            $m2++;
-
 			if(isset($GLOBALS['tem_importar_medida']) && $GLOBALS['tem_importar_medida']==1)
 			{
 				$tabs2[$m][$m2][0]="Importador de Produtos";
@@ -679,6 +674,17 @@ echo comprime('</div></div></div>');
 			}*/
 		$m++;
 	}
+    if ((isset($dados['Permissoes'][8]) && $dados['Permissoes'][8]==1) && $tem_loja) {
+        $tabs[$m][0]='Reparações';
+        $tabs[$m][1]=$site_http_url.'admin/reparacoes/list.php';
+        $tabs[$m][2]='fas fa-tools';
+        $tabs[$m][3]='';
+        $m2=0;
+        $tabs2[$m][$m2][0]='Pedidos de reparação';
+        $tabs2[$m][$m2][1]='';
+        $tabs2[$m][$m2]['list']=$site_http_url.'admin/reparacoes/list.php';
+        $m++;
+    }
 	if((isset($dados['Permissoes'][9]) && $dados['Permissoes'][9]==1) && $tem_loja)
 	{
 		$tabs[$m][0]="Encomendas";

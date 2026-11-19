@@ -108,7 +108,7 @@ function dotbright_repair_orders_search(PDO $db,$term,$status,$page)
     $where=$where?' WHERE '.implode(' AND ',$where):'';
     $q=$db->prepare('SELECT COUNT(*) FROM repair_orders'.$where); $q->execute($params); $total=(int)$q->fetchColumn();
     $page=max(1,min((int)$page,max(1,(int)ceil($total/30))));
-    $q=$db->prepare('SELECT id,legacy_id,created_at,status,customer_name,customer_email,product_name,product_reference,total_cents,staff_mail,customer_mail FROM repair_orders'.$where.' ORDER BY id DESC LIMIT 30 OFFSET '.(($page-1)*30));
+    $q=$db->prepare('SELECT id,legacy_id,created_at,status,customer_name,customer_email,customer_phone,product_id,product_name,product_reference,total_cents,staff_mail,customer_mail FROM repair_orders'.$where.' ORDER BY id DESC LIMIT 30 OFFSET '.(($page-1)*30));
     $q->execute($params);
     return array('rows'=>$q->fetchAll(PDO::FETCH_ASSOC),'total'=>$total,'page'=>$page);
 }

@@ -16,14 +16,14 @@ function dotbright_repair_orders_dashboard($admin_id, $permissions, $shop, PDO $
     }
     $escape = 'dotbright_repair_order_escape';
     $labels = dotbright_repair_order_statuses();
-    $url = isset($GLOBALS['site_http_url']) ? rtrim($GLOBALS['site_http_url'], '/').'/admin/products/repair_orders.php' : 'products/repair_orders.php';
+    $url = isset($GLOBALS['site_http_url']) ? rtrim($GLOBALS['site_http_url'], '/').'/admin/reparacoes/list.php' : 'reparacoes/list.php';
     $html = '<section class="panel PC" aria-labelledby="repair-dashboard-heading"><div class="panel-heading"><h4 class="panel-title" id="repair-dashboard-heading">Últimos pedidos de reparação</h4></div>';
     if ($error) {
         $html .= '<div class="panel-body"><p role="alert">Não foi possível carregar os pedidos de reparação. Confirme a configuração e a tabela repair_orders.</p></div>';
     } else {
         $html .= '<div class="table-responsive"><table class="table table-bordered table-hover table-striped table-td-valign-middle"><thead><tr class="inverse"><th scope="col">Pedido</th><th scope="col">Data UTC</th><th scope="col">Cliente</th><th scope="col">Reparação</th><th scope="col">Total estimado</th><th scope="col">Estado</th><th scope="col">Detalhe</th></tr></thead><tbody>';
         foreach ($rows as $row) {
-            $detail = $escape($url.'?id='.(int)$row['id']);
+            $detail = $escape(str_replace('list.php','pagina.php',$url).'?id='.(int)$row['id']);
             $html .= '<tr><td><a href="'.$detail.'">REP-'.(int)$row['id'].'</a>'.($row['legacy_id'] ? '<br>Antigo #'.(int)$row['legacy_id'] : '').'</td>';
             $html .= '<td>'.$escape($row['created_at'] ?: 'Data original desconhecida').'</td><td>'.$escape($row['customer_name']).'</td>';
             $html .= '<td>'.$escape($row['product_name'] ?: 'Produto #'.$row['product_id']).($row['product_reference'] !== '' ? '<br>'.$escape($row['product_reference']) : '').'</td>';
