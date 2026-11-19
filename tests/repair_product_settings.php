@@ -48,7 +48,7 @@ foreach (array('1h' => '1 hora', '3h' => '3 horas', '1d' => '1 dia', '3d' => '3 
     $GLOBALS['settings_rows'][$id] = array_merge($base, array('time_code' => $code, 'time_custom' => 'Após diagnóstico'));
     $q = dotbright_repair_quote(product($id));
     check($q['service']['time'] === $label && $q['service']['part'] === 'Peça oficial Apple' && $q['service']['part_icon'] === 'tools' && $q['warranty'] === '24 meses', 'Configured values not used consistently.');
-    check($q['total'] === 204.80, 'Settings must not alter price.');
+    check($q['total'] === 199.90 && $q['shipping_gross'] === 0, 'Settings must not alter price or free RRE eligibility.');
 }
 foreach (array('apple', 'original', 'take-out', 'premium', 'compatible', 'custom') as $type) {
     $id = 200 + count($GLOBALS['settings_rows']);

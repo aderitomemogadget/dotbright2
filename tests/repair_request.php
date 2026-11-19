@@ -19,12 +19,13 @@ function repair_test_product($price = 469.90, $reference = 'REPIP17PROMAXDILCDOF
 $GLOBALS['iva_default'] = 23;
 $product = repair_test_product();
 $quote = dotbright_repair_quote($product);
-repair_assert($quote['total'] === 474.80, 'Total must include the full 4.90 shipping charge.');
-repair_assert($quote['repair_net'] === 382.03 && $quote['shipping_net'] === 3.98 && $quote['vat'] === 88.79, 'VAT breakdown is inconsistent.');
-foreach (array(0, 0.01, 12.90, 65, 199.90, 469.90) as $price) {
+repair_assert($quote['total'] === 469.90 && $quote['shipping_gross'] === 0, 'RRE must be free for repairs of at least 65 euros.');
+repair_assert($quote['repair_net'] === 382.03 && $quote['shipping_net'] === 0 && $quote['vat'] === 87.87, 'VAT breakdown is inconsistent.');
+foreach (array(0, 0.01, 12.90, 29.90, 64.99, 65, 65.01, 199.90, 469.90) as $price) {
     foreach (array(0, 6, 13, 23) as $rate) {
         $q = dotbright_repair_quote(repair_test_product($price, 'REPTEST', $rate));
         repair_assert((int)round(($q['repair_net'] + $q['shipping_net'] + $q['vat']) * 100) === (int)round($q['total'] * 100), 'Displayed components must sum to total.');
+        repair_assert($q['shipping_gross'] === ($price >= 65 ? 0 : 10), 'RRE threshold must use the VAT-inclusive repair price.');
     }
 }
 repair_assert(dotbright_repair_quote(repair_test_product(99.90, 'REPIP13BAT_variant'))['warranty'] === '12 meses', 'Battery warranty must use the current product rule.');
@@ -37,9 +38,29 @@ $promo['prod_precos'] = array_merge($promo['prod_precos'], array('PROMOCAO' => 1
     'obj_promo' => 100, 'Promo_data_ini' => '2026-11-01 00:00:00', 'Promo_data_fim' => '2026-11-30 23:59:59'));
 $promotional_quote = dotbright_repair_quote($promo, strtotime('2026-11-19 12:00:00'));
 repair_assert($promotional_quote['promotion'] && $promotional_quote['old_price'] === 199.90, 'Active promotion should show the catalogue old price.');
-repair_assert($promotional_quote['repair_gross'] === 149.90 && $promotional_quote['total'] === 154.80, 'Never use raw obj_promo instead of the final catalogue PVP.');
+repair_assert($promotional_quote['repair_gross'] === 149.90 && $promotional_quote['total'] === 149.90, 'Never use raw obj_promo instead of the final catalogue PVP.');
 repair_assert(!dotbright_repair_quote($promo, strtotime('2026-12-01'))['promotion'], 'Expired promotion must not show a promotional strike-through.');
 repair_assert(!dotbright_repair_quote($promo, strtotime('2026-10-31'))['promotion'], 'Future promotion must not show a promotional strike-through.');
+
+foreach (array(array(29.90,10,39.90),array(64.99,10,74.99),array(65,0,65),array(65.01,0,65.01)) as $case) {
+    $boundary=dotbright_repair_quote(repair_test_product($case[0]));
+    repair_assert($boundary['shipping_gross']===$case[1] && $boundary['total']===$case[2], 'RRE boundary or total incorrect.');
+}
+$discounted=repair_test_product(64.99);
+$discounted['prod_precos']['PRECO_ANTIGO']=79.90;
+repair_assert(dotbright_repair_quote($discounted)['shipping_gross']===10, 'A discounted repair below 65 euros must not inherit free RRE from its old price.');
+$paid_rre=dotbright_repair_quote(repair_test_product(29.90));
+repair_assert($paid_rre['shipping_net']===8.13 && $paid_rre['vat']===7.46 && $paid_rre['total']===39.90, 'The 10 euro RRE charge must already include VAT.');
+$summary_source=file_get_contents(__DIR__.'/../layout/dotbright/code/produto.php');
+foreach (explode("\n",$summary_source) as $summary_line) {
+    if (strpos($summary_line,"$"."return .= '<section class=\"db-summary-card db-summary-amounts\"")!==false) {
+        $repair_quote=$paid_rre; $return=''; eval($summary_line);
+        repair_assert(strpos($return,'Portes</dt><dd>8,13 €')!==false && strpos($return,'IVA</dt><dd>7,46 €')!==false && strpos($return,'Total</dt><dd>39,90 €')!==false, 'Panel 4 must display the shared RRE calculation without changing its layout.');
+        $summary_verified=true;
+        break;
+    }
+}
+repair_assert(!empty($summary_verified), 'Repair amounts template not found.');
 
 $input = array('prod_id' => '115852', 'r_nome' => ' Cliente Teste ', 'r_recolha' => ' Rua de Teste 10 ', 'r_cp' => '4470-151',
     'r_cidade' => 'Maia', 'r_tel' => '912345678', 'r_email' => 'cliente@example.test', 'r_nif' => '123456789', 'r_periodo' => '2',
@@ -52,6 +73,10 @@ $different = dotbright_repair_request_data(array_merge($input, array('r_entrega'
 repair_assert($different['r_entrega'] === 'Outra morada' && $different['r_morada2'] === 'Morada de faturação', 'Explicit addresses must be retained.');
 $escaped = dotbright_repair_email_summary($product, dotbright_repair_request_data(array_merge($input, array('r_nome' => '<script>test</script>'))), $quote);
 repair_assert(strpos($escaped, '<script>') === false && strpos($escaped, '&lt;script&gt;') !== false, 'Request text must be escaped in email HTML.');
+$paid_email=dotbright_repair_email_summary(repair_test_product(29.90),$data,$paid_rre);
+repair_assert(strpos($paid_email,'Portes:</strong> 8,13 €')!==false && strpos($paid_email,'IVA:</strong> 7,46 €')!==false && strpos($paid_email,'Total:</strong> 39,90 €')!==false, 'Emails must use the same VAT-inclusive RRE charge as the summary.');
+$free_email=dotbright_repair_email_summary($product,$data,$quote);
+repair_assert(strpos($free_email,'Portes:</strong> 0,00 €')!==false && strpos($free_email,'Total:</strong> 469,90 €')!==false, 'Eligible repair emails must show zero RRE shipping.');
 
 // Replace only the endpoint's bootstrapping with these in-memory dependencies.
 function get_produtc_info($id) { return $GLOBALS['repair_test_product']; }

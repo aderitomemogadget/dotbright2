@@ -9,7 +9,8 @@ function dotbright_repair_quote($product, $now = null)
     $gross = (int)round(max(0, isset($prices['PVP']) ? (float)$prices['PVP'] : 0) * 100);
     $rate = max(0, isset($prices['IVA']) ? (float)$prices['IVA'] : 0);
     $net = (int)round($gross / (1 + $rate / 100));
-    $shipping_gross = 490; // Existing shipping charge. New RRE conditions are a separate phase.
+    // RRE collection + return: threshold uses the final repair price including VAT, in cents.
+    $shipping_gross = $gross >= 6500 ? 0 : 1000;
     $shipping_rate = max(0, isset($GLOBALS['iva_default']) ? (float)$GLOBALS['iva_default'] : 23);
     $shipping_net = (int)round($shipping_gross / (1 + $shipping_rate / 100));
     $now = $now === null ? time() : $now;
