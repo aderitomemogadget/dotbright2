@@ -121,7 +121,7 @@ $repair_settings_tab = false;
 ob_start(); include __DIR__.'/../admin/products/tabs/tab_reparacao.php'; $admin = ob_get_clean();
 check($admin === '', 'Repair fields rendered for ordinary product.');
 // Submit through the actual endpoint with configured product data and captured emails.
-function get_produtc_info($id) { return product(400); }
+function get_produtc_info($id) { return $GLOBALS['quality_test_product'] ?? product(400); }
 function dotbright_repair_order_create($product,$data,$quote,$input) { return 94; }
 function dotbright_repair_order_send($id,$role,$to,$subject,$body) { return send_email($to,$subject,$body); }
 function send_email($to, $subject, $body) { $GLOBALS['settings_emails'][] = $body; return true; }
@@ -137,4 +137,41 @@ check($response === 'Pedido enviado com sucesso!' && count($GLOBALS['settings_em
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, '24 meses') !== false && strpos($body, '1 hora') !== false && strpos($body, 'Peça oficial Apple') !== false, 'Configured data lost in submitted request email.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Descrição curta &amp; confirmação') !== false, 'Short description missing from staff or customer email.');
 foreach ($GLOBALS['settings_emails'] as $body) check(strpos($body, 'Lente partida &amp; fotografias desfocadas.') !== false, 'Fault description missing from customer or staff email.');
-echo "PASS: repair family isolation, settings validation/save/failures, all times/parts/warranties, original pricing, emails, panel and admin rendering. No external side effects.\n";
+$quality_cases=array(
+    array('Reparação Ecrã OLED Premium iPhone 17 Pro Max - Qualidade equivalente ao original','premium'),
+    array('Reparação ecrã iPhone - Qualidade equivalente ao original','compatible'),
+    array('Reparação com peça compatível com o original','compatible'),
+    array('Reparação com peça não original','compatible'),
+    array('Reparação com peça que não é uma peça oficial Apple','compatible'),
+    array('Reparação com peça n&atilde;o original','compatible'),
+    array('Reparação com peça similar à original','compatible'),
+    array('Reparação com peça aftermarket','compatible'),
+    array('Reparação com peça oficial Apple','apple'),
+    array('Reparação com peça original','original'),
+    array('Reparação com peça original take-out','take-out'),
+    array('Reparação ecrã sem indicação da peça','')
+);
+foreach($quality_cases as $index=>$case) {
+    $quality_product=product(600+$index);$quality_product['prod_nome']=$case[0];
+    $quality_quote=dotbright_repair_quote($quality_product);
+    $expected=$case[1]===''?'Tipo de peça sob consulta':dotbright_repair_settings_options()['part_type'][$case[1]];
+    check($quality_quote['service']['part']===$expected,'Incorrect part quality inferred from catalogue title: '.$case[0]);
+    $quality_html=dotbright_repair_info_panel($quality_product,'<p class="our_price_display">199,90 €</p>');
+    check(strpos($quality_html,'</svg>'.$expected.'</span>')!==false && strpos($quality_html,'<strong>'.$expected.'</strong>')!==false,'Badge and facts must agree on part quality.');
+    $repair_quote=$quality_quote;$return='';
+    eval(substr($summary_source,$summary_start,$summary_end-$summary_start));
+    check(strpos($return,'Tipo de peça:</b> '.$expected)!==false,'Panel 4 must use the same part quality.');
+    $GLOBALS['quality_test_product']=$quality_product;$GLOBALS['settings_emails']=array();
+    $_POST=array('prod_id'=>$quality_product['prod_id'],'r_nome'=>'Cliente','r_email'=>'cliente@example.test','r_form_version'=>'3','r_entrega_tipo'=>'same','r_acesso'=>'refuse');
+    ob_start();eval($endpoint);$quality_response=ob_get_clean();
+    check($quality_response==='Pedido enviado com sucesso!' && count($GLOBALS['settings_emails'])===3,'Quality case did not prepare all recipient emails.');
+    foreach($GLOBALS['settings_emails'] as $body) check(strpos($body,'Peça:</strong> '.$expected)!==false && strpos($body,htmlspecialchars($quality_quote['service']['part_detail'],ENT_QUOTES,'UTF-8'))!==false,'Email quality/description differs from the repair sheet.');
+}
+foreach(array('apple','original','take-out','premium','compatible') as $index=>$type) {
+    $id=700+$index;$GLOBALS['settings_rows'][$id]=array_merge($base,array('part_type'=>$type));
+    $explicit=product($id);$explicit['prod_nome']='Reparação sem qualidade definida';
+    check(dotbright_repair_quote($explicit)['service']['part']===dotbright_repair_settings_options()['part_type'][$type],'Explicit BO selection must remain authoritative.');
+}
+unset($GLOBALS['quality_test_product']);
+
+echo "PASS: repair family isolation, settings validation/save/failures, all times/parts/warranties, non-original quality across sheet/summary/emails, original pricing and admin rendering. No external side effects.\n";

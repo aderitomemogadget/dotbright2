@@ -102,26 +102,34 @@ function dotbright_repair_settings_save($id, $family, $settings)
     try { return (bool)Runquery($link, $GLOBALS['DB_name'], 'INSERT INTO repair_product_settings ('.implode(',', $columns).') VALUES ('.implode(',', $values).') ON DUPLICATE KEY UPDATE '.implode(',', $updates)); }
     catch (Exception $e) { return false; }
 }
+function dotbright_repair_part_type_from_name($name)
+{
+    $name = html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    if (preg_match('/\bpremium\b/iu', $name)) return 'premium';
+    // A comparison or negation must never be interpreted as an original part claim.
+    if (preg_match('/\bcompat[ií]ve(?:l|is)\b|\baftermarket\b|\bn[aã]o[\s-]+(?:[eé]\s+)?(?:(?:uma\s+)?pe[çc]a\s+)?(?:original|oficial|genu[ií]na)\b|\bsem\s+(?:pe[çc]a\s+)?original\b|\b(?:equivalente|similar|semelhante|igual)\b[^.;]{0,60}\boriginal\b/iu', $name)) return 'compatible';
+    if (preg_match('/\btake[ -]?out\b/iu', $name)) return 'take-out';
+    if (preg_match('/\boficial\s+Apple\b/iu', $name)) return 'apple';
+    if (preg_match('/\b(?:original|oficial)\b/iu', $name)) return 'original';
+    return '';
+}
+
 function dotbright_repair_service_info($product)
 {
     $name = isset($product['prod_nome']) ? $product['prod_nome'] : '';
     $info = array('time' => 'Sob consulta', 'part' => 'Tipo de peça sob consulta', 'part_detail' => 'Confirme com a equipa a peça indicada para esta intervenção.', 'part_icon' => 'shield', 'warranty_months' => null);
-    if (preg_match('/premium/iu', $name)) {
-        $info['part'] = 'Qualidade premium'; $info['part_detail'] = 'Peça compatível de qualidade premium.';
-    } elseif (preg_match('/original|oficial/iu', $name)) {
-        $takeout = preg_match('/take[ -]?out/iu', $name);
-        $info['part'] = $takeout ? 'Peça original take-out' : 'Peça original';
-        $info['part_detail'] = $takeout ? 'Peça original retirada de outro equipamento.' : 'Intervenção com a peça original indicada nesta ficha.';
-    } elseif (preg_match('/compat.vel/iu', $name)) {
-        $info['part'] = 'Peça compatível'; $info['part_detail'] = 'Intervenção com a peça compatível indicada nesta ficha.';
+    $options = dotbright_repair_settings_options();
+    $details = array('apple' => 'Peça oficial Apple indicada para esta reparação.', 'original' => 'Intervenção com uma peça original.', 'take-out' => 'Peça original retirada de outro equipamento.', 'premium' => 'Peça compatível de qualidade premium.', 'compatible' => 'Intervenção com uma peça compatível.', 'custom' => 'Confirme os detalhes desta peça com a equipa.');
+    $inferred = dotbright_repair_part_type_from_name($name);
+    if ($inferred !== '') {
+        $info['part'] = $options['part_type'][$inferred];
+        $info['part_detail'] = $details[$inferred];
     }
     $settings = dotbright_repair_settings_load($product);
     if (!$settings) return $info;
-    $options = dotbright_repair_settings_options();
     if ($settings['time_code'] !== '') $info['time'] = $settings['time_code'] === 'custom' ? $settings['time_custom'] : $options['time_code'][$settings['time_code']];
     if ($settings['part_type'] !== '') {
         $info['part'] = $options['part_type'][$settings['part_type']];
-        $details = array('apple' => 'Peça oficial Apple indicada para esta reparação.', 'original' => 'Intervenção com uma peça original.', 'take-out' => 'Peça original retirada de outro equipamento.', 'premium' => 'Peça compatível de qualidade premium.', 'compatible' => 'Intervenção com uma peça compatível.', 'custom' => 'Confirme os detalhes desta peça com a equipa.');
         $info['part_detail'] = $details[$settings['part_type']];
     }
     if ($settings['part_label'] !== '') $info['part'] = $settings['part_label'];

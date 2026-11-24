@@ -159,4 +159,16 @@ ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$current_html=ob_
 preg_match('/<h3>Dados do cliente<\/h3>(.*?)<\/section>/s',$current_html,$current_client);
 ro_assert(strpos($current_client[1],'NIF')===false && strpos($current_html,'500000000')!==false && strpos($current_html,'Informações adicionais sobre a avaria')!==false,'BO must omit customer NIF while keeping billing NIF and optional fault information.');
 
-echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering, optional specific-repair notes, billing-only NIF, latest-repairs dashboard and RRE rates/history. SQLite memory only.\n";
+foreach(array('premium'=>'Compatível de qualidade premium','compatible'=>'Peça compatível') as $quality=>$expected_quality) {
+    $quality_product=array_merge($p,array('prod_nome'=>$quality==='premium'?'Reparação OLED Premium - equivalente ao original':'Reparação ecrã equivalente ao original'));
+    $quality_quote=dotbright_repair_quote($quality_product);
+    $quality_id=dotbright_repair_order_create($quality_product,array(),$quality_quote,$current,$modern_db);
+    $ro_row=dotbright_repair_order_find($modern_db,$quality_id);$ro_access=null;
+    ro_assert(json_decode($ro_row['details_json'],true)['quote']['service']['part']===$expected_quality,'Stored quality differs from shared quote.');
+    ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$quality_bo=ob_get_clean();
+    ro_assert(strpos($quality_bo,'<dt>Peça</dt><dd>'.$expected_quality.'</dd>')!==false && strpos($quality_bo,$quality_quote['service']['part_detail'])!==false,'BO must show the saved non-original quality and description.');
+    $quality_product['prod_nome']='Reparação com peça original';dotbright_repair_quote($quality_product);
+    ro_assert(dotbright_repair_order_find($modern_db,$quality_id)['details_json']===$ro_row['details_json'],'Catalogue quality changes must not rewrite historical orders.');
+}
+
+echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering, optional notes, billing-only NIF, non-original quality snapshots and RRE rates/history. SQLite memory only.\n";

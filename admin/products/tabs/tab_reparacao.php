@@ -12,6 +12,7 @@ $repair_escape = function ($v) { return htmlspecialchars((string)$v, ENT_QUOTES,
 <p class="alert alert-warning">A tabela de configuração ainda não existe. Aplique primeiro a migração da fase 2 fornecida no chat. Os dados atuais da ficha mantêm-se.</p>
 <?php } else { ?>
 <input type="hidden" name="repair_settings_present" value="1">
+<p>O tipo de peça e os textos configurados aqui são usados na ficha, no resumo, nos novos pedidos e nos emails. Prevalecem sobre a identificação pelo nome do artigo. Para uma peça OLED Premium não original, selecione «Compatível de qualidade premium». «Qualidade equivalente ao original» não significa «Peça original»; confirme também o nome e a descrição curta personalizados.</p>
 <?php foreach (array('time_code' => 'Prazo estimado de reparação em loja', 'part_type' => 'Tipo de peça', 'part_icon' => 'Ícone da peça') as $key => $label) { ?>
 <div class="form-group"><label for="repair_<?= $key ?>"><?= $label ?></label>
 <select class="form-control" id="repair_<?= $key ?>" name="repair_settings[<?= $key ?>]">
