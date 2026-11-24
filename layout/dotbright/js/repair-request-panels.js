@@ -2,7 +2,7 @@
     'use strict';
     function setup() {
         var form = document.getElementById('form_repara');
-        if (!form || !form.querySelector('[name="r_form_version"][value="2"]')) return;
+        if (!form || !form.querySelector('[name="r_form_version"][value="2"],[name="r_form_version"][value="3"]')) return;
         function field(id) { return document.getElementById(id); }
         function value(id) { var el = field(id); return el ? el.value.trim() : ''; }
         function choice(name) { var el = form.querySelector('input[name="' + name + '"]:checked'); return el ? el.value : ''; }

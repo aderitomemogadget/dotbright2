@@ -142,4 +142,21 @@ ro_assert(strpos($modern_html,'Rua B')===false && strpos($modern_html,'4000-001'
 $ro_row=dotbright_repair_order_find($db,$id);$ro_access=null;
 ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$old_html=ob_get_clean();
 ro_assert(strpos($old_html,'Rua B')!==false && strpos($old_html,'4000-001')!==false,'Historical billing address must remain visible.');
-echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering, fault descriptions, latest-repairs dashboard and RRE rates/history. SQLite memory only.\n";
+$current=array_merge($modern,array('r_form_version'=>'3','r_avaria'=>'   ','r_acesso'=>'refuse','r_nif'=>'STALE-CUSTOMER-NIF','r_nif2'=>'500000000'));
+$current_id=dotbright_repair_order_create($p,array(),$case_quote,$current,$modern_db);
+$current_row=dotbright_repair_order_find($modern_db,$current_id);$current_details=json_decode($current_row['details_json'],true);
+ro_assert($current_details['form_version']===3 && $current_details['customer']['r_avaria']==='' && !isset($current_details['customer']['r_nif']) && $current_details['customer']['r_nif2']==='500000000','Specific repairs must allow blank notes and store only billing NIF.');
+$blank_bill=dotbright_repair_order_payload($p,$case_quote,array_merge($current,array('r_nif2'=>'')));
+ro_assert(json_decode($blank_bill['details_json'],true)['customer']['r_nif2']==='','Billing NIF must not inherit removed customer NIF.');
+foreach(array('Diagnóstico/Orçamento gratuito iPhone','Diagnostico MacBook','Orçamento de reparação') as $name) {
+    $diagnostic=array_merge($p,array('prod_nome'=>$name));
+    ro_throws(function()use($diagnostic,$case_quote,$current){dotbright_repair_order_payload($diagnostic,$case_quote,$current);},'Diagnostic requests must retain required fault information.');
+    dotbright_repair_order_payload($diagnostic,$case_quote,array_merge($current,array('r_avaria'=>'Não liga.')));
+}
+ro_assert(!dotbright_repair_fault_required(array_merge($p,array('prod_precos'=>array('PVP'=>0)))),'A zero price alone must not classify a specific repair as diagnostic.');
+$ro_row=$current_row;$ro_access=null;
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$current_html=ob_get_clean();
+preg_match('/<h3>Dados do cliente<\/h3>(.*?)<\/section>/s',$current_html,$current_client);
+ro_assert(strpos($current_client[1],'NIF')===false && strpos($current_html,'500000000')!==false && strpos($current_html,'Informações adicionais sobre a avaria')!==false,'BO must omit customer NIF while keeping billing NIF and optional fault information.');
+
+echo "PASS: full repair snapshots, encrypted access, input/family validation, mail state, immutable values, search/pagination, status concurrency, legacy import/deduplication, permissions, CSRF, BO rendering, optional specific-repair notes, billing-only NIF, latest-repairs dashboard and RRE rates/history. SQLite memory only.\n";

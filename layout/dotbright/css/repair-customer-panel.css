@@ -214,7 +214,7 @@
   #passo1 .db-customer-grid { grid-template-columns: minmax(0, 1fr); padding: 20px 16px; gap: 26px; }
   #passo1 .db-customer-access { grid-column: auto; }
   #passo1 .db-customer-section h3 { font-size: 18px; margin-bottom: 18px; }
-  #passo1 .db-customer-fields { gap: 16px 12px; }
+  #passo1 .db-customer-fields { grid-template-columns: minmax(0, 1fr); gap: 16px 12px; }
   #passo1 .db-customer-access .db-customer-fields, #passo1 .db-customer-notes { grid-template-columns: minmax(0, 1fr); }
   #passo1 .db-customer-notes p + p { border-left: 0; border-top: 1px solid #d9dde6; padding: 14px 0 0; }
   #passo1 .reparacao-navegacao { padding: 0 16px 20px; flex-wrap: nowrap; }

@@ -5,6 +5,9 @@ $ro_customer=$ro_details['customer'] ?? array();
 $ro_product=$ro_details['product'] ?? array();
 $ro_quote=$ro_details['quote'] ?? array();
 $ro_modern=($ro_details['form_version'] ?? 1)>=2;
+$ro_current=($ro_details['form_version'] ?? 1)>=3;
+$ro_customer_fields=array('r_nome'=>'Nome','r_tel'=>'Telefone','r_email'=>'Email');
+if (!$ro_current) $ro_customer_fields['r_nif']='NIF';
 $ro_billing_fields=$ro_modern?array('r_nome2'=>'Nome / empresa','r_nif2'=>'NIF'):array('r_nome2'=>'Nome / empresa','r_morada2'=>'Morada','r_cp2'=>'Código postal','r_nif2'=>'NIF');
 $ro_address_fields=array('r_recolha'=>'Morada de recolha','r_cp'=>'Código postal','r_cidade'=>'Cidade');
 if ($ro_modern) {
@@ -30,12 +33,12 @@ $ro_start_tab=$ro_access!==null || (($_POST['action'] ?? '')==='reveal')?'access
 <button type="button" role="tab" id="ro-tab-<?=$key?>" aria-controls="ro-panel-<?=$key?>" aria-selected="<?=$key==='customer'?'true':'false'?>" tabindex="<?=$key==='customer'?'0':'-1'?>" data-tab="<?=$key?>"><?=$re($label)?></button>
 <?php } ?></div>
 <section class="ro-detail-panel" id="ro-panel-customer" role="tabpanel" aria-labelledby="ro-tab-customer"><div class="ro-grid ro-customer-grid">
-<?php foreach (array('Dados do cliente'=>array('r_nome'=>'Nome','r_tel'=>'Telefone','r_email'=>'Email','r_nif'=>'NIF'),'Recolha e entrega'=>$ro_address_fields,'Faturação'=>$ro_billing_fields) as $title=>$fields) { ?>
+<?php foreach (array('Dados do cliente'=>$ro_customer_fields,'Recolha e entrega'=>$ro_address_fields,'Faturação'=>$ro_billing_fields) as $title=>$fields) { ?>
 <section class="ro-card"><h3><?=$re($title)?></h3><dl><?php foreach($fields as $field=>$label) $ro_show($label,$ro_customer[$field] ?? null); ?></dl></section><?php } ?>
 </div></section>
 <section class="ro-detail-panel" id="ro-panel-repair" role="tabpanel" aria-labelledby="ro-tab-repair"><div class="ro-grid ro-repair-grid">
 <section class="ro-card"><h3>Reparação no momento do pedido</h3><dl><?php
-$ro_show('Produto ID',$ro_row['product_id']);$ro_show('Nome',$ro_product['name'] ?? null);$ro_show('Referência',$ro_product['reference'] ?? null);$ro_show('EAN',$ro_product['ean'] ?? null);$ro_show('Prazo em loja',$ro_quote['service']['time'] ?? null);$ro_show('Peça',$ro_quote['service']['part'] ?? null);$ro_show('Descrição da peça',$ro_quote['service']['part_detail'] ?? null);$ro_show('Garantia',$ro_quote['warranty'] ?? null);$ro_show('Descrição da avaria',$ro_customer['r_avaria'] ?? null);
+$ro_show('Produto ID',$ro_row['product_id']);$ro_show('Nome',$ro_product['name'] ?? null);$ro_show('Referência',$ro_product['reference'] ?? null);$ro_show('EAN',$ro_product['ean'] ?? null);$ro_show('Prazo em loja',$ro_quote['service']['time'] ?? null);$ro_show('Peça',$ro_quote['service']['part'] ?? null);$ro_show('Descrição da peça',$ro_quote['service']['part_detail'] ?? null);$ro_show('Garantia',$ro_quote['warranty'] ?? null);$ro_show($ro_current?'Informações adicionais sobre a avaria':'Descrição da avaria',$ro_customer['r_avaria'] ?? null);
 ?></dl></section>
 <section class="ro-card"><h3>Valores registados</h3><dl><?php foreach(array('repair_gross'=>'Reparação com IVA','repair_net'=>'Reparação sem IVA','shipping_gross'=>'Portes com IVA','shipping_net'=>'Portes sem IVA','vat'=>'IVA','total'=>'Total') as $field=>$label) $ro_show($label,isset($ro_quote[$field])?number_format($ro_quote[$field],2,',','.').' €':null); ?></dl></section>
 </div></section>

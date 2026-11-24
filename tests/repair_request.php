@@ -162,4 +162,14 @@ foreach (array('remove','code','pattern','refuse') as $mode) {
     repair_assert(strpos($body, 'Rua entrega') === false && strpos($body, 'Piso 2.') === false && strpos($body, 'Igual à morada de recolha') !== false, 'Inactive delivery details must not appear in email.');
 }
 
-echo "PASS: repair quotes, VAT, catalogue promotions, warranties, modern/legacy details and isolated request emails/failures. No DB or email side effects.\n";
+$current=array_merge($modern,array('r_form_version'=>'3','r_avaria'=>'','r_nif'=>'REMOVED-CUSTOMER-NIF','r_nif2'=>'500000000'));
+$result=repair_test_endpoint($endpoint,$current,repair_test_product(29.90));
+repair_assert($result==='Pedido enviado com sucesso!','Optional fault information must not block email preparation.');
+foreach($GLOBALS['repair_test_emails'] as $email) {
+    preg_match('/<h3>Dados do cliente e recolha<\/h3>(.*?)<\/div>/s',$email['body'],$client_section);
+    repair_assert(strpos($client_section[1],'NIF')===false && strpos($email['body'],'REMOVED-CUSTOMER-NIF')===false && strpos($email['body'],'500000000')!==false,'Email must contain billing NIF only.');
+    repair_assert(strpos($email['body'],'Informações adicionais sobre a avaria:</strong> —')!==false,'Empty optional information must be represented without invented fault details.');
+}
+repair_assert(dotbright_repair_request_data(array_merge($current,array('r_nif2'=>'')))['r_nif2']==='','Current billing NIF must stay empty when omitted.');
+
+echo "PASS: repair quotes, VAT, catalogue promotions, warranties, modern/legacy details, billing-only NIF and isolated request emails/failures. No DB or email side effects.\n";

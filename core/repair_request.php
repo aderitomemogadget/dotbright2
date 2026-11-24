@@ -42,6 +42,11 @@ function dotbright_repair_quote($product, $now = null)
     );
 }
 
+function dotbright_repair_fault_required($product)
+{
+    return (bool)preg_match('/diagn[oó]stic|or[cç]amento/iu', $product['prod_nome'] ?? '');
+}
+
 function dotbright_repair_access_labels()
 {
     return array('remove'=>'Vou remover temporariamente o código de desbloqueio.', 'code'=>'Vou indicar o código de desbloqueio.', 'pattern'=>'Vou desenhar o padrão de desbloqueio.', 'refuse'=>'Não pretendo facultar o acesso.', 'code_and_pattern'=>'Código e padrão indicados (registo anterior)', 'not_provided'=>'Não indicado (registo anterior)');
@@ -58,8 +63,8 @@ function dotbright_repair_request_data($input)
     }
     $period = isset($input['r_periodo']) && is_scalar($input['r_periodo']) ? (string)$input['r_periodo'] : '';
     $data['period'] = $period === '1' ? 'Manhã' : ($period === '2' ? 'Tarde' : 'Não especificado');
-    if (($input['r_form_version'] ?? '') === '2') {
-        $data['r_form_version'] = '2';
+    if (in_array($input['r_form_version'] ?? '', array('2','3'), true)) {
+        $data['r_form_version'] = $input['r_form_version'];
         unset($data['r_morada2'], $data['r_cp2']);
         foreach (array('r_recolha_obs','r_entrega_tipo','r_entrega_cp','r_entrega_cidade','r_entrega_obs','r_acesso') as $key) {
             $data[$key] = isset($input[$key]) && is_scalar($input[$key]) ? trim((string)$input[$key]) : '';
@@ -70,6 +75,10 @@ function dotbright_repair_request_data($input)
             $data['r_entrega_cidade'] = $data['r_cidade'];
             $data['r_entrega_obs'] = '';
         }
+    }
+    if (($data['r_form_version'] ?? '') === '3') {
+        unset($data['r_nif']);
+        $data['r_nif2'] = isset($input['r_nif2']) && is_scalar($input['r_nif2']) ? trim((string)$input['r_nif2']) : '';
     }
     return $data;
 }
@@ -86,11 +95,13 @@ function dotbright_repair_email_summary($product, $data, $quote)
         }
         return $html.'</div>';
     };
-    $modern = ($data['r_form_version'] ?? '') === '2';
+    $modern = in_array($data['r_form_version'] ?? '', array('2','3'), true);
+    $current = ($data['r_form_version'] ?? '') === '3';
     $rows = array(
-        'Nome completo' => $data['r_nome'], 'Telemóvel' => $data['r_tel'], 'Email' => $data['r_email'], 'NIF' => $data['r_nif'],
+        'Nome completo' => $data['r_nome'], 'Telemóvel' => $data['r_tel'], 'Email' => $data['r_email'],
         'Morada para recolha' => $data['r_recolha'], 'Código Postal' => $data['r_cp'], 'Cidade' => $data['r_cidade']
     );
+    if (!$current) $rows['NIF'] = $data['r_nif'];
     if ($modern) $rows['Observações para a recolha'] = $data['r_recolha_obs'];
     $rows['Morada para entrega'] = $data['r_entrega'];
     if ($modern) {
@@ -109,7 +120,7 @@ function dotbright_repair_email_summary($product, $data, $quote)
     $html .= $section('Dados de faturação', $billing);
     $reference = explode('_', $product['prod_ref']);
     $rows = array('Reparação' => rtrim($product['prod_nome'], '- '), 'Referência' => $reference[0], 'Garantia' => $quote['warranty']);
-    $rows['Descrição da avaria'] = isset($data['r_avaria']) ? $data['r_avaria'] : '';
+    $rows[$current ? 'Informações adicionais sobre a avaria' : 'Descrição da avaria'] = isset($data['r_avaria']) ? $data['r_avaria'] : '';
     $rows['Prazo estimado'] = $quote['service']['time'];
     $rows['Peça'] = $quote['service']['part'];
     $rows['Descrição da peça'] = $quote['service']['part_detail'];

@@ -2401,7 +2401,8 @@ function ficha_p1_final($prods,$labels='')
                                         painel.find(".reparacao-etapa-titulo").trigger("focus");
                                     }
                                     function reparacaoAvancar(etapa){
-                                        var campos = etapa == 3 ? ["r_nome", "r_tel", "r_email", "r_avaria"] : ["r_recolha", "r_cp", "r_cidade"];
+                                        var campos = etapa == 3 ? ["r_nome", "r_tel", "r_email"] : ["r_recolha", "r_cp", "r_cidade"];
+                                        if(etapa == 3 && $("#r_avaria").prop("required")) campos.push("r_avaria");
                                         var primeiro = null;
                                         campos.forEach(function(id){
                                             var campo = $("#" + id);
@@ -2431,7 +2432,7 @@ function ficha_p1_final($prods,$labels='')
 										var cidade = $.trim($("#r_cidade").val());
 										var telefone = $.trim($("#r_tel").val());
 										var email = $.trim($("#r_email").val());
-										var nif = $.trim($("#r_nif").val());
+
 										var periodoRecolha = $("#r_manha").is(":checked") ? "Manhã" : ($("#r_tarde").is(":checked") ? "Tarde" : "Não especificado");
 										var nome2 = $.trim($("#r_nome2").val());
 
@@ -2440,14 +2441,14 @@ function ficha_p1_final($prods,$labels='')
 
 
 										$("#resumo_nome").text(nome);
-                                        $("#resumo_avaria").text($.trim($("#r_avaria").val()));
+                                        $("#resumo_avaria").text($.trim($("#r_avaria").val()) || "—");
 										$("#resumo_recolha").text(recolha);
 										$("#resumo_entrega").text(entrega);
 										$("#resumo_CP").text(cp);
 										$("#resumo_cidade").text(cidade);
 										$("#resumo_telefone").text(telefone);
 										$("#resumo_email").text(email);
-										$("#resumo_nif").text(nif);
+
 										$("#resumo_periodoRecolha").text(periodoRecolha);
 
 										$("#resumo_nome2").text(nome2);
@@ -2460,7 +2461,7 @@ function ficha_p1_final($prods,$labels='')
 										if(nome2=="")$("#resumo_nome2").text(nome);
 
 
-										if(nif2=="")$("#resumo_nif2").text(nif);
+
                                         if(window.reparacaoResumoOpcoes) window.reparacaoResumoOpcoes();
 
 
@@ -2518,13 +2519,13 @@ function ficha_p1_final($prods,$labels='')
 					
 					$return .= '<form id="form_repara" name="form_repara" onsubmit="return validaCampos()">';
 
-						$return .= '<input type="hidden" name="r_form_version" value="2"><input type="hidden" id="step" value="1">';
+						$return .= '<input type="hidden" name="r_form_version" value="3"><input type="hidden" id="step" value="1">';
 						$return .= '<input type="hidden" id="prod_id" name="prod_id" value="'.$prods['prod_id'].'">';
 						$return .= '<div id="resposta"></div>';
 
 					
                         $m_padrao = 0;
-                        $return .= <<<'REPAIR_CUSTOMER_PANEL'
+                        $repair_customer_panel = <<<'REPAIR_CUSTOMER_PANEL'
 <div id="passo1" class="reparacao-painel db-customer-panel" style="display:none">
     <header class="db-customer-header">
         <span class="db-customer-step"><b>2</b> Etapa 2 de 4</span>
@@ -2546,13 +2547,10 @@ function ficha_p1_final($prods,$labels='')
                     <label for="r_email">Email <span class="mandatory">*</span></label>
                     <input onchange="check_email()" maxlength="80" id="r_email" name="r_email" type="text" class="ri" placeholder="Ex.: joao@mail.pt">
                 </div>
+
                 <div class="db-customer-field db-customer-field-wide form-group">
-                    <label for="r_nif">NIF</label>
-                    <input onchange="check_nif1()" maxlength="9" id="r_nif" name="r_nif" type="text" class="ri">
-                </div>
-                <div class="db-customer-field db-customer-field-wide form-group">
-                    <label for="r_avaria">Descrição da avaria <span class="mandatory">*</span></label>
-                    <textarea id="r_avaria" name="r_avaria" class="ri" rows="4" maxlength="2000" required placeholder="Ex.: Ecrã partido, não liga, problemas de toque..."></textarea>
+                    <label for="r_avaria">Informações adicionais sobre a avaria REPAIR_FAULT_LABEL</label>
+                    <textarea id="r_avaria" name="r_avaria" class="ri" rows="4" maxlength="2000" REPAIR_FAULT_REQUIRED placeholder="Ex.: Ecrã partido, não liga, problemas de toque..."></textarea>
                 </div>
             </div>
         </section>
@@ -2601,6 +2599,8 @@ function ficha_p1_final($prods,$labels='')
     </div>
 </div>
 REPAIR_CUSTOMER_PANEL;
+                        $repair_fault_required=dotbright_repair_fault_required($prods);
+                        $return .= str_replace(array('REPAIR_FAULT_LABEL','REPAIR_FAULT_REQUIRED'),array($repair_fault_required?'<span class="mandatory">*</span>':'(opcional)',$repair_fault_required?'required':''),$repair_customer_panel);
 
                         $return .= <<<'REPAIR_ADDRESS_PANEL'
 <div id="passo2" class="reparacao-painel db-address-panel" style="display:none">
@@ -2682,7 +2682,7 @@ REPAIR_ADDRESS_PANEL;
                             <div><dt>Nome completo</dt><dd id="resumo_nome"></dd></div>
                             <div><dt>Telemóvel</dt><dd id="resumo_telefone"></dd></div>
                             <div><dt>Email</dt><dd id="resumo_email"></dd></div>
-                            <div><dt>NIF</dt><dd id="resumo_nif"></dd></div>
+
                             <div><dt>Acesso ao equipamento</dt><dd id="resumo_acesso"></dd></div>
                         </dl>
                     </section>
@@ -2723,7 +2723,7 @@ REPAIR_SUMMARY_OPEN;
                                 $return .= '<br><b>Tipo de peça:</b> '.htmlspecialchars($repair_quote['service']['part'], ENT_QUOTES, 'UTF-8');
                                 $return .= '<br><b>Descrição da peça:</b> '.htmlspecialchars($repair_quote['service']['part_detail'], ENT_QUOTES, 'UTF-8');
 
-                        $return .= '<p class="db-summary-fault"><strong>Descrição da avaria:</strong><span id="resumo_avaria"></span></p></div></section>';
+                        $return .= '<p class="db-summary-fault"><strong>Informações adicionais sobre a avaria:</strong><span id="resumo_avaria"></span></p></div></section>';
                         $return .= '<section class="db-summary-card db-summary-amounts" aria-labelledby="repair-summary-amounts"><h3 id="repair-summary-amounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M7 6h10M7 11h3M14 11h3M7 15h3M14 15h3M7 19h3M14 19h3"/></svg><span>Valor estimado</span></h3><dl class="db-summary-prices"><div><dt>Avaria</dt><dd>'.numberformat($repair_quote['repair_net']).'</dd></div><div><dt>Portes</dt><dd>'.numberformat($repair_quote['shipping_net']).'</dd></div><div><dt>IVA</dt><dd>'.numberformat($repair_quote['vat']).'</dd></div><div class="db-summary-total"><dt>Total</dt><dd>'.numberformat($repair_quote['total']).'</dd></div></dl></section>';
                         $return .= <<<'REPAIR_SUMMARY_CLOSE'
             </div>
@@ -2794,20 +2794,7 @@ REPAIR_SUMMARY_CLOSE;
 							}
 							return true;
 						}
-					    function check_nif1()
-						{
-							var nif=$(\'#r_nif\').val();
-							
-							if(!validaNIF(nif))
-							{
-								Apprise(\'O NIF não é válido.\');								
-								$("#r_nif").val("");
-								$("#r_nif").css("background-color","#fffddf");
-								return false;
-							}
-							return true;
-						}
-						function validaNIF(value)
+					    function validaNIF(value)
 						{
 						  value = value + \'\';
 						  if (!/^[0-9]{9}$/.test(value)) return false;
