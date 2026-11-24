@@ -91,6 +91,9 @@ function dotbright_repair_info_panel($prods, $previous_panel)
         $html .= trim(strip_tags($content)) !== '' ? $content : '<p>'.($key === 'description' ? $escape($name) : 'Para mais informações sobre esta intervenção, confirme os detalhes com a nossa equipa.').'</p>';
         $html .= '</div><button type="button" class="db-repair-read-more" aria-expanded="false" aria-controls="repair-'.$key.'-copy" hidden>Ler mais</button></section>';
     }
-    $html .= '</div><div class="db-repair-actions"><button type="button" class="db-repair-continue" onclick="reparacaoEtapa(2)">Continuar para dados do cliente '.$icon('arrow').'</button></div></section>';
+    $html .= '</div><section class="db-repair-rre" aria-labelledby="repair-rre-heading">';
+    $html .= '<div class="db-repair-rre-copy"><p class="db-repair-rre-label">RRE — Recolha, Reparação e Entrega</p><h3 id="repair-rre-heading">Repare o seu equipamento sem sair de casa</h3>';
+    $html .= '<p><strong>Recolha e entrega grátis</strong> em reparações de valor igual ou superior a <strong>65 €</strong>.</p><p class="db-repair-rre-note">Para reparações abaixo de 65 €, a recolha e entrega têm o custo total de 10 €, com IVA incluído.</p></div>';
+    $html .= '<div class="db-repair-actions"><button type="button" class="db-repair-continue" onclick="reparacaoEtapa(2)">Solicitar recolha do equipamento '.$icon('arrow').'</button></div></section></section>';
     return $html;
 }
