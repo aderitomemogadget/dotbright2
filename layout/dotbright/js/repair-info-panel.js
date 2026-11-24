@@ -3,6 +3,14 @@
   function setupRepairInfo() {
     var root = document.getElementById('reparacao-info');
     if (!root) return;
+    var model = root.querySelector('.db-repair-title-model');
+    function fitModel() {
+      if (!model || !model.clientWidth) return;
+      model.style.fontSize = '';
+      var available = model.clientWidth;
+      var natural = model.scrollWidth;
+      if (natural > available) model.style.fontSize = (parseFloat(getComputedStyle(model).fontSize) * available / natural) + 'px';
+    }
     var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
     function updateReadMore(panel) {
       var copy = panel.querySelector('.db-repair-copy');
@@ -43,11 +51,20 @@
       });
     });
     function refresh() {
+      fitModel();
       root.querySelectorAll('.db-repair-tabpanel').forEach(updateReadMore);
     }
     refresh();
     window.addEventListener('resize', refresh);
     window.addEventListener('load', refresh);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitModel);
+    if (model && window.ResizeObserver) {
+      var previousWidth = 0;
+      new ResizeObserver(function () {
+        var width = model.clientWidth;
+        if (width !== previousWidth) { previousWidth = width; fitModel(); }
+      }).observe(model);
+    }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupRepairInfo);
   else setupRepairInfo();

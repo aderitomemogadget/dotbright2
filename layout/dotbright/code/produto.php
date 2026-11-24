@@ -2366,7 +2366,7 @@ function ficha_p1_final($prods,$labels='')
                     $return .= '<p class="our_price_display" itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">';
                     $return .= '<span style="font-size:16px;color:#ec870e">PVP:</span> ';
                     if($repair_quote['promotion']) $return .= '<span style="color:#656565;text-decoration:line-through;font-size:18px;">'.numberformat($repair_quote['old_price'], 1).'</span> ';
-                    $return .= '<span style="font-size:27px;color:#000;font-weight:800">'.numberformat($repair_quote['repair_gross'], 1).'</span> <span style="font-size:17px;color:#000;font-weight:300">(já inclui IVA)</span><span style="font-size:10px">'.$txt_iva.'</span><br>';
+                    $return .= '<span style="font-size:27px;color:#000;font-weight:800">'.numberformat($repair_quote['repair_gross'], 1).'</span><br>';
                     $return .= '</p>';
 
 

@@ -1,5 +1,27 @@
 <?php
 
+/** Prefer the catalogue's model family; keep an unchanged title if no model is identifiable. */
+function dotbright_repair_title_parts($name, $family_name = '')
+{
+    $name = html_entity_decode($name, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $family_name = trim(html_entity_decode(strip_tags($family_name), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+    $start = null;
+    if ($family_name !== '' && preg_match('~(?<![\pL\pN])'.preg_quote($family_name, '~').'(?![\pL\pN])~iu', $name, $match, PREG_OFFSET_CAPTURE)) $start = $match[0][1];
+    // Fallback for catalogue names that abbreviate the family (e.g. MacBook Pro A1706).
+    if (preg_match('~\b(?:(?:Apple|Samsung|Huawei|Xiaomi|Microsoft)\s+)?(?:iPhone|iPad|iPod|MacBook|iMac|Mac\s+(?:Mini|Pro|Studio)|Apple\s+Watch|Galaxy|Surface|Redmi|POCO|Pixel|PlayStation|Xbox)\b~iu', $name, $match, PREG_OFFSET_CAPTURE)) {
+        if ($start === null || $match[0][1] < $start) $start = $match[0][1];
+    }
+    if ($start === null || $start === 0) return array($name, '', '');
+    if (preg_match('~\b(?:Apple|Samsung|Huawei|Xiaomi|Microsoft|OnePlus|Oppo|Nokia|Sony|Lenovo|Asus|Acer|HP|Dell|Google|Motorola|Honor|Realme)\s+$~iu', substr($name, 0, $start), $match, PREG_OFFSET_CAPTURE)) $start = $match[0][1];
+    $model = substr($name, $start);
+    $note = '';
+    if (preg_match('~\s+-\s+|\s+(?=\((?:peça|qualidade|compatível|original)\b)~iu', $model, $match, PREG_OFFSET_CAPTURE)) {
+        $note = trim(substr($model, $match[0][1]));
+        $model = substr($model, 0, $match[0][1]);
+    }
+    return array(rtrim(substr($name, 0, $start)), trim($model), $note);
+}
+
 /** Presentation for the repair information panel; the request form stays in produto.php. */
 function dotbright_repair_info_panel($prods, $previous_panel)
 {
@@ -9,6 +31,8 @@ function dotbright_repair_info_panel($prods, $previous_panel)
         return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
     };
     $name = rtrim($prods['prod_nome'], '- ');
+    $family = function_exists('get_family_info') && !empty($prods['fam_id']) ? get_family_info((int)$prods['fam_id']) : array();
+    $title_parts = dotbright_repair_title_parts($name, $family['fam_nome'] ?? '');
     $reference = explode('_', $prods['prod_ref']);
     $reference = $reference[0];
     $piece = $quote['service']['part'];
@@ -44,7 +68,10 @@ function dotbright_repair_info_panel($prods, $previous_panel)
     $html .= '<section id="reparacao-info" class="col-xs-12 reparacao-painel db-repair-info" aria-labelledby="repair-panel-heading">';
     $html .= '<h2 id="repair-panel-heading" class="reparacao-etapa-titulo db-repair-step" tabindex="-1">Etapa 1 de 4 <span>Informação da reparação</span></h2>';
     $html .= '<div class="db-repair-grid"><div class="db-repair-product">'.(isset($gallery[0]) ? $gallery[0] : '');
-    $html .= '<h1 itemprop="name" class="product-title">'.$escape($name).'</h1>';
+    $html .= '<h1 itemprop="name" class="product-title"><span class="db-repair-title-service">'.$escape($title_parts[0]).'</span>';
+    if ($title_parts[1] !== '') $html .= ' <span class="db-repair-title-model">'.$escape($title_parts[1]).'</span>';
+    if ($title_parts[2] !== '') $html .= ' <span class="db-repair-title-note">'.$escape($title_parts[2]).'</span>';
+    $html .= '</h1>';
     $html .= '<p class="db-repair-reference">REF: '.$escape($reference).'</p>';
     $html .= '<div class="db-repair-price">'.(isset($price[0]) ? $price[0] : '').'</div>';
     $html .= '<span class="db-repair-piece-badge">'.$icon($piece_icon).$escape($piece).'</span></div>';

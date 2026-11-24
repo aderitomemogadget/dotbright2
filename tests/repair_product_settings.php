@@ -96,6 +96,24 @@ function seo($url, $id, $type) { return 'repair-'.$id; }
 $html = dotbright_repair_info_panel(product(400), '<p class="our_price_display">199,90 €</p>');
 check(strpos($html, '<strong>1 hora</strong>') !== false && strpos($html, 'Garantia: 24 meses') !== false, 'Panel data not configured.');
 check(strpos($html, 'reparacaoEtapa(2)') !== false && substr_count($html, 'db-repair-fact"') === 5, 'Panel structure/navigation changed.');
+foreach (array(
+    array('Reparação lente da câmara iPhone 17 Pro Max', 'iPhone 17 Pro Max', 'iPhone 17 Pro Max'),
+    array('Reparação Ecrã OLED Premium iPhone 17 Pro Max - Qualidade equivalente ao original', 'iPhone 17 Pro Max', 'iPhone 17 Pro Max'),
+    array('Reparação bateria iPhone 17 Pro Max (Peça oficial Apple)', 'iPhone 17 Pro Max', 'iPhone 17 Pro Max'),
+    array('Substituição LCD completo MacBook Pro 13.3&quot; A1706 2016-2017', 'MacBook Pro 13.3&quot; A1706', 'MacBook Pro 13.3" A1706 2016-2017'),
+    array('Substituição Bateria MacBook Pro A1706 2016-2017', 'MacBook Pro 13.3" A1706', 'MacBook Pro A1706 2016-2017'),
+    array('Reparação ecrã Samsung Galaxy S24 Ultra', 'Galaxy S24 Ultra', 'Samsung Galaxy S24 Ultra'),
+    array('Reparação ecrã OnePlus 12R', 'OnePlus 12R', 'OnePlus 12R'),
+    array('Reparação ecrã Huawei P30 Pro', 'P30 Pro', 'Huawei P30 Pro')
+) as $title_case) {
+    $parts=dotbright_repair_title_parts($title_case[0],$title_case[1]);
+    check($parts[1]===$title_case[2], 'Full device model not kept together: '.$title_case[0]);
+    check(implode(' ',array_filter($parts,'strlen'))===html_entity_decode($title_case[0],ENT_QUOTES | ENT_HTML5,'UTF-8'),'Title formatting lost or reordered catalogue text.');
+}
+check(dotbright_repair_title_parts('Reparação de equipamento sem modelo')===array('Reparação de equipamento sem modelo','',''),'Unknown models must not invent a title split.');
+$title_product=product(400);$title_product['prod_nome']='Reparação lente <teste> iPhone 17 Pro Max';
+$title_html=dotbright_repair_info_panel($title_product,'<p class="our_price_display">199,90 €</p>');
+check(strpos($title_html,'db-repair-title-service">Reparação lente &lt;teste&gt;')!==false && strpos($title_html,'db-repair-title-model">iPhone 17 Pro Max')!==false,'Title must escape text and separate intervention/model in the actual template.');
 $repair_settings_tab = true; $ID = 400; $ID_Fam = 3665;
 ob_start(); include __DIR__.'/../admin/products/tabs/tab_reparacao.php'; $admin = ob_get_clean();
 check(strpos($admin, 'repair_settings[time_code]') !== false && strpos($admin, 'value="1h" selected') !== false && strpos($admin, 'value="24"') !== false, 'Admin does not load saved configuration.');

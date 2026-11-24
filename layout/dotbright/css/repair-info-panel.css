@@ -17,12 +17,14 @@
 #reparacao-info .product-gallery .item:not(:first-child) { display: none; }
 #reparacao-info .product-gallery .item > a { display: flex; min-height: 275px; align-items: center; justify-content: center; }
 #reparacao-info .product-gallery .item > a > img { display: block; width: auto; max-width: 100%; height: 275px; object-fit: contain; margin: 0 auto; }
-#reparacao-info .product-title { margin: 0 0 8px; font-size: 21px; line-height: 1.3; font-weight: 800; color: var(--repair-ink); }
-#reparacao-info .db-repair-reference { margin: 0 0 12px; font-size: 10px; color: #747c88; overflow-wrap: anywhere; }
-#reparacao-info .db-repair-price { margin: 8px 0 14px; }
+#reparacao-info .product-title { margin: 0 0 8px; font-size: 21px; line-height: 1.3; font-weight: 800; color: var(--repair-ink); text-align: center; float: none; width: 100%; }
+#reparacao-info .db-repair-title-service, #reparacao-info .db-repair-title-note { display: block; }
+#reparacao-info .db-repair-title-model { display: block; white-space: nowrap; overflow-wrap: normal; word-break: normal; }
+#reparacao-info .db-repair-reference { margin: 0 0 12px; font-size: 10px; color: #747c88; overflow-wrap: anywhere; text-align: center; float: none; }
+#reparacao-info .db-repair-price { margin: 8px 0 14px; text-align: center; }
 #reparacao-info .db-repair-price .our_price_display { margin: 0; float: none; width: 100%; text-align: center; }
 #reparacao-info .db-repair-price span { white-space: normal; }
-#reparacao-info .db-repair-piece-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 15px; border: 1px solid #dfe2e9; border-radius: 30px; background: #f0f1f6; font-size: 12px; font-weight: 700; }
+#reparacao-info .db-repair-piece-badge { display: inline-flex; align-items: center; justify-content: center; max-width: 100%; float: none; text-align: center; gap: 7px; padding: 7px 15px; border: 1px solid #dfe2e9; border-radius: 30px; background: #f0f1f6; font-size: 12px; font-weight: 700; }
 #reparacao-info svg { flex-shrink: 0; width: 24px; height: 24px; }
 #reparacao-info .db-repair-piece-badge svg { width: 18px; height: 18px; }
 #reparacao-info .db-repair-facts { display: grid; gap: 9px; }
