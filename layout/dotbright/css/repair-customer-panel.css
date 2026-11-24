@@ -65,6 +65,9 @@
 #passo1 .db-customer-notes p { display: flex; align-items: start; gap: 9px; margin: 0; font-size: 12px; line-height: 1.5; }
 #passo1 .db-customer-notes svg { flex-shrink: 0; width: 20px; height: 20px; }
 #passo1 .db-customer-notes p + p { border-left: 1px solid #d9dde6; padding-left: 20px; }
+#passo1 #repair-access-limit[hidden] { display: none; }
+#passo1 .db-customer-notes:not(.has-access-limit) { grid-template-columns: minmax(0, 1fr); }
+#passo1 .db-customer-notes:not(.has-access-limit) p + p { border: 0; padding: 0; }
 #passo1 .reparacao-navegacao { display: flex; justify-content: space-between; gap: 16px; padding: 0 26px 26px; }
 #passo1 .reparacao-navegacao button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; padding: 11px 25px; border-radius: 26px; font-size: 15px; font-weight: 700; }
 #passo1 .reparacao-navegacao .reparacao-voltar { border: 1px solid #d9dee7; background: #fff; color: #536074; }

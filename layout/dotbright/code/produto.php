@@ -2587,7 +2587,7 @@ function ficha_p1_final($prods,$labels='')
                 </div>
             </div>
             <div class="db-customer-notes">
-                <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><span>Sem acesso ao equipamento, poderemos não conseguir realizar alguns testes ou concluir determinados procedimentos. Se necessário, explicaremos como poderá concluir os passos em falta após a devolução.</span></p>
+                <p id="repair-access-limit" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v1"/></svg><span>Sem acesso ao equipamento, poderemos não conseguir realizar alguns testes ou concluir determinados procedimentos. Se necessário, explicaremos como poderá concluir os passos em falta após a devolução.</span></p>
                 <p><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/></svg><span>O código é tratado de forma confidencial e utilizado apenas quando necessário para a reparação e os testes.</span></p>
             </div>
             <p style="margin-top:16px"><strong>Preparação para recolha do equipamento</strong><br>Prepare o seu equipamento para a recolha. Acondicione devidamente o equipamento para o transporte.</p>

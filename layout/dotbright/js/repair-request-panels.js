@@ -16,6 +16,11 @@
         }
         function refresh() {
             var access = choice('r_acesso');
+            var limit = field('repair-access-limit');
+            if (limit) {
+                limit.hidden = access !== 'refuse';
+                limit.parentElement.classList.toggle('has-access-limit', access === 'refuse');
+            }
             conditional('repair-access-code', access === 'code', ['r_unlock']);
             conditional('repair-access-pattern', access === 'pattern', ['m_padrao']);
             conditional('repair-delivery-fields', choice('r_entrega_tipo') === 'different', ['r_entrega','r_entrega_cp','r_entrega_cidade']);
