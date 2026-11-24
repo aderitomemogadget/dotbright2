@@ -243,3 +243,44 @@
 #passo1 .db-customer-pattern-controls{flex-wrap:wrap}
 #passo2.db-address-panel textarea.ri{height:auto;min-height:86px;resize:vertical}
 #passo3 #resumo_recolha_obs,#passo3 #resumo_entrega_obs{white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Keep suggestions on the repair sheet, away from the active RRE form. */
+.db-rre-page .db-rre-suggestions[hidden] { display: none !important; }
+
+/* Compact mobile spacing without changing the panel/header design or desktop. */
+@media (max-width: 767px) {
+  .db-rre-page { margin-left: -8px !important; margin-right: -8px !important; }
+  .db-rre-page > .col-xs-12 { padding-left: 4px; padding-right: 4px; }
+  .db-rre-page .product-single.db-repair-panels { margin: 4px 0 16px !important; gap: 12px; padding: 0; }
+  .db-rre-page #reparacao-formulario > .product-info { padding: 0 !important; border: 0; background: transparent; border-radius: 0; }
+  .db-rre-page #reparacao-info .db-repair-step { margin-bottom: 16px; }
+  .db-rre-page #reparacao-info .db-repair-grid { gap: 16px; }
+  .db-rre-page #reparacao-info .db-repair-tabs { margin-top: 18px; }
+  .db-rre-page #reparacao-info .db-repair-tabpanel { padding: 14px; }
+  .db-rre-page #reparacao-info .db-repair-actions { margin-top: 16px; }
+  .db-rre-page #passo1 .db-customer-grid { padding: 16px 12px; gap: 20px; }
+  .db-rre-page #passo1 .db-customer-section h3 { margin-bottom: 14px; }
+  .db-rre-page #passo1 .db-customer-fields { gap: 12px; }
+  .db-rre-page #passo1 .db-customer-access { padding-top: 18px; }
+  .db-rre-page #passo1 .db-customer-access .db-customer-fields { margin-top: 12px; }
+  .db-rre-page #passo1 .db-customer-notes { margin-top: 14px; padding: 12px; gap: 14px; }
+  .db-rre-page #passo1 .db-repair-options, .db-rre-page #passo2 .db-repair-options { margin: 14px 0; }
+  .db-rre-page #passo2 .db-address-content, .db-rre-page #passo3 .db-summary-content { padding: 16px 12px; }
+  .db-rre-page #passo2 .db-address-grid { gap: 20px; }
+  .db-rre-page #passo2 .db-address-fields { gap: 12px; }
+  .db-rre-page #passo2 .db-address-section h3, .db-rre-page #passo2 .db-address-packing h3 { margin-bottom: 14px; }
+  .db-rre-page #passo2 .db-address-period { margin-top: 18px; }
+  .db-rre-page #passo2 .db-address-packing { margin-top: 20px; padding-top: 18px; }
+  .db-rre-page #passo2 .db-address-packing-tips { padding: 4px 12px; }
+  .db-rre-page #passo2 .db-address-packing-tips > div { padding: 12px 0; gap: 10px; }
+  .db-rre-page #passo3 .db-summary-intro { margin-bottom: 16px; }
+  .db-rre-page #passo3 .db-summary-columns, .db-rre-page #passo3 .db-summary-main,
+  .db-rre-page #passo3 .db-summary-side, .db-rre-page #passo3 .db-summary-data-grid { gap: 12px; }
+  .db-rre-page #passo3 .db-summary-card, .db-rre-page #passo3 .db-summary-terms { padding: 14px 12px; }
+  .db-rre-page #passo3 .db-summary-card h3, .db-rre-page #passo3 .db-summary-terms h3 { margin-bottom: 14px; }
+  .db-rre-page #passo3 .db-summary-data { gap: 12px; }
+  .db-rre-page #passo3 .db-summary-terms { margin-top: 16px; }
+  .db-rre-page #passo3 .db-summary-rre-conditions, .db-rre-page #passo3 .db-summary-note { margin-top: 14px; padding: 12px; }
+  .db-rre-page #passo1 .reparacao-navegacao, .db-rre-page #passo2 .reparacao-navegacao,
+  .db-rre-page #passo3 .reparacao-navegacao { padding: 0 12px 16px; gap: 10px; }
+}

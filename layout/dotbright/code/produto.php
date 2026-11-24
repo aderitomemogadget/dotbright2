@@ -1295,9 +1295,9 @@ function ficha_produto($prods)
 
     if($reparacoes == 1)
     {
-    	$return .= '<div class="product row"> 
+        $return .= '<div class="product row db-rre-page">
     					<div class="col-xs-12 col-sm-12 col-md-12">'.ficha_p1_final($prods).'</div>
-    					<div class="col-xs-12 col-sm-12 col-md-12">'.prod_mais_vendido_reparacoes($fam2).'</div>
+                        <div class="col-xs-12 col-sm-12 col-md-12 db-rre-suggestions">'.prod_mais_vendido_reparacoes($fam2).'</div>
 	                </div>';
     }
     else
@@ -2393,6 +2393,7 @@ function ficha_p1_final($prods,$labels='')
                         $return .= 'function reparacaoEtapa(etapa){
                                         $("#reparacao-info").toggle(etapa == 1);
                                         $("#reparacao-formulario").toggle(etapa != 1);
+                                        $("#form_repara").closest(".db-rre-page").find(".db-rre-suggestions").prop("hidden", etapa != 1);
                                         $("#passo1").toggle(etapa == 2);
                                         $("#passo2").toggle(etapa == 3);
                                         $("#passo3").toggle(etapa == 4);
