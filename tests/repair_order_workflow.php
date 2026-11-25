@@ -2,6 +2,7 @@
 // Offline integration: SQLite only. Mail/SMS functions fail if accidentally called.
 set_error_handler(function($severity,$message,$file,$line) {throw new ErrorException($message,0,$severity,$file,$line);});
 require_once __DIR__.'/../core/repair_orders.php';
+$GLOBALS['lojas_rmas']=array(1=>'Online',2=>'Loja de Matosinhos',3=>'Loja de Maia');
 function wf_assert($condition,$message) {if (!$condition) throw new RuntimeException($message);}
 function wf_throws($callback,$message) {try {$callback();} catch (Throwable $e) {return;} throw new RuntimeException($message);}
 function send_email_rma() {throw new RuntimeException('Real notifications forbidden in this test.');}
@@ -51,7 +52,8 @@ $rma=dotbright_repair_send_to_rma($db,$id,2,$input,7);
 $saved=$db->query('SELECT * FROM rmas WHERE ID='.$rma)->fetch(PDO::FETCH_ASSOC);$linked=dotbright_repair_order_find($db,$id);
 wf_assert((int)$linked['rma_id']===$rma && $linked['repair_status']==='sent_to_rma' && $linked['product_status']==='received','Link or independent states incorrect.');
 wf_assert($linked['details_json']===$record['details_json'] && $linked['access_cipher']==='opaque-encrypted-secret' && $linked['total_cents']===18990,'Source snapshot, access or amount changed.');
-wf_assert($saved['cliente_morada']===$customer['r_recolha'] && $saved['cliente_cp']===$customer['r_cp'] && $saved['cliente_empresa']==='Empresa Ω' && $saved['cliente_nif']==='999999999' && $saved['m_modelo']==='iPhone 17 Pro Max' && $saved['Loja']==='MAIA','Customer/billing/equipment mapping lost data.');
+wf_assert($saved['cliente_morada']===$customer['r_recolha'] && $saved['cliente_cp']===$customer['r_cp'] && $saved['cliente_empresa']==='Empresa Ω' && $saved['cliente_nif']==='999999999' && $saved['m_modelo']==='iPhone 17 Pro Max' && $saved['Loja']==='' && (int)$saved['m_origem']===2,'Customer/billing/equipment mapping lost data.');
+wf_assert(dotbright_repair_rma_options($db)['origins'][0]['Cabecalho']==='Online' && dotbright_repair_rma_summary($db,$linked)['origin_label']==='Loja de Matosinhos','Company IDs confused with RMA provenance.');
 wf_assert($saved['codigo_desbloqueio']==='' && (int)$saved['m_padrao']===0 && strpos(json_encode($saved),'opaque-encrypted-secret')===false,'Access secrets copied to legacy RMA.');
 wf_assert((float)$saved['preorcamento']===189.9 && (float)$saved['total']===0.0 && (float)$saved['m_valor']===0.0 && (int)$saved['m_pago']===0,'Estimate created completed work/payment.');
 wf_assert($saved['notes']==='','Transfer incorrectly flagged a new customer reply.');
@@ -71,10 +73,15 @@ wf_assert(dotbright_repair_order_find($db,$fourth)['repair_status']==='not_recor
 wf_throws(function()use($db,$fourth,$input){dotbright_repair_send_to_rma($db,$fourth,1,$input,7);},'Incomplete historical source transferred.');
 // Render real BO views, including the transfer form and linked detail.
 $_SESSION=array();$_POST=$_GET=array();$ro_csrf=dotbright_repair_order_csrf();$ro_labels=dotbright_repair_order_statuses();$ro_error=$ro_flash='';$ro_access=null;$ro_can_reveal=true;$ro_workflow=$ro_rma_ready=true;$ro_events=array();$ro_rma_options=dotbright_repair_rma_options($db);
-$ro_row=dotbright_repair_order_find($db,$id);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
+$ro_row=dotbright_repair_order_find($db,$id);$ro_rma_summary=dotbright_repair_rma_summary($db,$ro_row);
+$ro_events=$db->query('SELECT * FROM repair_order_events WHERE repair_order_id='.(int)$id.' ORDER BY id DESC')->fetchAll(PDO::FETCH_ASSOC);
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
 wf_assert(strpos($html,'RMA #1')!==false && substr_count($html,'role="tab"')===4 && strpos($html,'opaque-encrypted-secret')===false && strpos($html,'name="repair_status"')!==false,'Linked detail rendering failed.');
+wf_assert(strpos($html,'Aguarda pagamento → Enviado para RMA')!==false && strpos($html,'Loja de Matosinhos')!==false && strpos($html,'Estado técnico atual')!==false,'Technical summary or before/after history not rendered.');
+$ro_events=array();$ro_rma_summary=null;
 $fifth=dotbright_repair_order_insert($db,$record);$ro_row=dotbright_repair_order_find($db,$fifth);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
 wf_assert(strpos($html,'name="rma_state"')!==false && strpos($html,'name="_csrf"')!==false && strpos($html,'name="rma_model"')!==false,'Transfer form absent.');
+wf_assert(strpos($html,'Sem alterações registadas')!==false,'Empty history disappeared.');
 $ro_row=null;$ro_id=0;$ro_term=$ro_status=$ro_repair_filter=$ro_product_filter='';$ro_result=dotbright_repair_orders_search($db,'','',1);ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
 wf_assert(strpos($html,'Enviar para RMA')!==false && strpos($html,'Estado reparação')!==false && strpos($html,'Estado produto')!==false,'List workflow/actions missing.');
 // Loading all legacy RMA function declarations no longer needs the private SMS library.

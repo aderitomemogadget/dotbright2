@@ -16,7 +16,7 @@
 					</td>
 					<td width="120" class="preto" align="center"><input class="box" type="text" name="m_valor" id="m_valor" style="WIDTH:100px; HEIGHT:25px" value="<?php echo number_format($m_valor,2)?>"></td>
 					<td>
-					<label class="label_check" for="envio_email_orcamento"><input type="checkbox" id="envio_email_orcamento" name="envio_email_orcamento" value="1"> enviar orçamento ao cliente por email</label>
+					<label class="label_check" for="envio_email_orcamento"><input type="checkbox" id="envio_email_orcamento" name="envio_email_orcamento" value="1" <?=!empty($rma_repair_order_id)?'disabled':''?>> <?=!empty($rma_repair_order_id)?'Email de orçamento RRE desativado':'enviar orçamento ao cliente por email'?></label>
 					</td>
 					</tr>
 					</table>

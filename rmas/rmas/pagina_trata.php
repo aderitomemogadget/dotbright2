@@ -9,6 +9,10 @@
 		$result = submeteDados();
 		$res = $result['resultado'];
 		$id_acao = $result['id_acao'];
+		if (!$res && !empty($_SESSION['rma_repair_error'])) {
+			echo '<p role="alert" style="padding:16px;background:#fff0ed;color:#8c2516">'.dotbright_rma_html($_SESSION['rma_repair_error']).'</p>';
+			unset($_SESSION['rma_repair_error']);
+		}
 
 		$acao = $result['acao']=='insere' ? 1 : 2;
 		

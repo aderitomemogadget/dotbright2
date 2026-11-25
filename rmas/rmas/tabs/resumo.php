@@ -59,6 +59,10 @@
 			{
 				echo '<a href="../sa_clientes/pagina.php?ID='.$ID_Cliente2.'"><img src="ok.png" border="0" align="absmiddle" style="vertical-align:middle"> <span style="color:#0078d7;font-weight:bold">Assistência Associada a Cliente RMA<br>(sem conta website)</span></a>';
 			}
+			elseif (!empty($rma_repair_order_id))
+			{
+				echo '<span style="color:#086c96;font-weight:bold">Cliente identificado no pedido REP-'.(int)$rma_repair_order_id.'</span>';
+			}
 			else
 			{
 				echo '<img src="alerta.png" border="0" align="absmiddle" style="vertical-align:middle"> <span style="color:#FF0000;font-weight:bold">É necessário associar Assistência a um Cliente</span> ';
@@ -370,11 +374,11 @@
 		<tr>
 		<td width="150" valign="top"><input type="text" class="box" name="m_tracking" style="width:150px" maxlength="255" disabled value="<? if ($IDb != 0) echo "DB".str_pad((int)$IDb,6,"0",STR_PAD_LEFT); else echo ''; ?>"> </td>
 		<td width="100" align="center">Código de desbloqueio:&nbsp;&nbsp;</td>
-		<td width="150"><input class="box" style="width: 150px; text-align: left;" type="text" id="codigo_desbloqueio" name="codigo_desbloqueio" value="<?php echo ($codigo_desbloqueio == '' ? '' : $codigo_desbloqueio); /* $codigo_desbloqueio == '0' ||  */?>"></td>
+		<td width="150"><input class="box" style="width: 150px; text-align: left;" type="text" id="codigo_desbloqueio" name="codigo_desbloqueio" <?=!empty($rma_repair_order_id)?'disabled placeholder="Consultar pedido RRE"':''?> value="<?php echo !empty($rma_repair_order_id)?'':dotbright_rma_html($codigo_desbloqueio); ?>"></td>
 		<td width="130" class="preto" align="right">Padrão:&nbsp;&nbsp;</td>
 		<td valign="top">
 		<div style="position:relative">
-		<input class="box" type="text" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" name="m_padrao" id="m_padrao" value="<?php echo ($m_padrao == 0 || $m_padrao == '' ? '' : $m_padrao);?>" style="width:120px;float:left">
+		<input class="box" type="text" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" name="m_padrao" id="m_padrao" <?=!empty($rma_repair_order_id)?'disabled placeholder="Pedido RRE"':''?> value="<?php echo !empty($rma_repair_order_id)?'':dotbright_rma_html($m_padrao == 0 ? '' : $m_padrao);?>" style="width:120px;float:left">
 		<input type="button" id="buttonpattern2" onclick="showpattern();$('#buttonpattern2').hide();$('#buttonpattern').show();" style="float:left;display:block;height: 25px;width: 65px;background: #87ceee;" value="Mostrar">
 		<input type="button" id="buttonpattern" onclick="hidepattern();$('#buttonpattern').hide();$('#buttonpattern2').show();" style="float:left;display:none;height: 25px;width: 65px;background: #87ceee;" value="Esconder">
 		<div id="mypattern" class="mhn-lock pattern_minha"></div>

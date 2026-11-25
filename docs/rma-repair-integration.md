@@ -1,5 +1,19 @@
 # Integração dos pedidos RRE com a assistência RMA
 
+## Correções após o teste REP-10 / RMA 44346
+
+Esta atualização **não requer SQL adicional**. Não repetir a migração abaixo se já foi aplicada. As correções abrangem também as RMAs RRE já associadas, após publicar todos os ficheiros atualizados.
+
+- Corrigido o contrato da proveniência: `m_origem` usa `$lojas_rmas` de `conf/conf.php` (Online / Matosinhos / Maia). `rma_lojas` contém empresas e não é a origem do atendimento. A escolha anterior de empresa não deve ser reinterpretada automaticamente como uma loja; os IDs existentes mantêm-se e a proveniência pode ser revista na própria RMA.
+- A associação verificada nos dois sentidos ao REP identifica o cliente para este percurso. Não é criada uma conta, não são alterados perfis globais e deixa de aparecer um aviso falso de cliente obrigatório. Uma associação explícita a uma conta existente pode continuar a ser feita pelo operador.
+- As RMAs RRE permitem gravar o nome completo sem sobrenome/apelido e sem IMEI quando não foram fornecidos. O servidor valida cliente/contactos/morada e sessão com CSRF; não basta alterar um campo escondido para obter o tratamento RRE. Ligações inconsistentes bloqueiam a gravação.
+- Gravar estas fichas não envia emails/SMS, incluindo orçamento. A política aplica-se no servidor e a interface indica a desativação. Mantém-se a política anterior das fichas RMA sem origem RRE. A submissão pública de pedidos continua com o comportamento de email anterior; a configuração do mailer mantém-se pendente.
+- Código/padrão não podem ser introduzidos em claro na ficha RMA de origem RRE. Os campos remetem para o pedido protegido. A ligação de retorno foi colocada dentro da área principal da ficha.
+- Corrigidos dois nomes de colunas no processamento legado das imagens (`img_ext` / `rma1_ext`), o campo obrigatório `DADOS_ENVIO` do log e a criação de históricos/efeitos secundários após falha do UPDATE. O token CSRF não é copiado para o log.
+- No detalhe BO, identificação/estimativa ficam no topo. Duas áreas distinguem os estados do pedido e a assistência técnica; o estado técnico e a proveniência atuais da RMA são consultados sem os sincronizar automaticamente. O histórico está sempre disponível, recolhido por defeito, com diferenças antes → depois, operador e UTC.
+
+Validação adicional: `tests/rma_repair_bridge.php` executa o gravador legado real com duplo de BD, incluindo sucesso sem apelidos/IMEI, rejeição de CSRF/dados inválidos/ligação inconsistente, preservação da estimativa, ausência de escritas em clientes e de emails/SMS, proteção dos segredos e falha controlada do UPDATE. Sem alterações em registos reais.
+
 ## Análise e decisões
 
 Foi analisada a árvore de código próprio de `rmas/`, incluindo autenticação partilhada com o BO, listagem/pesquisa, criação/alteração da ficha, estados/proveniências, clientes, linhas de intervenção, histórico, notificações, assinaturas/PDF e empréstimos. O export `dotbright_dev2.sql` contém estrutura, mas **não contém INSERTs nem registos**. Não permite determinar os estados/proveniências efetivamente configurados, analisar pedidos reais ou confirmar o erro através dos logs do servidor.
@@ -12,7 +26,7 @@ O erro fatal identificado foi reproduzido por dependência ausente e a inclusão
 
 ## Funcionamento
 
-- Na lista, «Enviar para RMA» abre o detalhe com o formulário de transferência. No detalhe, o operador escolhe um estado inicial e uma proveniência existentes/visíveis, e pode completar marca, modelo, IMEI e número de série. Não são inventados identificadores de equipamento nem IDs de estados.
+- Na lista, «Enviar para RMA» abre o detalhe com o formulário de transferência. No detalhe, o operador escolhe um estado inicial existente/visível e uma proveniência da mesma configuração usada pela RMA, e pode completar marca, modelo, IMEI e número de série. Não são inventados identificadores de equipamento nem IDs de estados.
 - Criar/associar exige POST, CSRF, versão atual e permissões existentes de Produtos e Encomendas (8 e 9). A segunda submissão devolve a mesma RMA.
 - A origem continua a ser REP-ID; a ficha técnica recebe o tracking habitual DB000001. Existem ligações nas duas direções. O BO aplica as suas permissões em cada destino.
 - Transferir não significa que o equipamento já tenha chegado. Altera apenas «Estado reparação» para «Enviado para RMA». «Estado produto» conserva o valor indicado pelo operador.
@@ -35,7 +49,7 @@ O erro fatal identificado foi reproduzido por dependência ausente e a inclusão
 | Pagamento / total de trabalho executado | Não inferidos: `m_pago=0`, `m_valor=0`, `total=0` |
 | Código/padrão cifrado | Permanece exclusivamente no pedido; não copiado para campos legados |
 
-As colunas da morada/CP são alargadas e a tabela RMA passa para utf8mb4, para aceitar os limites/Unicode já permitidos pelo RRE. Mantém-se MyISAM e os IDs/registos existentes. A ficha RMA conserva marcas/modelos transferidos mesmo que não constem das listas auxiliares. Os campos transferidos são escapados ao apresentar na lista e no resumo RMA, sem modificar o texto guardado. Antes de gravar alterações no formulário legado, o operador deve completar os campos que esse formulário já exige (por exemplo, identificação do equipamento).
+As colunas da morada/CP são alargadas e a tabela RMA passa para utf8mb4, para aceitar os limites/Unicode já permitidos pelo RRE. Mantém-se MyISAM e os IDs/registos existentes. A ficha RMA conserva marcas/modelos transferidos mesmo que não constem das listas auxiliares. Os campos transferidos são escapados ao apresentar na lista e no resumo RMA, sem modificar o texto guardado. Nas fichas de origem RRE, sobrenome/apelido e IMEI são opcionais; mantém-se a validação do cliente e contactos.
 
 ## Recuperação de falhas
 

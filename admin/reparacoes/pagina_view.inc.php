@@ -24,11 +24,10 @@ $ro_start_tab=$ro_access!==null || (($_POST['action'] ?? '')==='reveal')?'access
 ?>
 <div class="ro-detail" data-start-tab="<?=$re($ro_start_tab)?>">
 <div class="ro-request-bar">
-    <div class="ro-request-identity"><span class="ro-caption">Pedido de reparação</span><h2>REP-<?=(int)$ro_row['id']?></h2><p><?=$re($ro_row['created_at']?$ro_row['created_at'].' UTC':'Data original desconhecida')?><?php if ($ro_row['legacy_id']) { ?> · Antigo #<?=(int)$ro_row['legacy_id']?><?php } ?></p></div>
+    <div class="ro-request-identity"><span class="ro-caption">Pedido de reparação</span><h2>REP-<?=(int)$ro_row['id']?></h2><div class="ro-request-description"><?=$re($ro_row['product_name'])?></div><p><?=$re($ro_row['created_at']?$ro_row['created_at'].' UTC':'Data original desconhecida')?><?php if ($ro_row['legacy_id']) { ?> · Antigo #<?=(int)$ro_row['legacy_id']?><?php } ?></p></div>
     <div class="ro-request-total"><span class="ro-caption">Total estimado</span><strong><?=$ro_row['total_cents']===null?'—':$re(number_format($ro_row['total_cents']/100,2,',','.').' €')?></strong></div>
-    <form method="post" action="pagina.php" class="ro-status-form"><input type="hidden" name="_csrf" value="<?=$re($ro_csrf)?>"><input type="hidden" name="action" value="update"><input type="hidden" name="id" value="<?=(int)$ro_row['id']?>"><input type="hidden" name="version" value="<?=(int)$ro_row['version']?>"><label for="ro-status">Estado<select id="ro-status" name="status"><?php foreach($ro_labels as $value=>$label) { ?><option value="<?=$re($value)?>" <?=$ro_row['status']===$value?'selected':''?>><?=$re($label)?></option><?php } ?></select></label><?php if($ro_workflow) { foreach(array('repair_status'=>array('Estado reparação',dotbright_repair_workflow_statuses()),'product_status'=>array('Estado produto',dotbright_repair_product_statuses())) as $ro_field=>$ro_config) { ?><label><?=$re($ro_config[0])?><select name="<?=$re($ro_field)?>"><?php foreach($ro_config[1] as $ro_value=>$ro_label) { ?><option value="<?=$re($ro_value)?>" <?=($ro_row[$ro_field] ?? '')===$ro_value?'selected':''?>><?=$re($ro_label)?></option><?php } ?></select></label><?php } } ?><button type="submit">Guardar estados</button></form>
+
 </div>
-<p class="ro-update-note">Última atualização: <?=$re($ro_row['updated_at'])?> UTC<?php if ($ro_row['updated_by']) { ?> · Operador <?=(int)$ro_row['updated_by']?><?php } ?></p>
 <?php include __DIR__.'/workflow_view.inc.php'; ?>
 <?php if (!empty($ro_details['legacy'])) { ?><p class="ro-notice"><?=$re($ro_details['missing'])?></p><?php } ?>
 <div class="ro-detail-tabs" role="tablist" aria-label="Dados do pedido" hidden>

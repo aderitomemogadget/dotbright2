@@ -3,6 +3,7 @@
 require_once __DIR__.'/sms_gateway.php';
 require_once __DIR__.'/notification_policy.php';
 require_once __DIR__.'/loan_policy.php';
+require_once __DIR__.'/repair_bridge.php';
 
 function dotbright_rma_html($value)
 {
@@ -306,7 +307,19 @@ function submeteDados()
 	global $DB_host,$DB_user,$DB_pass,$DB_name,$admin_lang;
 	$db_link = db_opendb_conection($DB_host, $DB_user, $DB_pass);
 
-	$modulo_id = (isset($_POST[TBID]) && $_POST[TBID] > 0) ? $_POST[TBID] : 0;
+	$modulo_id = isset($_POST[TBID]) && is_scalar($_POST[TBID]) ? max(0,(int)$_POST[TBID]) : 0;
+	$_POST[TBID]=$modulo_id;
+	try {
+		$rma_repair_context=dotbright_rma_repair_context($modulo_id);
+		if ($rma_repair_context) {
+			dotbright_rma_repair_validate($_POST);
+			// RRE secrets remain exclusively in the encrypted source request.
+			$_POST['codigo_desbloqueio']=''; $_POST['m_padrao']='0';
+		}
+	} catch (Throwable $e) {
+		$_SESSION['rma_repair_error']=$e instanceof InvalidArgumentException?$e->getMessage():'Não foi possível verificar a ligação ao pedido RRE. Reabra a ficha antes de gravar.';
+		return array('resultado'=>false,'acao'=>'update','id_acao'=>(int)$modulo_id);
+	}
 
 	$modulo_duplicar = (isset($_POST['duplicar']) && $_POST['duplicar'] > 0) ? 1 : 0;
 	$modulo_acao = (isset($_POST[TBID]) && $_POST[TBID] > 0) ? 'update' : 'insere';
@@ -451,6 +464,7 @@ function submeteDados()
 
 	$res = Runquery($db_link, $DB_name, $sql);
 
+	if (!$res) return array('resultado'=>false,'acao'=>$modulo_acao,'id_acao'=>$modulo_id);
 	if($modulo_acao=='insere') $id_acao = db_get_last_insert_id($db_link);
 	else $id_acao = $modulo_id;
 
@@ -494,6 +508,9 @@ function submeteDados()
 
 	$id_cli_new = 0;
 
+	// The verified source request is the customer record for RRE. Do not
+	// create a website account or overwrite an existing customer's profile.
+	if (!$rma_repair_context) {
 	if(isset($_POST['fake']))
 	{
 		if(isset($_POST['cliente_telefone1']) && $_POST['cliente_telefone1'] != '')
@@ -525,6 +542,7 @@ function submeteDados()
 				$id_cli_new = insere_cliente();
 			}
 		}
+	}
 	}
 	// die();
 
@@ -1540,6 +1558,8 @@ function enviaEmail_teste()
 
 function enviaEmail($id, $tipo, $log_id=0, $fake = 0, $nao_envio_email = 0)
 {
+	// Notifications triggered by RMA saves remain off for linked RRE requests.
+	if (dotbright_rma_repair_context($id)) return;
 	global $DB_host,$DB_user,$DB_pass,$DB_name;
 	$db_link=db_opendb_conection($DB_host,$DB_user,$DB_pass);
 	$rs = new DataObj;
@@ -2395,11 +2415,12 @@ function grava_rma_log($id, $estado)
 	$db_link=db_opendb_conection($DB_host,$DB_user,$DB_pass);
 	$log_id = 0;
 	$login_id = $_SESSION['ss_admin_id'];
-	if($login_id != 10)
+	if($login_id != 10 || dotbright_rma_repair_context($id))
 	{
 		$criado = date('Y-m-d H:i:s');
-		$post = addslashes(json_encode($_POST));
-		$sql = "INSERT INTO rmas_logs (rma_id, login_id, estado, criado, POST) VALUES ($id, $login_id, $estado, '$criado', '".$post."')";
+		$log_post=$_POST;unset($log_post['_rre_csrf']);
+		$post = addslashes(json_encode($log_post));
+		$sql = "INSERT INTO rmas_logs (rma_id, login_id, estado, criado, POST, DADOS_ENVIO) VALUES ($id, $login_id, $estado, '$criado', '".$post."', '')";
 		$res = Runquery($db_link,$DB_name,$sql);
 
 		$log_id = db_get_last_insert_id($db_link);
@@ -3497,11 +3518,11 @@ function rmas_images_save($ID,$Img_peq,$tem_foto='',$Apagar_img='')
 		}
 	}
 
-	$sql = "SELECT rma1_ext FROM products_images_rmas WHERE ID_ORG='".$ID."' ORDER BY Ordem Limit 1";
+	$sql = "SELECT img_ext FROM products_images_rmas WHERE ID_ORG='".$ID."' ORDER BY Ordem Limit 1";
 	$rs->db_open($db_link, $DB_name, $sql);
 	if(!$rs->EOF())
 	{
-		$sql='UPDATE rmas SET imrma1_extg_ext="'.$rs->db_data['img_ext'].'" WHERE ID="'.$ID.'"';
+		$sql='UPDATE rmas SET rma1_ext="'.$rs->db_data['img_ext'].'" WHERE ID="'.$ID.'"';
 		$res=Runquery($db_link,$DB_name,$sql);
 	}
 	else

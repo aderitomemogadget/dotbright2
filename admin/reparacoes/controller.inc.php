@@ -18,6 +18,7 @@ $ro_page=is_scalar($_GET['p'] ?? null)?max(1,min(100000,(int)$_GET['p'])):1;
 $ro_can_reveal=dotbright_repair_order_can_reveal($admin_id,$dados['Permissoes']);
 $ro_flash=$_SESSION['repair_orders_flash'] ?? '';unset($_SESSION['repair_orders_flash']);
 $ro_workflow=false;$ro_rma_ready=false;$ro_rma_options=array('states'=>array(),'origins'=>array());$ro_events=array();
+$ro_rma_summary=null;
 $ro_repair_filter=is_string($_GET['repair_status'] ?? null)?$_GET['repair_status']:'';
 $ro_product_filter=is_string($_GET['product_status'] ?? null)?$_GET['product_status']:'';
 try {
@@ -60,6 +61,7 @@ try {
         $ro_row=dotbright_repair_order_find($ro_db,$ro_id);
         if (!$ro_row) throw new InvalidArgumentException('Pedido não encontrado.');
         if ($ro_workflow) {$ro_event_query=$ro_db->prepare('SELECT event_type,actor_id,before_json,after_json,created_at FROM repair_order_events WHERE repair_order_id=? ORDER BY id DESC LIMIT 20');$ro_event_query->execute(array($ro_id));$ro_events=$ro_event_query->fetchAll(PDO::FETCH_ASSOC);}
+        if ($ro_rma_ready && !empty($ro_row['rma_id'])) $ro_rma_summary=dotbright_repair_rma_summary($ro_db,$ro_row);
         if ($ro_rma_ready && empty($ro_row['rma_id'])) $ro_rma_options=dotbright_repair_rma_options($ro_db);
     } elseif (REPAIR_ADMIN_SCREEN==='list') $ro_result=dotbright_repair_orders_search($ro_db,$ro_term,$ro_status,$ro_page,$ro_repair_filter,$ro_product_filter);
 } catch (Throwable $e) {

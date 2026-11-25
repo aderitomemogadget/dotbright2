@@ -50,8 +50,23 @@ function dotbright_repair_workflow_update(PDO $db,$id,$version,$status,$repair,$
 function dotbright_repair_rma_options(PDO $db)
 {
     $states=$db->query("SELECT e.ID,l.Cabecalho FROM rmas_estados e INNER JOIN rmas_estados_lang l ON l.ID_PAI=e.ID AND l.Lang='pt' WHERE e.Visivel=1 ORDER BY e.Ordem,e.ID")->fetchAll(PDO::FETCH_ASSOC);
-    $origins=$db->query("SELECT e.zone_id AS ID,e.Loja,l.zone_name AS Cabecalho FROM rma_lojas e INNER JOIN rma_lojas_lang l ON l.zone_id=e.zone_id AND l.zone_lang='pt' WHERE e.zone_visible=1 ORDER BY e.zone_order,e.zone_id")->fetchAll(PDO::FETCH_ASSOC);
+    // m_origem uses conf.php's lojas_rmas IDs. rma_lojas stores companies,
+    // whose IDs are unrelated (company 1 must not silently mean Online).
+    $origins=array();
+    foreach (($GLOBALS['lojas_rmas'] ?? array()) as $id=>$label) {
+        if ((int)$id>0 && is_string($label) && trim($label)!=='') $origins[]=array('ID'=>(int)$id,'Cabecalho'=>$label,'Loja'=>'');
+    }
     return array('states'=>$states,'origins'=>$origins);
+}
+function dotbright_repair_rma_summary(PDO $db,$row)
+{
+    if (empty($row['rma_id'])) return null;
+    $q=$db->prepare("SELECT r.ID,r.repair_order_id,r.m_estado,r.m_origem,l.Cabecalho AS state_label FROM rmas r LEFT JOIN rmas_estados_lang l ON l.ID_PAI=r.m_estado AND l.Lang='pt' WHERE r.ID=? AND r.repair_order_id=?");
+    $q->execute(array((int)$row['rma_id'],(int)$row['id']));
+    $rma=$q->fetch(PDO::FETCH_ASSOC);
+    if (!$rma) throw new RuntimeException('A ficha técnica associada não foi encontrada ou a ligação é inconsistente.');
+    $rma['origin_label']=$GLOBALS['lojas_rmas'][(int)$rma['m_origem']] ?? 'Proveniência por confirmar';
+    return $rma;
 }
 function dotbright_repair_rma_text($input,$key,$limit)
 {

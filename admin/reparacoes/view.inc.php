@@ -7,7 +7,7 @@ $ro_show=function($label,$value) use($re) {echo '<div><dt>'.$re($label).'</dt><d
 
 <div class="ro-module"><section class="ro-admin"><div class="ro-module-heading"><div><h1>REPARAÇÕES</h1><p>Pedidos de reparação com recolha</p></div><a class="ro-button" href="list.php">Lista de pedidos</a></div><div class="ro-module-body">
 <?php if ($ro_error) { ?><p class="ro-error" role="alert"><?=$re($ro_error)?></p><?php } ?>
-<?php if ($ro_flash) { ?><p role="status"><?=$re($ro_flash)?></p><?php } ?>
+<?php if ($ro_flash) { ?><p class="ro-flash" role="status"><?=$re($ro_flash)?></p><?php } ?>
 <?php if (!$ro_workflow) { ?><p class="ro-notice">Para ativar os estados separados e a ligação RMA, aplique o SQL de integração fornecido no chat.</p><?php } ?>
 <?php if ($ro_row) { include __DIR__.'/pagina_view.inc.php'; ?>
 <?php } elseif (!$ro_id && (!defined('REPAIR_ADMIN_SCREEN') || REPAIR_ADMIN_SCREEN==='list')) { ?>

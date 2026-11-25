@@ -69,6 +69,7 @@ else {$caminho_bt_editor1=$caminho_bt_editor2=$caminho_bt_editor;}
 
 $C = ''; $T = ''; $ordem = 0; $readonly = 0;
 $rma_repair_order_id = 0;
+$rma_repair_context = array();
 
 if ($ID != 0)
 {
@@ -76,7 +77,8 @@ if ($ID != 0)
     if ($rs)
     {
         $IDb = $rs->db_data['ID'];
-        $rma_repair_order_id = (int)($rs->db_data['repair_order_id'] ?? 0);
+        $rma_repair_context = dotbright_rma_repair_context((int)$ID);
+        $rma_repair_order_id = (int)($rma_repair_context['id'] ?? 0);
         $ID_Cliente = $rs->db_data['ID_Cliente'];
 		$ID_Cliente2 = $rs->db_data['ID_Cliente2'];
 
@@ -541,6 +543,7 @@ if($ID){
     }
     function validaCampos()
 	{
+        var fromRre = <?=!empty($rma_repair_context)?'true':'false'?>;
         var fake = document.getElementById('fake').checked;
         if(!fake)
         {
@@ -554,6 +557,10 @@ if($ID){
         	$('#cliente_username').removeClass('box_err');
         }
         
+        if (fromRre) {
+            campos=['cliente_nome','cliente_morada','cliente_cp','cliente_username','cliente_telefone1'];
+            alertas=[' - Nome completo \n',' - Morada \n',' - Código Postal \n',' - Email \n',' - Telefone \n'];
+        }
         var alerta='';
         for (var i=0; i < campos.length; i++)
 		{
@@ -588,6 +595,7 @@ if($ID){
 		}
         else
 		{
+			if (fromRre) return true;
 			// SE NÃO EXISTIR ID DE CLIENTE VAMOS VERIFICAR SE A INFORMAÇÃO
 			if(document.getElementById('ID_Cliente').value == 0 || document.getElementById('ID_Cliente').value == '')
 			{
@@ -1148,11 +1156,8 @@ if($ID){
 
 <body class="rma-form-page rma-operational-form" onKeyDown="enterAsTab(event)">
 
-    <?php if ($rma_repair_order_id > 0) { ?>
-    <p><a href="../../admin/reparacoes/pagina.php?id=<?=$rma_repair_order_id?>">Pedido de origem REP-<?=$rma_repair_order_id?></a> — consulte as moradas RRE, os valores estimados e a opção de acesso no pedido de origem.</p>
-    <?php } ?>
-
     <form class="rma-modern-form" name="form" id="rma_form" method="post" action="pagina_trata.php?ID=<?php echo $ID ?>&task_form=<?php echo $task_form ?>&d=<?php echo uniqID('') ?>" enctype="multipart/form-data" onsubmit="return validaCampos()">
+        <?php if ($rma_repair_order_id) { ?><input type="hidden" name="_rre_csrf" value="<?=dotbright_rma_html(dotbright_rma_repair_token())?>"><?php } ?>
         <input type="hidden" name="m_lang" value="<?php echo $GLOBALS['admin_lang']; ?>">
         <input type="hidden" name="slashes" value="'">
         <input type="hidden" name="tab_a" value="0">
@@ -1168,6 +1173,12 @@ if($ID){
                         <? include "../layout/menus.inc.php"; ?>
                         <br>
                         <table class="new_quadros rma-form-card rma-record-card" width="880px" border=0 cellspacing=0 cellpadding="4" align="center">
+                            <?php if ($rma_repair_order_id) { ?><tr><td>
+                            <aside style="padding:16px;background:#edf7fc;border:1px solid #b7d8e9;border-radius:8px;color:#243447;text-align:left;line-height:1.5">
+                            <a style="color:#086c96;font-weight:bold" href="../../admin/reparacoes/pagina.php?id=<?=$rma_repair_order_id?>">← Abrir pedido de origem REP-<?=$rma_repair_order_id?></a><br>
+                            Cliente identificado no pedido RRE. Sobrenome, apelido e IMEI podem ficar vazios quando não fornecidos.<br>
+                            Emails e SMS desta ficha RRE estão desativados. Código/padrão de acesso mantêm-se no pedido protegido.
+                            </aside></td></tr><?php } ?>
                             <tr>
                                 <td valign="top">
                                     <table width="100%" border=0 cellspacing=0 cellpadding="5" class="subtitulo_janela">
@@ -1237,7 +1248,7 @@ if($ID){
                                                         </td>
                                                         <td><img src="cm_fill.gif" width="8" height="1"></td>
                                                         <td>
-                                                            <label class="label_check" for="nao_envio_email"><input type="checkbox" id="nao_envio_email" name="nao_envio_email" value="1" <?php if(isset($_GET['reabrir']) && intval($_GET['reabrir']) == 1){ echo 'checked="checked"';}?>>Não enviar e-mail ao Cliente</a>
+                                                            <label class="label_check" for="nao_envio_email"><input type="checkbox" id="nao_envio_email" name="nao_envio_email" value="1" <?php if($rma_repair_order_id){echo 'checked disabled';} elseif(isset($_GET['reabrir']) && intval($_GET['reabrir']) == 1){echo 'checked';}?>><?=$rma_repair_order_id?'Notificações RRE desativadas':'Não enviar e-mail ao Cliente'?></label>
                                                         </td>
                                                     </tr>
                                                 </table>

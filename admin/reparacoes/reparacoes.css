@@ -34,3 +34,42 @@
 .ro-module .ro-detail .ro-access-panel{max-width:850px}
 @media(max-width:1100px){.ro-module .ro-detail .ro-customer-grid{grid-template-columns:1fr}.ro-module .ro-detail .ro-repair-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.ro-module .ro-detail .ro-request-bar{padding:14px;gap:16px}.ro-module .ro-detail .ro-status-form{width:100%;display:grid;grid-template-columns:1fr}.ro-module .ro-detail .ro-status-form label{flex:1}.ro-module .ro-detail .ro-status-form select{width:100%;min-width:0}.ro-module .ro-detail .ro-detail-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px}.ro-module .ro-detail .ro-detail-tabs button{padding:10px 8px;font-size:12px;border-radius:4px}.ro-module .ro-detail dl>div{grid-template-columns:minmax(90px,35%) minmax(0,1fr);gap:8px}}
+.ro-module .ro-request-description{max-width:75ch;margin:6px 0 10px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.ro-module .ro-flash{padding:12px 16px;background:#edf8f3;border:1px solid #cde7d9;border-radius:6px;color:#236246}
+.ro-module .ro-operations{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;margin:18px 0}
+.ro-module .ro-operations>section{min-width:0;padding:20px;border:1px solid #d9e0e7;border-radius:8px;background:#fff}
+.ro-module .ro-section-title{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px}
+.ro-module .ro-section-title h3{margin:0 0 5px;font-size:16px;color:#243447;font-weight:600}
+.ro-module .ro-section-title p{margin:0;color:#687b8a;font-size:12px;line-height:1.5}
+.ro-module .ro-step-number{display:flex;align-items:center;justify-content:center;flex:0 0 28px;height:28px;background:#eaf5fa;color:#08799f;border-radius:50%;font-weight:600}
+.ro-module .ro-detail .ro-management .ro-status-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.ro-module .ro-detail .ro-management .ro-status-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;min-width:0}
+.ro-module .ro-detail .ro-management .ro-status-form select{width:100%;min-width:0;margin:0;background:#fff}
+.ro-module .ro-status-form small{font-size:12px;line-height:1.5;color:#687b8a;font-weight:400}
+.ro-module .ro-save-row{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid #edf0f2;padding-top:16px;margin-top:8px}
+.ro-module .ro-save-row>span{color:#687b8a;font-size:12px;line-height:1.6}
+.ro-module .ro-save-row button{flex-shrink:0}
+.ro-module .ro-rma-linked{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px;background:#f3f8fb;border-radius:6px}
+.ro-module .ro-rma-linked strong{font-size:18px;color:#173f69}
+.ro-module .ro-rma-linked .ro-button{margin:0;white-space:nowrap}
+.ro-module .ro-rma-caption,.ro-module .ro-rma-intro{color:#687b8a;font-size:12px;line-height:1.6}
+.ro-module .ro-guidance{font-size:13px;line-height:1.65;margin:16px 0 10px}
+.ro-module .ro-detail .ro-technical-facts{margin-top:10px}
+.ro-module .ro-detail .ro-technical-facts>div{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.ro-module .ro-detail .ro-rma-transfer{margin:16px 0 0}
+.ro-module .ro-rma-transfer>summary{list-style:none}
+.ro-module .ro-rma-transfer>summary::-webkit-details-marker{display:none}
+.ro-module .ro-rma-trigger{display:inline-block;padding:10px 14px;border:1px solid #159bc6;border-radius:4px;color:#08799f;background:#fff;font-size:13px}
+.ro-module .ro-rma-transfer[open] .ro-rma-trigger{background:#edf8fc}
+.ro-module .ro-rma-transfer[open] .ro-rma-trigger>span{display:inline-block;transform:rotate(180deg)}
+.ro-module .ro-workflow-history{margin:0 0 22px;padding:14px 18px;border:1px solid #d9e0e7;border-radius:6px;background:#fafcfd}
+.ro-module .ro-workflow-history>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;font-weight:400;font-size:13px;list-style:none}
+.ro-module .ro-workflow-history>summary::-webkit-details-marker{display:none}
+.ro-module .ro-workflow-history>summary>span{font-size:12px;color:#687b8a}
+.ro-module .ro-history-list{list-style:none;padding:0;margin:16px 0 0}
+.ro-module .ro-history-list>li{padding:14px 0;border-top:1px solid #e5e9ed;overflow-wrap:anywhere}
+.ro-module .ro-history-list>li>div{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.ro-module .ro-history-list>li>div>span{color:#687b8a;font-size:12px}
+.ro-module .ro-history-list ul{padding-left:18px;margin:8px 0 0;line-height:1.7;font-size:13px}
+@media(max-width:1100px){.ro-module .ro-operations{grid-template-columns:1fr}}
+@media(max-width:600px){.ro-module .ro-operations>section{padding:16px}.ro-module .ro-detail .ro-management .ro-status-form{grid-template-columns:1fr}.ro-module .ro-save-row,.ro-module .ro-rma-linked,.ro-module .ro-history-list>li>div{flex-direction:column;align-items:stretch}.ro-module .ro-workflow-history>summary{align-items:flex-start;flex-direction:column;gap:5px}.ro-module .ro-save-row button{width:100%}.ro-module .ro-request-description{font-size:13px}.ro-module .ro-rma-linked .ro-button{white-space:normal;text-align:center}}
