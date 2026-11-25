@@ -1,0 +1,180 @@
+				<style>
+                #drop-area{min-width: 90%;min-height: 200px;height:100px;padding: 10px;border: 1px dotted #ccc;text-align: center;	position: relative;background-color:#F0FAFF}
+                #drop-area:before{content: "Drop files here!";color:#fff;font-size:50px;font-weight:bold;opacity:0.5;text-shadow:1px 1px #000;position:absolute;width:100%;left:0;top:50%;margin:-25px 0 0;z-index:1;}
+                #drop-area.hover{border:1px dashed red}
+                #drop-area div{width:150px;height:150px;border:1px solid #CCC;background-color:#F0FAFF;font-size:.5em;padding:5px;background-position:center;background-repeat:no-repeat;background-size:contain;float:left;margin:10px;word-wrap:break-word}
+                #status{padding:5px 20px;font-family:Arial;font-size:11px;border-top:#000 1px solid;border-bottom:#000 1px solid;background-color:#000;color:#fff}
+                #settings{padding:5px 20px;font-family:Arial;font-size:11px;border-top:#000 1px solid;border-bottom:#000 1px solid;background-color:#000;color:#fff}
+                /*<!--[if IE]>
+                #drop-area{visibility:hidden;display:none}
+                #status{visibility:hidden;display:none}
+                <![endif]-->*/
+                td.tm{color:#000}
+                </style>
+                <style type="text/css">
+                <!--
+                    ul.zzul{list-style-type:none;display:block;}
+                    span.zzspace{left:11px;}
+                    a.exp,a.exp:visited{color:#0000ff;}
+                    a.exp:hover{ color:#ff0000;}
+                -->
+                </style>
+                <script type="text/javascript">function t(){document.getElementById('css1').href='../includes/backoffice3.css';}</script>
+                </head><body><table class="t3" width=100% border=0 cellspacing=0 cellpadding=0><tr><td><table width="100%" border=0 cellspacing=0 cellpadding=0><tr><td colspan=4>
+                <script>
+                    var drop_settings=0;
+                    var lista="";
+                    function ajax_upload(url){
+                        try{var x=new ActiveXObject("Microsoft.XMLHTTP");}
+                        catch(e){try{var x=new ActiveXObject("Msxml2.XMLHTTP");}catch(ex){try{var x=new XMLHttpRequest();}catch(exc){alert("Browser not accept x");x=null;}}}
+						if(x){
+                            x.open("GET",url,true);
+                            x.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+                            x.onreadystatechange=function(){if(x.readyState==4){var t=x.responseText;t=unescape(t);if(t=="done")alert("<? echo write_lang('key_o_ficheiro_foi_aceite_com_sucesso','O ficheiro foi aceite com sucesso');?>");else alert("<? echo write_lang('key_erro_o_ficheiro_invalido','ERRO!!!! o ficheiro é inválido');?>");return true;}};
+                            x.send(null);
+                        }
+                    }
+                    var up ={
+                    $drop :			null,
+                    queue :			[],
+                    upload_end:     0,
+                    processing :	null,
+                    uploading :		false,
+                    binaryReader :	null,
+                    dataReader :	null,
+                    xhr:			null,
+                    init : function(){
+                        up.$drop=$('#drop-area');
+                        up.$drop.bind('dragenter',up.enter);
+                        up.$drop.bind('dragleave',up.leave);
+                        up.$drop.bind('dragover',up.over);
+                        up.$drop.bind('drop',up.drop);		
+                        $('#status').click(up.cancel);
+                        up.xhr=new XMLHttpRequest();
+                        if(useragent="msie"){}
+                        else{up.xhr.upload.addEventListener('progress',up.uploadProgress,false);up.xhr.upload.addEventListener('load',up.uploadLoaded,false);}
+                    },	
+                    enter : function(e){$(e.target).addClass('hover');return false;},	
+                    leave : function(e){$(e.target).removeClass('hover');return false;},	
+                    over : function(e){	return false;},	
+                    drop : function(e){
+                        $(e.target).removeClass('hover');	
+                        e.preventDefault();		
+                        var origem=e.originalEvent.dataTransfer.getData("URL");		
+                        if(origem.substr(0,4)=="http"){$('#status').html('loading from remote URL... WAIT!!');ajax_upload('easydrop.php?cod=&url='+origem);return false;}                        
+                        var files=e.originalEvent.dataTransfer.files;
+                        for (var i=0;i<files.length;i++){var file=files[i];up.queue.push(file);}
+                        if(up.uploading==false){up.uploading=true;up.process();}		
+                        return false;
+                    },
+                    process : function(){
+                        up.processing=up.queue.shift();		
+                        up.$drop.append('<div>'+up.processing.name+'</div>');		
+                        if(window.FileReader){ //firefox 3.6,Chrome 6,Webkit
+                            if(up.processing.type.match(/image/gi) != null){ //is an image - read it
+                                up.dataReader=new FileReader();
+                                if(up.dataReader.addEventListener){ //firefox
+                                    up.dataReader.addEventListener('loadend',up.binaryLoad,false);
+                                    up.dataReader.addEventListener('error',up.loadError,false);
+                                    up.dataReader.addEventListener('progress',up.loadProgress,false);
+                                } else{ //chrome / webkit
+                                    up.dataReader.onloadend=up.binaryLoad;
+                                    up.dataReader.onerror=up.loadError;
+                                    up.dataReader.onprogress=up.loadProgress;
+                                }
+                                up.dataReader.readAsDataURL(up.processing);
+                            }			
+                            up.binaryReader=new FileReader();
+                            if(up.binaryReader.addEventListener){ //firefox
+                                up.binaryReader.addEventListener('loadend',up.binaryLoad,false);
+                                up.binaryReader.addEventListener('error',up.loadError,false);
+                                up.binaryReader.addEventListener('progress',up.loadProgress,false);
+                            } else{ //chrome / webkit
+                                up.binaryReader.onloadend=up.binaryLoad;
+                                up.binaryReader.onerror=up.loadError;
+                                up.binaryReader.onprogress=up.loadProgress;
+                            }
+                            up.binaryReader.readAsBinaryString(up.processing);			
+                        } else{ // safari 5 + others?		
+                            up.xhr.abort();//make sure xhr is a new request
+                            up.xhr.open('POST','easydrop.php?cod=&up=true',true);		
+                            up.xhr.setRequestHeader('UP-FILENAME',up.processing.name);
+                            up.xhr.setRequestHeader('UP-SIZE',up.processing.size);
+                            up.xhr.setRequestHeader('UP-TYPE',up.processing.type);			
+                            up.xhr.send(up.processing);
+                            up.xhr.onload=up.onload;
+                        }		
+                    },	
+                    loadError : function(e){
+                        switch(e.target.error.code){
+                            case e.target.error.NOT_FOUND_ERR:
+                                alert('File Not Found!');
+                            break;
+                            case e.target.error.NOT_READABLE_ERR:
+                                alert('File is not readable');
+                            break;
+                            case e.target.error.ABORT_ERR:
+                            break;
+                            default:
+                                alert('An error occurred reading this file.');
+                        };
+                    },	
+                    loadProgress : function(e){	if(e.lengthComputable){	var percentage=Math.round((e.loaded * 100) / e.total);		$('#status').html('loaded: '+percentage+'%');	}	},		
+                    binaryLoad : function(e){		
+                        var isimage=(up.processing.type.match(/image/gi)!=null);
+                        if(isimage && up.dataReader.readyState==2 && up.$drop.find('div:last').css('background-image')=='none'){if(up.queue.length <=10) up.$drop.find('div:last').css('background-image','url(' + up.dataReader.result + ')');}
+                        if(isimage && up.dataReader.readyState==2 && up.binaryReader.readyState==2 || !isimage && up.binaryReader.readyState==2){
+                            up.xhr.abort();//make sure xhr is a new request
+                            var binary=e.target.result;
+                            if(up.xhr.sendAsBinary != null){ //firefox
+                                up.xhr.open('POST','easydrop.php?cod=&up=true&size='+e.total+'&drop_settings='+drop_settings+'&lista='+lista,true);
+                                if(drop_settings==2)drop_settings=1;// reset
+                                if(drop_settings==4)drop_settings=3;// reset
+                                var boundary='xxxxxxxxx';
+                                var body='--' + boundary + "\r\n";
+                                body += "Content-Disposition: form-data;name='upload';filename='" + up.processing.name + "'\r\n";
+                                body += "Content-Type: application/octet-stream\r\n\r\n";
+                                body += binary + "\r\n";
+                                body += '--' + boundary + '--';
+                                up.xhr.setRequestHeader('content-type','multipart/form-data;boundary=' + boundary);
+                                up.xhr.sendAsBinary(body);                                
+                                up.xhr.onreadystatechange=function(){
+                                    if(up.xhr.readyState==4){
+                                        up.dataReader.result="";
+                                        if(up.xhr.responseText=="done"){if(up.queue.length <=0){up.upload_end=1;alert("<? echo write_lang('key_todos_ficheiro_foram_inseridos_actualizados_com_sucesso','Todos os ficheiro foram inseridos/actualizados com sucesso');?>");}}else alert("<? echo write_lang('key_erro_a_enviar','Erro a enviar');?> "+up.processing.name);}
+                                }
+                            }
+                            else{ //nao foi possivel enviar em modo binario
+                                up.xhr.open('POST','easydrop.php?cod=&up=true&base64=true',true);			 
+                                up.xhr.setRequestHeader('UP-FILENAME',up.processing.name);
+                                up.xhr.setRequestHeader('UP-SIZE',up.processing.size);
+                                up.xhr.setRequestHeader('UP-TYPE',up.processing.type);			 	
+                                up.xhr.send(window.btoa(binary));
+                            }
+                            up.xhr.onload=up.onload;			
+                        }
+                    },
+                    uploadProgress : function(e){if(e.lengthComputable){var percentage=Math.round((e.loaded * 100) / e.total);$('#status').html('uploaded: '+percentage+'%');}},
+                    uploadLoaded : function(e){$('#status').html('File Uploaded: 99%');},	
+                    onload : function (e){	if(up.queue.length > 0 || up.upload_end==0){up.process();}else{up.uploading=false;$('#status').html('Queue Uploaded');
+					}},	
+                    cancel : function(e){
+                        if(up.dataReader){up.dataReader.abort();}
+                        if(up.dataReader){up.binaryReader.abort();}
+                        if(up.xhr){up.xhr.abort();}
+                        up.uploading=false;
+                        up.queue=[];
+                        up.processing=null;
+                        $('#status').html('<? echo write_lang('key_upload_foi_cancelado','O Upload foi Cancelado');?>!!!');
+                        return false;
+                    }
+                }
+                $(up.init);
+				function next_step(){if(confirm("<? echo write_lang('key_deseja_converter_conteudos_automaticamente','Deseja converter os conteúdos automaticamente');?>?")){setTimeout(next_step_go(),5000);}}
+				function next_step_go(){window.open("easydrop_trata.php","_self");}
+				</script>
+                <div id="status"><? echo write_lang('key_arraste');?></div><div id="drop-area" name="drop-area"></div></td></tr></table>
+				</td></tr></table>
+                <table width="100%" height="5px" border=0 cellspacing=0 cellpadding=0><tr><td></td></tr></table>
+                <table width="100%" class=p1 border=0 cellspacing=0 cellpadding=0><tr><td width="5px"></td><td align="left" valign="middle" class="t1"><input onClick="window.open('easydrop_trata.php','_self')" type=button class="botao" value="<? echo write_lang('key_ver_tarefas','VER TAREFAS');?>"></td></tr></table>
+                <img src="images/bsh.png" width="800px">

@@ -1,0 +1,1 @@
+a:6:{s:6:"apikey";s:40:"6166d69692d12d13dde92617e541b144b1f1907c";s:6:"listID";s:1:"1";s:9:"cellphone";s:13:"351-938091519";s:7:"message";s:103:"A reparação DB034607 encontra-se disponível para levantamento. Obrigada pela preferência. DotBright";s:7:"subject";s:15:"new sms message";s:4:"from";s:10:"DOT BRIGHT";} -- a:1:{s:5:"ERROR";s:17:"NO_DATA_TO_INSERT";}

@@ -1,0 +1,79 @@
+@charset "utf-8";
+a {
+	text-decoration: none;
+	color: #000000;
+	font-family: "Arial";
+	font-size: 9px;
+}
+b {
+	font-size: 11px;
+}
+td {
+	font-family: "Arial";
+	font-size: 9px;
+}
+body {
+    MARGIN-TOP: 0px;
+    MARGIN-LEFT: 20px
+	font-family: "Arial";
+	font-size: 9px;
+	text-decoration: none;
+	letter-spacing: normal;
+	word-spacing: normal;
+	background-repeat: repeat;	
+	scrollbar-base-color: #70ABEF; 
+	scrollbar-face-color: #ffffff; 
+	scrollbar-track-color: #70ABEF; 
+	scrollbar-arrow-color: #70ABEF;
+	scrollbar-highlight-color: #70ABEF; 
+	scrollbar-3dlight-color: #588CCE; 
+	scrollbar-shadow-color: #588CCE;
+	scrollbar-darkshadow-color: #588CCE; 
+}
+A.item
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16px;
+    COLOR: black;
+    FONT-FAMILY: 'NewsGoth Cn BT';
+    TEXT-DECORATION: underline
+}
+A.item:active
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16px;
+    COLOR: black;
+    FONT-FAMILY: 'NewsGoth Cn BT';
+    TEXT-DECORATION: underline
+}
+A.item:hover
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16px;
+    COLOR: #ae8730;
+    FONT-FAMILY: 'NewsGoth Cn BT';
+    TEXT-DECORATION: underline
+}
+A.item:link
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16px;
+    COLOR: black;
+    FONT-FAMILY: 'NewsGoth Cn BT';
+    TEXT-DECORATION: underline
+}
+TD.item
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16px;
+    COLOR: black;
+    FONT-FAMILY: 'NewsGoth Cn BT'
+}
+
+A.small
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE:  9px;
+    COLOR: black;
+    FONT-FAMILY: 'NewsGoth Cn BT'
+}

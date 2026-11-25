@@ -1,0 +1,18 @@
+
+<IfModule pagespeed_module>
+       ModPagespeed off
+</IfModule>
+
+# RMA assets use stable file-mtime versions in their URLs. Cache them between
+# navigations while allowing every deployment to invalidate the browser cache.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType text/javascript "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(?:css|js)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+</IfModule>

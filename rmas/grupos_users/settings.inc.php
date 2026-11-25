@@ -1,0 +1,41 @@
+<?php
+	$path='../../core/';
+	include $path.'core_files.php';
+	include $path.'admin_globals.php';
+	include 'funcoes.inc.php';
+	
+	global $admin_id;
+	$dados = getDadosAdministrador($admin_id);
+	if(!isset($dados['Permissoes'][2])) die("Sem Permiss&otilde;es");
+
+	$modulos = array();
+	$modulos[1] = 'Backoffice - Utilizadores';
+	$modulos[2] = 'Backoffice - Grupos de utilizadores';
+	if($dados['Grupo_ID']==1) $modulos[3] = 'Definições da plataforma';
+	$modulos[4] = 'Mensagens internas';
+	$modulos[5] = 'Estatísticas';
+	$modulos[6] = 'Configurador de moeda';
+	$modulos[7] = 'Línguas';
+	$modulos[8] = 'Produtos';
+	$modulos[9] = 'Encomendas';
+	$modulos[10] = 'Páginas';
+	$modulos[11] = 'Media';
+	$modulos[12] = 'Menus';
+	$modulos[13] = 'Forms';
+	if($dados['Grupo_ID']==1) $modulos[14] = 'Templates website';
+	$modulos[15] = 'Templates email';
+	$modulos[16] = 'Newsletter';
+	$modulos[17] = 'Chat';
+	$modulos[18] = 'Clientes';
+	$modulos[19] = 'Grupos de clientes';
+	$modulos[20] = 'Filtros';
+	$modulos[21] = 'Países';
+	$modulos[22] = 'Metodos de Pagamento';
+	$modulos[23] = 'Metodos de Envio';
+	$modulos[24] = 'Portes';
+	$modulos[25] = 'Margens';	
+	// $modulos[26] = '';
+	$modulos[27] = 'Promoções';
+	$modulos[28] = 'Vouchers';
+	$modulos[29] = 'Pontos';
+	$modulos[30] = 'Editar Online';
