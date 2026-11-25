@@ -18,6 +18,7 @@ define('SHARED_PRODUCT_IMAGES', $mode !== 'local');
 define('PRODUCT_IMAGES_SOURCE_PATH', $root.'/source/products');
 define('PRODUCT_IMAGES_SOURCE_URL', 'https://www.dotbright.pt/files/products/');
 define('PROJETO', 'dotbright');
+define('SITE_SHELL_URL', $root.'/dev/');
 require dirname(__DIR__).'/core/product_images.php';
 function check_files($condition, $label) {
     if (!$condition) throw new RuntimeException($label);
@@ -30,6 +31,25 @@ function remove_files_fixture($dir) {
         if (is_link($path) || !is_dir($path)) unlink($path); else remove_files_fixture($path);
     }
     rmdir($dir);
+}
+function check_menu_image_caches($shared) {
+    $id_pai = 1; $ID_ORG = 0; $id = 2; $responsive = 0;
+    $GLOBALS['site_lang'] = 'pt'; $_GET['cat'] = 0; $count = 0;
+    foreach (array('core/menus.php', 'layout/dotbright/code/menu.php') as $file) {
+        $source = '';
+        foreach (token_get_all(file_get_contents(dirname(__DIR__).'/'.$file)) as $token) {
+            $source .= is_array($token) ? (in_array($token[0], array(T_COMMENT, T_DOC_COMMENT), true) ? "\n" : $token[1]) : $token;
+        }
+        preg_match_all('~^\s*\$cache_filename\s*=\s*[^\r\n]+~m', $source, $matches);
+        foreach ($matches[0] as $statement) {
+            eval($statement);
+            $hasSharedKey = strpos($cache_filename, 'shared_') !== false;
+            check_files($hasSharedKey === $shared, $file.' cache '.(++$count).($shared
+                ? ' cannot reuse HTML cached without shared images' : ' keeps original local cache name'));
+            check_files(strpos($cache_filename, SITE_SHELL_URL.'files/tmp/') === 0, 'menu cache write path stays in DEV');
+        }
+    }
+    check_files($count === 6, 'cover all six menu HTML caches');
 }
 try {
     $png = base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a5l8AAAAASUVORK5CYII=');
@@ -51,6 +71,7 @@ try {
     check_files(dotbright_files_image_url('files/documentos/private.pdf') === 'files/documentos/private.pdf', 'leave PDF URL unchanged');
     check_files(dotbright_files_image_url('files/classes.css') === 'files/classes.css', 'leave CSS URL unchanged');
     if ($mode === 'shared') {
+        check_menu_image_caches(true);
         check_files(dotbright_image_exists('files/menus/logo.png'), 'legacy image check reads shared source');
         check_files(dotbright_image_file_exists($root.'/dev/files/menus/logo.png'), 'absolute image check reads shared source');
         check_files(dotbright_image_resolve('files/menus/logo.png'), 'legacy include-path image check');
@@ -99,6 +120,7 @@ try {
         $_SERVER['SCRIPT_FILENAME'] = $beforeScript;
         check_files(strpos(dotbright_files_images_browser_script(), 'shared-files-images.js') !== false, 'browser support is registered');
     } elseif ($mode === 'local') {
+        check_menu_image_caches(false);
         check_files(!dotbright_image_exists($root.'/dev/files/menus/logo.png'), 'disabled ignores shared source');
         check_files(dotbright_files_image_url('files/menus/logo.png?dp=2') === 'files/menus/logo.png?dp=2', 'disabled URL unchanged');
         check_files(dotbright_files_images_html('<img src="files/menus/logo.png">') === '<img src="files/menus/logo.png">', 'disabled HTML unchanged');

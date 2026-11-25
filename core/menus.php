@@ -30,7 +30,7 @@ function show_menu_slider($id_pai=0, $class='')
 	{
 		$ID_ORG= intval($_GET['cat']);
 	}
-	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_slider_'.$ID_ORG.'_'.$GLOBALS['site_lang'].'.txt';
+	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_slider_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$ID_ORG.'_'.$GLOBALS['site_lang'].'.txt';
 	$time_expire=time() - 60*60; // Expire Time (1 hora)
 	$gerar='';
 	if(isset($_GET['gerar'])) $gerar=intval($_GET['gerar']);
@@ -265,7 +265,7 @@ function novo_menu_mobile()
 	$dados_cliente=cliente_logado();
 	if(!$dados_cliente) //Se nao estiver logado vamos fazer cache dos menus para tornar o site mais rapido
 	{
-		$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_topologado_'.$id_pai.'_'.$responsive.$GLOBALS['site_lang'].'.txt';
+		$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_topologado_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$id_pai.'_'.$responsive.$GLOBALS['site_lang'].'.txt';
 		$time_expire=time() - 60*60; // Expire Time (1 hora)
 		$gerar='';
 		if(isset($_GET['gerar'])) $gerar=intval($_GET['gerar']);
@@ -524,7 +524,7 @@ function show_menu_topologado($id_pai=0,$responsive=0)
 	$dados_cliente=cliente_logado();
 	if(!$dados_cliente) //Se nao estiver logado vamos fazer cache dos menus para tornar o site mais rapido
 	{
-		$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_topologado_'.$id_pai.'_'.$responsive.$GLOBALS['site_lang'].'.txt';
+		$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_topologado_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$id_pai.'_'.$responsive.$GLOBALS['site_lang'].'.txt';
 		$time_expire=time() - 60*60; // Expire Time (1 hora)
 		$gerar='';
 		if(isset($_GET['gerar'])) $gerar=intval($_GET['gerar']);

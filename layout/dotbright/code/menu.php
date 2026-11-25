@@ -10,7 +10,7 @@ function show_multiple_menus($id=0)
     $db_link=\db_opendb_conection($DB_host,$DB_user,$DB_pass);
     $rs=new Dataobj;
     $return='';
-	$cache_filename=SITE_SHELL_URL.'files/tmp/show_multiple_menus_'.$id.'_'.$GLOBALS['site_lang'].'.txt';
+	$cache_filename=SITE_SHELL_URL.'files/tmp/show_multiple_menus_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$id.'_'.$GLOBALS['site_lang'].'.txt';
 	$gerar='';
 	//$gerar=1;
 
@@ -107,7 +107,7 @@ function show_menu_footer_urls($id=0,$nomargin='col-sm-2')
     $db_link=\db_opendb_conection($DB_host,$DB_user,$DB_pass);
     $rs=new Dataobj;$rs2=new Dataobj;$i=4;$i2=0;$Indexar=0;$Index='';$return='';
 
-	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_footer_urls_'.$id.'_'.$GLOBALS['site_lang'].'.txt';
+	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_footer_urls_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$id.'_'.$GLOBALS['site_lang'].'.txt';
 	$gerar='';
 
 	if(isset($_GET['gerar'])) $gerar=intval($_GET['gerar']);
@@ -963,7 +963,7 @@ function show_menu_lateral($id_pai,$tipo=0,$showfilter = 0)
 		//exit;
 	}
 
-	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_lateral_'.$id_pai.'_'.intval($_GET['cat']).'_'.$GLOBALS['site_lang'].'.txt';
+	$cache_filename=SITE_SHELL_URL.'files/tmp/show_menu_lateral_'.(dotbright_shared_files_images() ? dotbright_product_images_cache_key() : '').$id_pai.'_'.intval($_GET['cat']).'_'.$GLOBALS['site_lang'].'.txt';
 	$gerar='';
 	if(isset($_GET['gerar'])) $gerar=intval($_GET['gerar']);
 
