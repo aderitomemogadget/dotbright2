@@ -1,6 +1,7 @@
 <?php
 /** Repair requests only. No schema creation, mail transmission or output on include. */
 require_once __DIR__.'/repair_request.php';
+require_once __DIR__.'/repair_order_workflow.php';
 function dotbright_repair_orders_db()
 {
     return new PDO('mysql:host='.$GLOBALS['DB_host'].';dbname='.$GLOBALS['DB_name'].';charset=utf8mb4', $GLOBALS['DB_user'], $GLOBALS['DB_pass'], array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_EMULATE_PREPARES=>false));
@@ -95,6 +96,9 @@ function dotbright_repair_order_payload($product, $quote, $input)
 }
 function dotbright_repair_order_insert(PDO $db, $record)
 {
+    if (empty($record['legacy_id']) && dotbright_repair_workflow_ready($db)) {
+        $record['repair_status']='received';$record['product_status']='awaiting_collection';
+    }
     $columns=array_keys($record);
     $q=$db->prepare('INSERT INTO repair_orders ('.implode(',',$columns).') VALUES ('.implode(',',array_fill(0,count($columns),'?')).')');
     $q->execute(array_values($record));
@@ -119,7 +123,7 @@ function dotbright_repair_order_find(PDO $db,$id)
     $q=$db->prepare('SELECT * FROM repair_orders WHERE id=?'); $q->execute(array((int)$id));
     return $q->fetch(PDO::FETCH_ASSOC);
 }
-function dotbright_repair_orders_search(PDO $db,$term,$status,$page)
+function dotbright_repair_orders_search(PDO $db,$term,$status,$page,$repair_status='',$product_status='')
 {
     $where=array(); $params=array(); $term=trim((string)$term);
     if ($term!=='') {
@@ -129,10 +133,16 @@ function dotbright_repair_orders_search(PDO $db,$term,$status,$page)
         $params=array($number,$number,$like,$like,$like,$like);
     }
     if ($status!=='') { if (!isset(dotbright_repair_order_statuses()[$status])) throw new InvalidArgumentException('Estado inválido.'); $where[]='status=?';$params[]=$status; }
+    $workflow=dotbright_repair_workflow_ready($db);
+    foreach(array('repair_status'=>$repair_status,'product_status'=>$product_status) as $column=>$value) {
+        $labels=$column==='repair_status'?dotbright_repair_workflow_statuses():dotbright_repair_product_statuses();
+        if ($value!=='') { if (!$workflow || !isset($labels[$value])) throw new InvalidArgumentException('Filtro de estado inválido.');$where[]=$column.'=?';$params[]=$value; }
+    }
     $where=$where?' WHERE '.implode(' AND ',$where):'';
     $q=$db->prepare('SELECT COUNT(*) FROM repair_orders'.$where); $q->execute($params); $total=(int)$q->fetchColumn();
     $page=max(1,min((int)$page,max(1,(int)ceil($total/30))));
-    $q=$db->prepare('SELECT id,legacy_id,created_at,status,customer_name,customer_email,customer_phone,product_id,product_name,product_reference,total_cents,staff_mail,customer_mail FROM repair_orders'.$where.' ORDER BY id DESC LIMIT 30 OFFSET '.(($page-1)*30));
+    $extra=$workflow?',version,repair_status,product_status,rma_id':'';
+    $q=$db->prepare('SELECT id,legacy_id,created_at,status,customer_name,customer_email,customer_phone,product_id,product_name,product_reference,total_cents,staff_mail,customer_mail'.$extra.' FROM repair_orders'.$where.' ORDER BY id DESC LIMIT 30 OFFSET '.(($page-1)*30));
     $q->execute($params);
     return array('rows'=>$q->fetchAll(PDO::FETCH_ASSOC),'total'=>$total,'page'=>$page);
 }

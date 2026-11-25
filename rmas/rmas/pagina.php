@@ -68,6 +68,7 @@ if (!$caminho_bt_editor) {$caminho_bt_editor1="../../../editor/";$caminho_bt_edi
 else {$caminho_bt_editor1=$caminho_bt_editor2=$caminho_bt_editor;}
 
 $C = ''; $T = ''; $ordem = 0; $readonly = 0;
+$rma_repair_order_id = 0;
 
 if ($ID != 0)
 {
@@ -75,6 +76,7 @@ if ($ID != 0)
     if ($rs)
     {
         $IDb = $rs->db_data['ID'];
+        $rma_repair_order_id = (int)($rs->db_data['repair_order_id'] ?? 0);
         $ID_Cliente = $rs->db_data['ID_Cliente'];
 		$ID_Cliente2 = $rs->db_data['ID_Cliente2'];
 
@@ -1145,6 +1147,10 @@ if($ID){
 </style>
 
 <body class="rma-form-page rma-operational-form" onKeyDown="enterAsTab(event)">
+
+    <?php if ($rma_repair_order_id > 0) { ?>
+    <p><a href="../../admin/reparacoes/pagina.php?id=<?=$rma_repair_order_id?>">Pedido de origem REP-<?=$rma_repair_order_id?></a> — consulte as moradas RRE, os valores estimados e a opção de acesso no pedido de origem.</p>
+    <?php } ?>
 
     <form class="rma-modern-form" name="form" id="rma_form" method="post" action="pagina_trata.php?ID=<?php echo $ID ?>&task_form=<?php echo $task_form ?>&d=<?php echo uniqID('') ?>" enctype="multipart/form-data" onsubmit="return validaCampos()">
         <input type="hidden" name="m_lang" value="<?php echo $GLOBALS['admin_lang']; ?>">

@@ -5,6 +5,7 @@
 .ro-module{width:100%;min-width:0;margin:0}.ro-module .ro-filters>label{color:#fff}.ro-module .ro-table .table>thead>tr>th{background:#30383f;color:#fff;border-color:#485159}.ro-module .ro-pagination{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;background:transparent;border:0;min-height:0}.ro-module .ro-pagination .ro-button{margin:8px 0}
 
 /* Compact request detail; list and the public repair panels keep their existing layout. */
+.ro-module .ro-workflow{margin:12px 0 18px}.ro-module .ro-workflow summary{font-weight:600;cursor:pointer}.ro-module .ro-transfer-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.ro-module .ro-transfer-fields select,.ro-module .ro-transfer-fields input{display:block;width:100%;margin-top:4px}.ro-module .ro-workflow .ro-table{margin-top:12px}@media(max-width:600px){.ro-module .ro-transfer-fields{grid-template-columns:1fr}}
 .ro-module .ro-detail .ro-request-bar{display:flex;align-items:center;gap:28px;flex-wrap:wrap;padding:18px 20px;background:#f3f6f8;border:1px solid #d9e0e7;border-radius:6px}
 .ro-module .ro-detail .ro-caption{display:block;font-size:12px;color:#687b8a;margin-bottom:4px}
 .ro-module .ro-detail .ro-request-identity{flex:1;min-width:180px}
@@ -32,4 +33,4 @@
 .ro-module .ro-detail dd{font-weight:600}
 .ro-module .ro-detail .ro-access-panel{max-width:850px}
 @media(max-width:1100px){.ro-module .ro-detail .ro-customer-grid{grid-template-columns:1fr}.ro-module .ro-detail .ro-repair-grid{grid-template-columns:1fr}}
-@media(max-width:600px){.ro-module .ro-detail .ro-request-bar{padding:14px;gap:16px}.ro-module .ro-detail .ro-status-form{width:100%}.ro-module .ro-detail .ro-status-form label{flex:1}.ro-module .ro-detail .ro-status-form select{width:100%;min-width:0}.ro-module .ro-detail .ro-detail-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px}.ro-module .ro-detail .ro-detail-tabs button{padding:10px 8px;font-size:12px;border-radius:4px}.ro-module .ro-detail dl>div{grid-template-columns:minmax(90px,35%) minmax(0,1fr);gap:8px}}
+@media(max-width:600px){.ro-module .ro-detail .ro-request-bar{padding:14px;gap:16px}.ro-module .ro-detail .ro-status-form{width:100%;display:grid;grid-template-columns:1fr}.ro-module .ro-detail .ro-status-form label{flex:1}.ro-module .ro-detail .ro-status-form select{width:100%;min-width:0}.ro-module .ro-detail .ro-detail-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px}.ro-module .ro-detail .ro-detail-tabs button{padding:10px 8px;font-size:12px;border-radius:4px}.ro-module .ro-detail dl>div{grid-template-columns:minmax(90px,35%) minmax(0,1fr);gap:8px}}

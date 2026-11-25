@@ -79,16 +79,16 @@
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<td>
-		<input class="box" name="cliente_nome" id="cliente_nome" style="WIDTH:150px;" type="text" maxlength="255" value="<?php echo $cliente_nome; ?>">
+		<input class="box" name="cliente_nome" id="cliente_nome" style="WIDTH:150px;" type="text" maxlength="255" value="<?php echo dotbright_rma_html($cliente_nome); ?>">
 		</td>
 		<td width="100" class="preto" align="center">Sobrenome:</td>
 		<td>
-		<input class="box" name="cliente_sobrenome" id="cliente_sobrenome" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo $cliente_sobrenome; ?>">
+		<input class="box" name="cliente_sobrenome" id="cliente_sobrenome" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($cliente_sobrenome); ?>">
 		</td>
 		<td width="100" class="preto" align="right">Apelido:</td>
 		<td width="10" class="preto" align="right"><img src="cm_fill.gif" width="10" height="1"></td>
 		<td>
-		<input class="box" name="cliente_apelido" id="cliente_apelido" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo $cliente_apelido; ?>">
+		<input class="box" name="cliente_apelido" id="cliente_apelido" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($cliente_apelido); ?>">
 		</td>
 		</tr>
 		</table>
@@ -100,11 +100,11 @@
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<td>
-		<div style="position:relative"><input class="box" name="cliente_telefone1" type="text" id="cliente_telefone1" style="WIDTH:150px;" maxlength="255" value="<?php echo $cliente_telefone1; ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por Telefone 1" onclick="pesqCliente($('#cliente_telefone1').val(),'tel1');"><img src="search.png" border="0" /></div></div>
+		<div style="position:relative"><input class="box" name="cliente_telefone1" type="text" id="cliente_telefone1" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($cliente_telefone1); ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por Telefone 1" onclick="pesqCliente($('#cliente_telefone1').val(),'tel1');"><img src="search.png" border="0" /></div></div>
 		</td>
 		<td width="100" class="preto" align="center">Telefone 2:</td>
 		<td>
-		<div style="position:relative"><input class="box" name="cliente_telefone2" id="cliente_telefone2" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo $cliente_telefone2; ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por Telefone 2" onclick="pesqCliente($('#cliente_telefone2').val(),'tel2');"><img src="search.png" border="0" style=/></div>
+		<div style="position:relative"><input class="box" name="cliente_telefone2" id="cliente_telefone2" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($cliente_telefone2); ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por Telefone 2" onclick="pesqCliente($('#cliente_telefone2').val(),'tel2');"><img src="search.png" border="0" style=/></div>
 		</td>
 		</tr>
 		</table>
@@ -115,10 +115,10 @@
 	<td class="preto" align="left" valign="top">
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
-		<td><input class="box" name="cliente_morada" id="cliente_morada" type="text" style="WIDTH:400px" maxlength="255" value="<?php echo $cliente_morada; ?>"></td>
+		<td><input class="box" name="cliente_morada" id="cliente_morada" type="text" style="WIDTH:400px" maxlength="1000" value="<?php echo dotbright_rma_html($cliente_morada); ?>"></td>
 		<td width="100" class="preto" align="right">Código Postal:</td>
 		<td width="10" class="preto" align="right"><img src="cm_fill.gif" width="10" height="1"></td>
-		<td><input class="box" name="cliente_cp" id="cliente_cp" style="WIDTH:150px;" type="text" maxlength="255" value="<?php echo $cliente_cp; ?>"></td>
+		<td><input class="box" name="cliente_cp" id="cliente_cp" style="WIDTH:150px;" type="text" maxlength="255" value="<?php echo dotbright_rma_html($cliente_cp); ?>"></td>
 		</tr>
 		</table>
 	</td>
@@ -128,7 +128,7 @@
 	<td class="preto" align="left" valign="top">
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
-		<td><div style="position:relative"><input class="box" name="cliente_username" id="cliente_username" type="text" style="WIDTH:400px" maxlength="255" value="<?php echo $cliente_username; ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por E-mail" onclick="pesqCliente($('#cliente_username').val(),'email');"><img src="search.png" border="0" /></div></div></td>
+		<td><div style="position:relative"><input class="box" name="cliente_username" id="cliente_username" type="text" style="WIDTH:400px" maxlength="255" value="<?php echo dotbright_rma_html($cliente_username); ?>"><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por E-mail" onclick="pesqCliente($('#cliente_username').val(),'email');"><img src="search.png" border="0" /></div></div></td>
 		<td width="100" class="preto" align="right">Tipo de cliente:</td>
 		<td width="10" class="preto" align="right"><img src="cm_fill.gif" width="10" height="1"></td>
 		<td>
@@ -160,10 +160,10 @@
 	<td class="preto" align="left" valign="top">
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
-		<td><input class="box" name="cliente_empresa" id="cliente_empresa" type="text" style="WIDTH:400px" maxlength="255" value="<?php echo $cliente_empresa; ?>"></td>
+		<td><input class="box" name="cliente_empresa" id="cliente_empresa" type="text" style="WIDTH:400px" maxlength="255" value="<?php echo dotbright_rma_html($cliente_empresa); ?>"></td>
 		<td width="100" class="preto" align="right">NIF:</td>
 		<td width="10" class="preto" align="right"><img src="cm_fill.gif" width="10" height="1"></td>
-		<td><div style="position:relative"><input class="box" name="cliente_nif" id="cliente_nif" type="text"  style="WIDTH:150px;" maxlength="255" value="<?php echo $cliente_nif; ?>" /><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por NIF" onclick="pesqCliente($('#cliente_nif').val(),'nif');"><img src="search.png" border="0" /></div></div></td> <?php /* onchange="getCliente('nif',this.value)" */?>
+		<td><div style="position:relative"><input class="box" name="cliente_nif" id="cliente_nif" type="text"  style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($cliente_nif); ?>" /><div style="position:absolute;top:1px;right:0;cursor:pointer" title="Pesquisar por NIF" onclick="pesqCliente($('#cliente_nif').val(),'nif');"><img src="search.png" border="0" /></div></div></td> <?php /* onchange="getCliente('nif',this.value)" */?>
 		</tr>
 		</table>
 	</td>
@@ -218,11 +218,14 @@
 					if ($m_marca == $nome && $marca_id_sel == 0) $marca_id_sel = $db_sel->db_data['ID'];
 
 					?>
-					<option data="<?php echo $db_sel->db_data['ID'];?>" value="<?php echo $nome?>" <?php if ($m_marca == $nome)echo 'selected="selected"';?> ><?php echo $nome?></option>
+					<option data="<?php echo $db_sel->db_data['ID'];?>" value="<?php echo dotbright_rma_html($nome); ?>" <?php if ($m_marca == $nome)echo 'selected="selected"';?> ><?php echo dotbright_rma_html($nome); ?></option>
 					<?
 					$db_sel->db_next();
 				}
 				$db_sel->db_close();
+				if ($m_marca !== '' && !$marca_id_sel) {
+					?><option value="<?=dotbright_rma_html($m_marca)?>" selected><?=dotbright_rma_html($m_marca)?></option><?php
+				}
 				?>
 			</select>
 
@@ -296,18 +299,23 @@
 			<option value="">----------</option>
 			<option value="new">NOVO</option>
 				<?php
+				$rma_model_found = false;
 				if($marca_id_sel > 0)
 				{
 					while(!$db_sel->EOF())
 					{
 						$nome = $db_sel->db_data['modelo'];
+						if ($m_modelo === $nome) $rma_model_found = true;
 						?>
-						<option value="<?php echo $nome; ?>" <?php if ($m_modelo == $nome) echo 'selected="selected"';?> ><?php echo $nome?></option>
+						<option value="<?php echo dotbright_rma_html($nome); ?>" <?php if ($m_modelo == $nome) echo 'selected="selected"';?> ><?php echo dotbright_rma_html($nome); ?></option>
 						<?php
 						$db_sel->db_next();
 					}
 
 					$db_sel->db_close();
+				}
+				if ($m_modelo !== '' && !$rma_model_found) {
+					?><option value="<?=dotbright_rma_html($m_modelo)?>" selected><?=dotbright_rma_html($m_modelo)?></option><?php
 				}
 				?>
 			</select>
@@ -335,10 +343,10 @@
 	<td class="preto" align="left" valign="top">
 		<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
-		<td width="150"><input class="box" id="m_imei" name="m_imei" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo $m_imei; ?>"></td>
+		<td width="150"><input class="box" id="m_imei" name="m_imei" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($m_imei); ?>"></td>
 		<td width="100" class="preto" align="center">Nr. Serie:</td>
 		<td>
-			<input class="box" id="m_nserie" name="m_nserie" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo $m_nserie; ?>" onchange="verificaNrSerie6Meses(this.value)" />
+			<input class="box" id="m_nserie" name="m_nserie" type="text" style="WIDTH:150px;" maxlength="255" value="<?php echo dotbright_rma_html($m_nserie); ?>" onchange="verificaNrSerie6Meses(this.value)" />
 			<div id="avisoNrSerie" style="float:left;"></div>
 			<script>
 				function verificaNrSerie6Meses(valor) {
@@ -350,7 +358,7 @@
 			</script>
 		</td>
 		<td class="preto" width="130" align="right">Vossa Referência:&nbsp;&nbsp;</td>
-		<td width="120"><input class="box" id="m_referencia" name="m_referencia" type="text" style="width:120px;text-align:left;" maxlength="255" value="<?php echo $m_referencia; ?>"></td>
+		<td width="120"><input class="box" id="m_referencia" name="m_referencia" type="text" style="width:120px;text-align:left;" maxlength="255" value="<?php echo dotbright_rma_html($m_referencia); ?>"></td>
 		</tr>
 		</table>
 	</td>
@@ -458,7 +466,7 @@
 	<tr>
 	<td class="preto" width="120">Descrição da Avaria:</td>
 	<td class="preto" align="left" valign="top">
-		<textarea class="box" id="m_avaria" name="m_avaria" style="width:100%;height:100px;"><?php echo $m_avaria ?></textarea>
+		<textarea class="box" id="m_avaria" name="m_avaria" style="width:100%;height:100px;"><?php echo dotbright_rma_html($m_avaria); ?></textarea>
 	</td>
 	</tr>
 	</table>
@@ -500,9 +508,9 @@
 	<td class="preto" width="120" data-mobile-label="Observações internas">
 		<?php if(!$m_observacoes){
 		$m_observacoes='Campo não visivel para o cliente';?>
-		<textarea class="box" name="m_observacoes" id="m_observacoes" style="width:100%;height:100px" placeholder="<?php echo $m_observacoes?>"></textarea>
+		<textarea class="box" name="m_observacoes" id="m_observacoes" style="width:100%;height:100px" placeholder="<?php echo dotbright_rma_html($m_observacoes); ?>"></textarea>
 		<?php }else { ?>
-		<textarea class="box" name="m_observacoes" id="m_observacoes" style="width:100%;height:100px"><?php echo $m_observacoes?></textarea>
+		<textarea class="box" name="m_observacoes" id="m_observacoes" style="width:100%;height:100px"><?php echo dotbright_rma_html($m_observacoes); ?></textarea>
 		<?php } ?>
 	</td>
 	</tr><?

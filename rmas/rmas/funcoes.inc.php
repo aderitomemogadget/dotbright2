@@ -1,8 +1,13 @@
 <?php
 
-require_once dirname(__DIR__, 3).'/private/lib/nos-sms-secure/funcoes_nos_sms.inc.php';
+require_once __DIR__.'/sms_gateway.php';
 require_once __DIR__.'/notification_policy.php';
 require_once __DIR__.'/loan_policy.php';
+
+function dotbright_rma_html($value)
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
 
 function show_page_buttons()
 {
@@ -1596,7 +1601,7 @@ function enviaEmail($id, $tipo, $log_id=0, $fake = 0, $nao_envio_email = 0)
 			}
 			if($notification_policy['sms'])
 			{
-				$sms_result = send_sms_nos_detalhado($cliente_telefone1, $cliente_telefone2, (trim($texto_sms)));
+				$sms_result = rma_send_sms_notice($cliente_telefone1, $cliente_telefone2, (trim($texto_sms)));
 				if(empty($sms_result['success']))
 				{
 					error_log('[RMA SMS] tracking='.$Tracking.' request_id='.(isset($sms_result['request_id']) ? $sms_result['request_id'] : 'indisponivel').' status='.(isset($sms_result['status']) ? (string)$sms_result['status'] : 'sem_estado'));
@@ -3189,13 +3194,13 @@ function show_content_list($reg=null)
 					<tr bgcolor="<?php echo $cor?>" onMouseOver="this.style.backgroundColor='#DBE7F1'" onMouseOut="this.style.backgroundColor='<?php echo $cor?>'" style="border-bottom:solid 1px #999999">
 					<td width="40" align="center" height="30"><input type="checkbox" name="chk_<?php echo $IDb ?>" id="chk_<?php echo $IDb ?>" value="<?php echo $IDb ?>" class="cb"></td>
 					<td width="70" align="left"><?php echo $codigo;?></td>
-					<td width="120" align="left"><a title="<?php echo $Marca?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo $Marca.' / '.$Modelo?></a></td>
-					<td width="120" align="right"><a title="<?php echo $imei?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo str_replace(';', '<br>', $imeis);?></a></td>
+					<td width="120" align="left"><a title="<?php echo dotbright_rma_html($Marca)?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo dotbright_rma_html($Marca.' / '.$Modelo)?></a></td>
+					<td width="120" align="right"><a title="<?php echo dotbright_rma_html($imei)?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo str_replace(';', '<br>', dotbright_rma_html($imeis));?></a></td>
 					<td width="120" align="center"><a title="<?php echo $DataInsert?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo $DataInsert?></a></td>
 					<td width="120" align="center"><a title="<?php echo $DataInsert?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo $Dataacao?></a></td>
 					<td width="130" align="center"><a title="<?php echo $m_origem?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo $m_origem?></a></td>
-					<td align="center"><a class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo $cliente_empresa?></a></td>
-					<td width="150" align="center"><a title="<?php echo $cliente_nome.' '.$cliente_apelido?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo ($ID_Cliente > 0 ? '<u title="Associado a conta website">'.$cliente_nome.' '.$cliente_apelido.'</u>' : ($ID_Cliente2 > 0 ? '<u title="Associado a rma sem conta website" style="text-decoration: underline dotted #000;">'.$cliente_nome.' '.$cliente_apelido.'</u>' : $cliente_nome.' '.$cliente_apelido));?></a></td>
+					<td align="center"><a class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo dotbright_rma_html($cliente_empresa)?></a></td>
+					<td width="150" align="center"><a title="<?php echo dotbright_rma_html($cliente_nome.' '.$cliente_apelido)?>" class="lista_links" href="pagina.php?d=<?php echo uniqID('') ?>&ID=<?php echo $IDb?>"><?php echo ($ID_Cliente > 0 ? '<u title="Associado a conta website">'.dotbright_rma_html($cliente_nome.' '.$cliente_apelido).'</u>' : ($ID_Cliente2 > 0 ? '<u title="Associado a rma sem conta website" style="text-decoration: underline dotted #000;">'.dotbright_rma_html($cliente_nome.' '.$cliente_apelido).'</u>' : dotbright_rma_html($cliente_nome.' '.$cliente_apelido)));?></a></td>
 					<td width="130" align="center" valign="middle">
 					<?php
 						// ARRAY NO SETTINGS
@@ -3212,7 +3217,7 @@ function show_content_list($reg=null)
 
 
 						<?php if($equipamento_reincidente == 1){?>
-						<a class="lista_links" href="list.php?pesquisar=1&f_tracking=&f_nrserie=&f_tipoequip=<?php echo $imeis;?>&f_estado=&f_origem=&f_emp=&f_cli=&f_tlm=&f_data1=&f_data2=&f_pago=&f_local=&f_origem=&flag=" title="Equipamento reincidente"><img src="../layout/history.png" border="0" width="20" /><a/>
+						<a class="lista_links" href="list.php?pesquisar=1&f_tracking=&f_nrserie=&f_tipoequip=<?php echo rawurlencode($imeis);?>&f_estado=&f_origem=&f_emp=&f_cli=&f_tlm=&f_data1=&f_data2=&f_pago=&f_local=&f_origem=&flag=" title="Equipamento reincidente"><img src="../layout/history.png" border="0" width="20" /><a/>
 						<?php }?>
 						<?php if(in_array($Estado, $estados_fechados_entregue)){?><img src="../layout/<?php echo $m_pago_image?>" border="0" style="width: 20px;" title="<?php echo $title?>" /><?php }?>
 						<a class="lista_links" href="../gera_pdf5.php?idtracking=<?php echo $IDb;?>&tipo=1&d=<?php echo date('YmdHis')?>" title="Exporta Folha Recepção"><img src="../layout/reception.png" border="0" width="20" /><a/>
