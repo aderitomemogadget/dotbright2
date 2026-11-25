@@ -54,6 +54,11 @@ wf_assert((int)$linked['rma_id']===$rma && $linked['repair_status']==='sent_to_r
 wf_assert($linked['details_json']===$record['details_json'] && $linked['access_cipher']==='opaque-encrypted-secret' && $linked['total_cents']===18990,'Source snapshot, access or amount changed.');
 wf_assert($saved['cliente_morada']===$customer['r_recolha'] && $saved['cliente_cp']===$customer['r_cp'] && $saved['cliente_empresa']==='Empresa Ω' && $saved['cliente_nif']==='999999999' && $saved['m_modelo']==='iPhone 17 Pro Max' && $saved['Loja']==='' && (int)$saved['m_origem']===2,'Customer/billing/equipment mapping lost data.');
 wf_assert(dotbright_repair_rma_options($db)['origins'][0]['Cabecalho']==='Online' && dotbright_repair_rma_summary($db,$linked)['origin_label']==='Loja de Matosinhos','Company IDs confused with RMA provenance.');
+$originConfig=$GLOBALS['lojas_rmas'];unset($GLOBALS['lojas_rmas']);
+wf_assert(dotbright_repair_rma_summary($db,$linked)['origin_label']==='Loja de Matosinhos' && dotbright_repair_rma_options($db)['origins'][0]['Cabecalho']==='Online','Missing config scope hid legacy origins.');
+$GLOBALS['lojas_rmas']=array(2=>'Matosinhos configurado');
+wf_assert(dotbright_repair_rma_summary($db,$linked)['origin_label']==='Matosinhos configurado' && dotbright_rma_origins()[1]==='Online','Partial config lost defaults/custom labels.');
+$GLOBALS['lojas_rmas']=$originConfig;
 wf_assert($saved['codigo_desbloqueio']==='' && (int)$saved['m_padrao']===0 && strpos(json_encode($saved),'opaque-encrypted-secret')===false,'Access secrets copied to legacy RMA.');
 wf_assert((float)$saved['preorcamento']===189.9 && (float)$saved['total']===0.0 && (float)$saved['m_valor']===0.0 && (int)$saved['m_pago']===0,'Estimate created completed work/payment.');
 wf_assert($saved['notes']==='','Transfer incorrectly flagged a new customer reply.');

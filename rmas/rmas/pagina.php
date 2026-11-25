@@ -1,5 +1,6 @@
 <?php
 include "settings.inc.php";
+$GLOBALS['lojas_rmas']=dotbright_rma_origins();
 $software_arr = array();
 $hardware_arr = array();
 set_time_limit(0);

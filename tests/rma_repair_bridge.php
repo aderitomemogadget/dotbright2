@@ -30,6 +30,10 @@ class DataObj {
 $_SESSION=array('ss_admin_id'=>16);$token=dotbright_rma_repair_token();
 $post=array('ID'=>'44346','_rre_csrf'=>$token,'m_estado'=>'4','m_origem'=>'3','cliente_nome'=>'João','cliente_username'=>'teste@example.test','cliente_telefone1'=>'912345678','cliente_morada'=>'Rua A','cliente_cp'=>'4470-151','cliente_sobrenome'=>'','cliente_apelido'=>'','m_imei'=>'','codigo_desbloqueio'=>'MUST-NOT-SAVE','m_padrao'=>'12345','preorcamento'=>'469.90','total'=>'0','Apagar_img'=>array(),'tem_foto'=>array(),'qtd'=>array(),'ref'=>array(),'desc'=>array(),'prec'=>array(),'disp'=>array(),'envio_email_orcamento'=>'1');
 $_FILES=array('img_peq'=>array('name'=>array()));$_POST=$post;
+$originConfig=$GLOBALS['lojas_rmas'];unset($GLOBALS['lojas_rmas']);
+dotbright_rma_repair_validate($post);
+br_assert(dotbright_rma_origins()[1]==='Online','Legacy origin fallback missing.');
+$GLOBALS['lojas_rmas']=$originConfig;
 $saved=submeteDados();
 br_assert($saved['resultado']===true && (int)$saved['id_acao']===44346,'Linked RRE save failed without surname/IMEI.');
 $sql=implode("\n",$GLOBALS['queries']);

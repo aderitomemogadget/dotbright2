@@ -2,6 +2,8 @@
 
 ## Correções após o teste REP-10 / RMA 44346
 
+A lista de proveniências é partilhada em `core/rma_origins.php`. Mantém os IDs legados 1=Online, 2=Matosinhos, 3=Maia mesmo quando `lojas_rmas` não está disponível no BO. Personalizações válidas da configuração são respeitadas; não se altera nenhum ID guardado. A apresentação, criação e validação da ficha usam a mesma lista. Não há SQL adicional.
+
 Esta atualização **não requer SQL adicional**. Não repetir a migração abaixo se já foi aplicada. As correções abrangem também as RMAs RRE já associadas, após publicar todos os ficheiros atualizados.
 
 - Corrigido o contrato da proveniência: `m_origem` usa `$lojas_rmas` de `conf/conf.php` (Online / Matosinhos / Maia). `rma_lojas` contém empresas e não é a origem do atendimento. A escolha anterior de empresa não deve ser reinterpretada automaticamente como uma loja; os IDs existentes mantêm-se e a proveniência pode ser revista na própria RMA.

@@ -1,5 +1,6 @@
 <?php
 /** Compatibility with RRE snapshots. Never creates accounts or sends notifications. */
+require_once __DIR__.'/../../core/rma_origins.php';
 function dotbright_rma_repair_context($rmaId)
 {
     $rmaId=(int)$rmaId;
@@ -30,5 +31,5 @@ function dotbright_rma_repair_validate($post)
     }
     if (!filter_var($post['cliente_username'],FILTER_VALIDATE_EMAIL)) throw new InvalidArgumentException('Indique um email válido.');
     if (!is_scalar($post['m_estado'] ?? null) || !preg_match('/^[1-9][0-9]*$/D',(string)$post['m_estado'])) throw new InvalidArgumentException('Selecione um estado técnico válido.');
-    if (!is_scalar($post['m_origem'] ?? null) || !isset($GLOBALS['lojas_rmas'][(string)$post['m_origem']])) throw new InvalidArgumentException('Selecione uma proveniência válida.');
+    if (!is_scalar($post['m_origem'] ?? null) || !isset(dotbright_rma_origins()[(string)$post['m_origem']])) throw new InvalidArgumentException('Selecione uma proveniência válida.');
 }

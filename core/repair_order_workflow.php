@@ -1,5 +1,6 @@
 <?php
 /** Internal RRE workflow. No schema changes, notifications or side effects on include. */
+require_once __DIR__.'/rma_origins.php';
 function dotbright_repair_workflow_statuses()
 {
     return array('not_recorded'=>'Não registado (anterior)','received'=>'Recebido','awaiting_quote'=>'Aguarda orçamento',
@@ -53,7 +54,7 @@ function dotbright_repair_rma_options(PDO $db)
     // m_origem uses conf.php's lojas_rmas IDs. rma_lojas stores companies,
     // whose IDs are unrelated (company 1 must not silently mean Online).
     $origins=array();
-    foreach (($GLOBALS['lojas_rmas'] ?? array()) as $id=>$label) {
+    foreach (dotbright_rma_origins() as $id=>$label) {
         if ((int)$id>0 && is_string($label) && trim($label)!=='') $origins[]=array('ID'=>(int)$id,'Cabecalho'=>$label,'Loja'=>'');
     }
     return array('states'=>$states,'origins'=>$origins);
@@ -65,7 +66,8 @@ function dotbright_repair_rma_summary(PDO $db,$row)
     $q->execute(array((int)$row['rma_id'],(int)$row['id']));
     $rma=$q->fetch(PDO::FETCH_ASSOC);
     if (!$rma) throw new RuntimeException('A ficha técnica associada não foi encontrada ou a ligação é inconsistente.');
-    $rma['origin_label']=$GLOBALS['lojas_rmas'][(int)$rma['m_origem']] ?? 'Proveniência por confirmar';
+    $origin=(int)$rma['m_origem'];
+    $rma['origin_label']=dotbright_rma_origins()[$origin ?: 1] ?? 'Proveniência não reconhecida (#'.$origin.')';
     return $rma;
 }
 function dotbright_repair_rma_text($input,$key,$limit)
