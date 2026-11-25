@@ -25,6 +25,13 @@ if ($ro_workflow) $ro_status_fields+=array(
 <?php if (!empty($ro_row['rma_id'])) { ?>
 <div class="ro-rma-linked"><div><span class="ro-caption">Ficha associada</span><strong>RMA #<?=(int)$ro_row['rma_id']?></strong></div><a class="ro-button" href="../../rmas/rmas/pagina.php?ID=<?=(int)$ro_row['rma_id']?>">Abrir ficha técnica →</a></div>
 <dl class="ro-technical-facts"><div><dt>Estado técnico atual</dt><dd><?=$re($ro_rma_summary['state_label'] ?? 'Consultar na RMA')?></dd></div><div><dt>Proveniência</dt><dd><?=$re($ro_rma_summary['origin_label'] ?? 'Consultar na RMA')?></dd></div></dl>
+<?php if ($ro_rma_summary && empty($ro_rma_summary['origin_known'])) { ?>
+<p class="ro-notice">Esta ficha recebeu anteriormente um código de empresa em vez da proveniência do atendimento. Escolha a origem correta para corrigir o registo.</p>
+<?php if (!empty($ro_can_reveal)) { ?><form method="post" action="pagina.php">
+<input type="hidden" name="_csrf" value="<?=$re($ro_csrf)?>"><input type="hidden" name="action" value="fix_rma_origin"><input type="hidden" name="id" value="<?=(int)$ro_row['id']?>"><input type="hidden" name="version" value="<?=(int)$ro_row['version']?>"><input type="hidden" name="rma_origin_before" value="<?=(int)$ro_rma_summary['m_origem']?>">
+<div class="ro-transfer-fields"><label>Proveniência correta<select name="rma_origin" required><option value="">Selecionar</option><?php foreach(dotbright_rma_origins() as $ro_origin_id=>$ro_origin_label) { ?><option value="<?=(int)$ro_origin_id?>"><?=$re($ro_origin_label)?></option><?php } ?></select></label></div>
+<button type="submit">Guardar proveniência da RMA</button></form><?php } ?>
+<?php } ?>
 <p class="ro-rma-caption">Associada em <?=$re($ro_row['rma_sent_at'])?> UTC.</p>
 <p class="ro-guidance">Altere o estado técnico na RMA. No regresso do equipamento reparado, indique aqui «Recebido da RMA» e «Pronto para entrega».</p>
 <p class="ro-rma-caption">Os estados da RMA não alteram automaticamente os estados do pedido.</p>
@@ -63,8 +70,10 @@ if ($ro_workflow) $ro_status_fields+=array(
         $ro_to=$ro_config[1][$ro_after[$ro_key]] ?? $ro_after[$ro_key];
         $ro_changes[]=$ro_config[0].': '.$ro_from.' → '.$ro_to;
     }
-    if (isset($ro_after['rma_id'])) array_unshift($ro_changes,'Associação à RMA #'.(int)$ro_after['rma_id']);
+    if ($ro_event['event_type']==='rma_origin') {
+        $ro_changes[]='Proveniência da RMA #'.(int)($ro_after['rma_id'] ?? 0).': código '.(int)($ro_before['rma_origin'] ?? 0).' → '.($ro_after['rma_origin_label'] ?? (string)($ro_after['rma_origin'] ?? ''));
+    } elseif (isset($ro_after['rma_id'])) array_unshift($ro_changes,'Associação à RMA #'.(int)$ro_after['rma_id']);
 ?>
-<li><div><strong><?=$ro_event['event_type']==='send_to_rma'?'Ficha RMA associada':'Estados do pedido guardados'?></strong><span><?=$re($ro_event['created_at'])?> UTC · Operador #<?=(int)$ro_event['actor_id']?></span></div><ul><?php foreach($ro_changes ?: array('Gravação sem alteração dos estados.') as $ro_change) { ?><li><?=$re($ro_change)?></li><?php } ?></ul></li>
+<li><div><strong><?=$ro_event['event_type']==='rma_origin'?'Proveniência da RMA corrigida':($ro_event['event_type']==='send_to_rma'?'Ficha RMA associada':'Estados do pedido guardados')?></strong><span><?=$re($ro_event['created_at'])?> UTC · Operador #<?=(int)$ro_event['actor_id']?></span></div><ul><?php foreach($ro_changes ?: array('Gravação sem alteração dos estados.') as $ro_change) { ?><li><?=$re($ro_change)?></li><?php } ?></ul></li>
 <?php } ?></ol><p class="ro-rma-caption">Até 20 registos mais recentes. O histórico anterior mantém-se guardado.</p><?php } ?>
 </details>

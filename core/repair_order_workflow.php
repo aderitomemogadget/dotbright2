@@ -67,8 +67,42 @@ function dotbright_repair_rma_summary(PDO $db,$row)
     $rma=$q->fetch(PDO::FETCH_ASSOC);
     if (!$rma) throw new RuntimeException('A ficha técnica associada não foi encontrada ou a ligação é inconsistente.');
     $origin=(int)$rma['m_origem'];
+    $rma['origin_known']=isset(dotbright_rma_origins()[$origin ?: 1]);
     $rma['origin_label']=dotbright_rma_origins()[$origin ?: 1] ?? 'Proveniência não reconhecida (#'.$origin.')';
     return $rma;
+}
+function dotbright_repair_rma_fix_origin(PDO $db,$id,$version,$newOrigin,$expectedOrigin,$actor)
+{
+    if ($actor<=0 || !is_scalar($newOrigin) || !preg_match('/^[1-9][0-9]*$/D',(string)$newOrigin) || !isset(dotbright_rma_origins()[(int)$newOrigin])) throw new InvalidArgumentException('Escolha uma proveniência válida.');
+    if (!is_scalar($expectedOrigin) || !preg_match('/^[0-9]+$/D',(string)$expectedOrigin)) throw new InvalidArgumentException('Reabra o pedido antes de corrigir a proveniência.');
+    if (!dotbright_repair_rma_ready($db)) throw new RuntimeException('A integração RMA não está disponível.');
+    $changed=false;$rmaId=0;$oldOrigin=(int)$expectedOrigin;$newOrigin=(int)$newOrigin;
+    $db->beginTransaction();
+    try {
+        $lock=$db->getAttribute(PDO::ATTR_DRIVER_NAME)==='mysql'?' FOR UPDATE':'';
+        $q=$db->prepare('SELECT * FROM repair_orders WHERE id=?'.$lock);$q->execute(array($id));$row=$q->fetch(PDO::FETCH_ASSOC);
+        if (!$row || (int)$row['version']!==$version) throw new RuntimeException('O pedido foi alterado. Reabra antes de corrigir a proveniência.');
+        $rma=dotbright_repair_rma_summary($db,$row);
+        if (!$rma || (int)$rma['m_origem']!==$oldOrigin) throw new RuntimeException('A proveniência da RMA foi alterada. Reabra o pedido.');
+        if ($rma['origin_known']) throw new InvalidArgumentException('Esta proveniência já é válida. Para a alterar, utilize a ficha RMA.');
+        $rmaId=(int)$rma['ID'];
+        $q=$db->prepare('UPDATE repair_orders SET version=version+1,updated_at=?,updated_by=? WHERE id=? AND version=?');
+        $q->execute(array(gmdate('Y-m-d H:i:s'),$actor,$id,$version));
+        if ($q->rowCount()!==1) throw new RuntimeException('O pedido foi alterado. Reabra antes de corrigir.');
+        dotbright_repair_workflow_event($db,$id,$actor,'rma_origin',array('rma_origin'=>$oldOrigin),array('rma_origin'=>$newOrigin,'rma_origin_label'=>dotbright_rma_origins()[$newOrigin],'rma_id'=>$rmaId));
+        $q=$db->prepare('UPDATE rmas SET m_origem=? WHERE ID=? AND repair_order_id=? AND m_origem=?');
+        $q->execute(array($newOrigin,$rmaId,$id,$oldOrigin));
+        if ($q->rowCount()!==1) throw new RuntimeException('A ficha RMA foi alterada. Reabra antes de corrigir.');
+        $changed=true;$db->commit();
+    } catch (Throwable $e) {
+        if ($db->inTransaction()) $db->rollBack();
+        // Compensate a non-transactional MyISAM change if the source commit failed.
+        if ($changed && $db->getAttribute(PDO::ATTR_DRIVER_NAME)==='mysql') {
+            try {$q=$db->prepare('UPDATE rmas SET m_origem=? WHERE ID=? AND repair_order_id=? AND m_origem=?');$q->execute(array($oldOrigin,$rmaId,$id,$newOrigin));}
+            catch (Throwable $restoreError) {error_log('[RRE RMA] origin correction rollback failed for RMA #'.$rmaId);}
+        }
+        throw $e;
+    }
 }
 function dotbright_repair_rma_text($input,$key,$limit)
 {

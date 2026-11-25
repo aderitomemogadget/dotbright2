@@ -113,4 +113,31 @@ function wf_render_rma_summary($saved) {
 }
 $legacy_html=wf_render_rma_summary(array_merge($saved,array('m_modelo'=>'Model "TEST" <img src=x onerror=alert(1)>','m_marca'=>'Unknown brand','m_avaria'=>'</textarea><script>alert(1)</script>')));
 wf_assert(strpos($legacy_html,'<script>alert(1)</script>')===false && strpos($legacy_html,'<img src=x')===false && strpos($legacy_html,'&lt;script&gt;alert(1)&lt;/script&gt;')!==false && strpos($legacy_html,'value="Unknown brand" selected')!==false && strpos($legacy_html,'value="Model &quot;TEST&quot; &lt;img src=x onerror=alert(1)&gt;" selected')!==false,'Legacy summary lost unknown equipment data or executed customer markup.');
-echo "PASS: RRE/RMA mapping, schema contract, independent states, optimistic concurrency, idempotency/recovery, history, filters, permissions-compatible views, protected access and optional SMS dependency. Offline only.\n";
+// A historical company ID must be repaired explicitly, never guessed as Online.
+$db->exec('UPDATE rmas SET m_origem=442 WHERE ID='.(int)$rma);
+$originRow=dotbright_repair_order_find($db,$id);$originBefore=$db->query('SELECT * FROM rmas WHERE ID='.(int)$rma)->fetch(PDO::FETCH_ASSOC);
+wf_assert(!dotbright_repair_rma_summary($db,$originRow)['origin_known'],'Unknown company origin silently mapped to Online.');
+$ro_row=$originRow;$ro_rma_summary=dotbright_repair_rma_summary($db,$ro_row);$ro_events=array();$ro_can_reveal=true;
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
+wf_assert(strpos($html,'name="rma_origin_before" value="442"')!==false && strpos($html,'value="fix_rma_origin"')!==false,'Legacy origin correction form absent.');
+$auditCount=(int)$db->query('SELECT COUNT(*) FROM repair_order_events')->fetchColumn();
+foreach(array(array('99','442',7),array('1','441',7),array(array(),'442',7),array('1','442',0)) as $bad) wf_throws(function()use($db,$id,$originRow,$bad){dotbright_repair_rma_fix_origin($db,$id,(int)$originRow['version'],$bad[0],$bad[1],$bad[2]);},'Invalid origin correction accepted.');
+wf_throws(function()use($db,$id,$originRow){dotbright_repair_rma_fix_origin($db,$id,(int)$originRow['version']-1,'1','442',7);},'Stale origin correction accepted.');
+wf_assert((int)$db->query('SELECT COUNT(*) FROM repair_order_events')->fetchColumn()===$auditCount,'Rejected origin corrections created history.');
+dotbright_repair_rma_fix_origin($db,$id,(int)$originRow['version'],'1','442',7);
+$originAfter=$db->query('SELECT * FROM rmas WHERE ID='.(int)$rma)->fetch(PDO::FETCH_ASSOC);
+$expectedRma=$originBefore;$expectedRma['m_origem']='1';wf_assert($originAfter===$expectedRma,'Origin correction changed other RMA data.');
+$sourceAfter=dotbright_repair_order_find($db,$id);
+wf_assert($sourceAfter['details_json']===$originRow['details_json'] && $sourceAfter['status']===$originRow['status'] && $sourceAfter['repair_status']===$originRow['repair_status'] && $sourceAfter['product_status']===$originRow['product_status'] && $sourceAfter['version']===$originRow['version']+1,'Origin correction changed source snapshots/states or lost version.');
+$ro_row=$sourceAfter;$ro_rma_summary=dotbright_repair_rma_summary($db,$ro_row);$ro_events=$db->query('SELECT * FROM repair_order_events WHERE repair_order_id='.(int)$id.' ORDER BY id DESC')->fetchAll(PDO::FETCH_ASSOC);
+ob_start();include __DIR__.'/../admin/reparacoes/view.inc.php';$html=ob_get_clean();
+wf_assert(strpos($html,'código 442 → Online')!==false && strpos($html,'value="fix_rma_origin"')===false,'Origin correction audit/rendering incorrect.');
+wf_throws(function()use($db,$id,$sourceAfter){dotbright_repair_rma_fix_origin($db,$id,(int)$sourceAfter['version'],'3','1',7);},'Valid origins should be edited in the RMA, not through legacy repair.');
+// Simulate failure of the destination update: source version/history must roll back.
+$db->exec('UPDATE rmas SET m_origem=442 WHERE ID='.(int)$rma);
+$db->exec("CREATE TRIGGER fail_origin BEFORE UPDATE OF m_origem ON rmas BEGIN SELECT RAISE(ABORT,'test failure'); END");
+$auditCount=(int)$db->query('SELECT COUNT(*) FROM repair_order_events')->fetchColumn();
+wf_throws(function()use($db,$id,$sourceAfter){dotbright_repair_rma_fix_origin($db,$id,(int)$sourceAfter['version'],'1','442',7);},'Destination failure ignored.');
+wf_assert(dotbright_repair_order_find($db,$id)['version']===$sourceAfter['version'] && (int)$db->query('SELECT COUNT(*) FROM repair_order_events')->fetchColumn()===$auditCount,'Failed correction left source changes/history.');
+$db->exec('DROP TRIGGER fail_origin');$db->exec('UPDATE rmas SET m_origem=1 WHERE ID='.(int)$rma);
+echo "PASS: RRE/RMA mapping, schema contract, independent states, optimistic concurrency, idempotency/recovery, history, filters, permissions-compatible views, protected access, optional SMS and audited legacy origin correction. Offline only.\n";

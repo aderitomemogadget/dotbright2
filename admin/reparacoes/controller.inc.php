@@ -2,7 +2,7 @@
 if (!defined('REPAIR_ADMIN_SCREEN')) { http_response_code(403); exit; }
 // Do not allow legacy request-global extraction to override authentication or controller state.
 $ro_query=array_intersect_key($_GET,array_flip(array('id','q','status','p','repair_status','product_status','transfer')));
-$ro_input=array_intersect_key($_POST,array_flip(array('_csrf','action','id','version','status','repair_status','product_status','confirm','after','rma_state','rma_origin','rma_brand','rma_model','rma_imei','rma_serial')));
+$ro_input=array_intersect_key($_POST,array_flip(array('_csrf','action','id','version','status','repair_status','product_status','confirm','after','rma_state','rma_origin','rma_origin_before','rma_brand','rma_model','rma_imei','rma_serial')));
 $_GET=$_POST=$_REQUEST=$_FILES=array();
 $_COOKIE=array_intersect_key($_COOKIE,array_flip(array(session_name())));
 require __DIR__.'/settings.inc.php';
@@ -44,6 +44,11 @@ try {
             if (!dotbright_repair_order_can_reveal($admin_id,$dados['Permissoes'])) throw new InvalidArgumentException('A transferência exige permissões de Produtos e Encomendas.');
             $ro_rma_id=dotbright_repair_send_to_rma($ro_db,$ro_id,is_scalar($_POST['version'] ?? null)?(int)$_POST['version']:0,$_POST,(int)$admin_id);
             $_SESSION['repair_orders_flash']='Pedido associado à RMA #'.$ro_rma_id.'. Não foram enviados emails ou SMS.';
+            header('Location: pagina.php?id='.$ro_id,true,303);exit;
+        } elseif ($ro_action==='fix_rma_origin') {
+            if (!$ro_can_reveal) throw new InvalidArgumentException('A correção exige permissões de Produtos e Encomendas.');
+            dotbright_repair_rma_fix_origin($ro_db,$ro_id,is_scalar($_POST['version'] ?? null)?(int)$_POST['version']:0,$_POST['rma_origin'] ?? null,$_POST['rma_origin_before'] ?? null,(int)$admin_id);
+            $_SESSION['repair_orders_flash']='Proveniência da RMA corrigida e registada no histórico. Não foram enviadas notificações.';
             header('Location: pagina.php?id='.$ro_id,true,303);exit;
         } elseif ($ro_action==='import') {
             $ro_import=dotbright_repair_order_import_legacy($ro_db,is_scalar($_POST['after'] ?? null)?(int)$_POST['after']:0);
