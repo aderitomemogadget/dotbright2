@@ -51,10 +51,10 @@ function servicos_extra_prod($prod_id=0,$prod_valor=0)
 				$info =stripslashes($rs->db_data['info']);
 				$bloco_ext =$rs->db_data['bloco_ext'];
 				$img_ext =$rs->db_data['img_ext'];
-				if($bloco_ext!='' && stream_resolve_include_path(SITE_SHELL_URL.'files/servicos_extra/'.$bloco_ext)) $termos=SITE_HTTP_URL.'files/servicos_extra/'.$bloco_ext;
+				if($bloco_ext!='' && dotbright_image_resolve(SITE_SHELL_URL.'files/servicos_extra/'.$bloco_ext)) $termos=SITE_HTTP_URL.'files/servicos_extra/'.$bloco_ext;
 				else $termos=seo('pages.php?page_id=37');
 
-				if($img_ext!='' && stream_resolve_include_path(SITE_SHELL_URL.'files/servicos_extra/'.$img_ext)) $img=SITE_HTTP_URL.'files/servicos_extra/'.$img_ext;
+				if($img_ext!='' && dotbright_image_resolve(SITE_SHELL_URL.'files/servicos_extra/'.$img_ext)) $img=SITE_HTTP_URL.'files/servicos_extra/'.$img_ext;
 				$return[]=array('titulo'=>$titulo,'id'=>$id,'anos'=>$n_anos,'promo_ativo'=>$promo_ativo,'valor' => ($promo_ativo==1 ? $valor_promo : $valor),'valor_antigo'=>$valor,'info'=>$info,'termos'=>$termos,'img'=>$img);
 
 				$rs->db_next();

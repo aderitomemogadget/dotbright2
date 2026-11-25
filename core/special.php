@@ -1849,7 +1849,7 @@ function showMyOrdersPlataforma($dados)
 								                                <div style="height:50px;line-height:50px;float:left">
 								                                	<input class="metodos_pagamento" type="radio" name="m_metodopagamento" id="pagamento<?=$ID ?>" value="<?=$ID ?>" <?php echo ($Metodo_pagamento == $ID) ? ' checked="checked" ' : ''; ?>></div>
 								                                <?php
-								                                    if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) )
+								                                    if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) )
 								                                    {
 								                                        echo '<div style="float:left;height:50px;margin-right:10px;width:150px"><img style="height:50px" src="'.$GLOBALS['site_http_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext.'?dp='.dumpcache.'" alt="'.$nome_metodo.'" /></div>';
 								                                        if($metodo_descricao != '')

@@ -842,7 +842,7 @@ function filtros_lista_produto($prod_id=0,$fam_id=0,$area=0)
 
 				if(!$hex)
 				{
-					if($value_ext &&  stream_resolve_include_path($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext))$return .= '<img src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" alt="" width="40" border="0" />';
+					if($value_ext &&  dotbright_image_resolve($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext))$return .= '<img src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" alt="" width="40" border="0" />';
 					else $return .= '<div style="margin-left:10px"  title="'.$values_name.'">'.$values_name.'</div>';
 				}
 				else $return .= '<div style="float:left;background:'.$hex.';width:30px;height:30px" class="color_check round" title="'.$values_name.'">&nbsp;</div>';
@@ -853,7 +853,7 @@ function filtros_lista_produto($prod_id=0,$fam_id=0,$area=0)
 			}
 			else
 			{
-				if($value_ext &&  stream_resolve_include_path($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<img style="margin-right:10px" src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" title="'.$values_name.'" alt="" width="40" border="0" />';
+				if($value_ext &&  dotbright_image_resolve($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<img style="margin-right:10px" src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" title="'.$values_name.'" alt="" width="40" border="0" />';
 				else $return .= '<span style="margin-left:10px"  title="'.$values_name.'">'.$values_name.'</span>';
 			}
 			$dados->db_next();
@@ -932,7 +932,7 @@ function filtros_lista_produto_na_ficha($prod_id=0)
 
 				if(!$hex)
 				{
-					if($value_ext &&  stream_resolve_include_path($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext))$return .= '<img src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" alt="" width="40" border="0" />';
+					if($value_ext &&  dotbright_image_resolve($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext))$return .= '<img src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" alt="" width="40" border="0" />';
 					else $return .= '<div style="margin-left:10px"  title="'.$values_name.'">'.$values_name.'</div>';
 				}
 				else $return .= '<div style="float:left;background:'.$hex.';width:30px;height:30px" class="color_check round" title="'.$values_name.'">&nbsp;</div>';
@@ -943,7 +943,7 @@ function filtros_lista_produto_na_ficha($prod_id=0)
 			}
 			else
 			{
-				if($value_ext &&  stream_resolve_include_path($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<img style="margin-right:10px" src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" title="'.$values_name.'" alt="" width="40" border="0" />';
+				if($value_ext &&  dotbright_image_resolve($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<img style="margin-right:10px" src="'.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.'" title="'.$values_name.'" alt="" width="40" border="0" />';
 				else $return .= '<span style="margin-left:10px"  title="'.$values_name.'">'.$values_name.'</span>';
 			}
 			$dados->db_next();
@@ -1211,7 +1211,7 @@ function del_produtc_info($prod_id=0,$prod_obj_id='',$gera_images=1,$id_fam=0,$l
 	}
 	$prods=NULL;
 
-	if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin'))
+	if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin'))
 	{
 		unlink($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin');
 	}
@@ -1527,7 +1527,7 @@ function get_imagem_produto_total($ref, $prod_id)
 
 		$img_file=$GLOBALS['site_http_url'].'layout/imgs/'.$img;
 
-		if(!is_file($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+		if(!dotbright_image_exists($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 
 	}
 
@@ -1774,7 +1774,7 @@ function get_produtc_info($prod_id=0,$prod_obj_id='',$gera_images=1,$id_fam=0,$l
 		//Se ja carreguei os dados deste artigo ao carregar a pagina, vou ler da memoria:
 		global $produtos_pagina;
 		if(!is_array($produtos_pagina))$produtos_pagina=array();
-		if($produtos_pagina[$prod_id]==1 && stream_resolve_include_path($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin') )
+		if($produtos_pagina[$prod_id]==1 && dotbright_image_resolve($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin') )
 		{
 			$prods = unserialize(file_get_contents($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin'));
 		}
@@ -1892,7 +1892,7 @@ function get_produtc_info($prod_id=0,$prod_obj_id='',$gera_images=1,$id_fam=0,$l
 					}
 					*/
 
-					if(is_file($GLOBALS['site_shell_url'].'layout/imgs/'.$img) ){
+					if(dotbright_image_exists($GLOBALS['site_shell_url'].'layout/imgs/'.$img) ){
 						$arr_img[0]='layout/imgs/'.$img;
 						$arr_img_cart[0]='layout/imgs/'.$img;
 						$arr_img_med[0]='layout/imgs/'.$img;
@@ -2323,7 +2323,7 @@ function get_produtc_info_essentials($prod_id=0,$ignore_img=0)
 		//Se ja carreguei os dados deste artigo ao carregar a pagina, vou ler da memoria:
 		global $produtos_pagina;
 		if(!is_array($produtos_pagina))$produtos_pagina=array();
-		if($produtos_pagina[$prod_id]==1 && stream_resolve_include_path($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin') )
+		if($produtos_pagina[$prod_id]==1 && dotbright_image_resolve($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin') )
 		{
 			$prods = unserialize(file_get_contents($GLOBALS['site_shell_url'].'files/cache/products/p'.dotbright_product_images_cache_key().$prod_id.'_'.$lingua.'.bin'));
 		}
@@ -3610,7 +3610,7 @@ function GERA_MARCAS_DESTAQUE()
 				$img_file_new='files/brands/'.$brand_id.'_1_new.'.$I1;
 				$img_file_shop='files/brands/'.$brand_id.'_1_shop.'.$I1;
 				$img_file_small='files/brands/'.$brand_id.'_1_small.'.$I1;
-				$img_file_new_cache='files/brands/'.$brand_id.'_1_new_v_'.filemtime($GLOBALS['site_shell_url'].$img_file_new).'.'.$I1;
+				$img_file_new_cache='files/brands/'.$brand_id.'_1_new_v_'.dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_new).'.'.$I1;
 				if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)) $original=date('Y-m-d H:i:s',dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file)); // data/hora em que foi modificada/criada
 				if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_new)) $new=date('Y-m-d H:i:s',dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_new)); //data/hora em que foi modificada/criada
 				if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_shop)) $shop=date('Y-m-d H:i:s',dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_shop)); //data/hora em que foi modificada/criada
@@ -3618,7 +3618,7 @@ function GERA_MARCAS_DESTAQUE()
 				if((!dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_new) || $new<$original) && dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file))
 				{
 					geraimagens($img_file,$img_file_new,70,27,0,0,1);
-					list($width,$height)=getimagesize($GLOBALS['site_shell_url'].$img_file_new);
+					list($width,$height)=dotbright_files_image_size($GLOBALS['site_shell_url'].$img_file_new);
 					cropImage($GLOBALS['site_shell_url'].$img_file_new,$GLOBALS['site_shell_url'].$img_file_new,$width,27,0,'#FFFFFF');
 				}
 				if((!dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_shop) || $shop<$original) && dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)){if(redimencionaImagem($GLOBALS['site_shell_url'],$img_file,154,60,$img_file_shop)){ cropImage($GLOBALS['site_shell_url'].$img_file_shop,$GLOBALS['site_shell_url'].$img_file_shop,154,60,0,'#FFFFFF');}}

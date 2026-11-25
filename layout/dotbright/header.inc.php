@@ -108,7 +108,7 @@
 		}
 		$rs->db_close();
 
-		if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/pages/'.$page_id.'_seo_'.$GLOBALS['site_lang'].'.jpg'))$imgfb = 'files/pages/'.$page_id.'_seo_'.$GLOBALS['site_lang'].'.jpg?d='.uniqid('');
+		if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/pages/'.$page_id.'_seo_'.$GLOBALS['site_lang'].'.jpg'))$imgfb = 'files/pages/'.$page_id.'_seo_'.$GLOBALS['site_lang'].'.jpg?d='.uniqid('');
 
 		$SEO_title.=' - '.$_SERVER['HTTP_HOST'];
 	}
@@ -150,7 +150,7 @@
 			$SEO_description=$SEO_title.' '.$SEO_DESCRIPTION;
 			$page_name=$fam_info['fam_nome'];
 
-			if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/products_families/'.$_GET['cat'].'_seo_'.$GLOBALS['site_lang'].'.jpg'))
+			if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/products_families/'.$_GET['cat'].'_seo_'.$GLOBALS['site_lang'].'.jpg'))
 			$imgfb = 'files/products_families/'.$_GET['cat'].'_seo_'.$GLOBALS['site_lang'].'.jpg?d='.uniqid('');
 		}
 	}
@@ -533,6 +533,7 @@
 ?><!DOCTYPE html>
 <html lang="<?=$GLOBALS['site_lang']?>">
 <head>
+<?php echo dotbright_files_images_browser_script(); ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -584,11 +585,11 @@
 		$rs->db_close();
 	}
 	*/?>
-	<link rel="shortcut icon" href="files/icons/favicon_v_<?php echo filemtime('files/icons/favicon.ico')?>.ico" type="image/x-icon"/>
-	<link rel="icon" type="image/png" sizes="96x96"   href="files/icons/favicon-96x96_v_<?php echo filemtime('files/icons/favicon-96x96.png')?>.png">
-	<link rel="icon" type="image/png" sizes="32x32"	  href="files/icons/favicon-32x32_v_<?php echo filemtime('files/icons/favicon-32x32.png')?>.png">
-	<link rel="icon" type="image/png" sizes="16x16"   href="files/icons/favicon-16x16_v_<?php echo filemtime('files/icons/favicon-16x16.png')?>.png">
-	<?/*<link rel="manifest" href="<?=SITE_HTTP_URL?>files/icons/manifest_v_<?php echo filemtime('files/icons/manifest.json')?>.json">*/?>
+	<link rel="shortcut icon" href="files/icons/favicon_v_<?php echo dotbright_image_mtime('files/icons/favicon.ico')?>.ico" type="image/x-icon"/>
+	<link rel="icon" type="image/png" sizes="96x96"   href="files/icons/favicon-96x96_v_<?php echo dotbright_image_mtime('files/icons/favicon-96x96.png')?>.png">
+	<link rel="icon" type="image/png" sizes="32x32"	  href="files/icons/favicon-32x32_v_<?php echo dotbright_image_mtime('files/icons/favicon-32x32.png')?>.png">
+	<link rel="icon" type="image/png" sizes="16x16"   href="files/icons/favicon-16x16_v_<?php echo dotbright_image_mtime('files/icons/favicon-16x16.png')?>.png">
+	<?/*<link rel="manifest" href="<?=SITE_HTTP_URL?>files/icons/manifest_v_<?php echo dotbright_image_mtime('files/icons/manifest.json')?>.json">*/?>
 	<!-- Chrome,Firefox OS and Opera -->
 	<meta name="theme-color" content="<?=$GLOBALS['theme_color']?>">
 	<!-- Windows Phone -->
@@ -596,7 +597,7 @@
 	<!-- iOS Safari -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="<?=$GLOBALS['theme_color']?>">
 	<meta name="msapplication-TileColor" content="<?=$GLOBALS['theme_color']?>">
-	<meta name="msapplication-TileImage" content="files/icons/ms-icon-144x144_v_<?php echo filemtime('files/icons/ms-icon-144x144.png')?>.png">
+	<meta name="msapplication-TileImage" content="files/icons/ms-icon-144x144_v_<?php echo dotbright_image_mtime('files/icons/ms-icon-144x144.png')?>.png">
 	
 	<? /* <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic" type="text/css" media="all"/> */ ?>
 	
@@ -929,7 +930,7 @@
 	<script src="<?=SITE_HTTP_URL?>external_api/site/slider_precos/nouislider_v_<?=dumpcache?>.js"></script>
 
 	<?php if(isset($GLOBALS['tem_menu_top']) && $GLOBALS['tem_menu_top'] == 1){?><script src="layout/<?=PROJETO?>/menu/menu_topo_v_<?=dumpcache?>.js"></script><?php }?>
-	<?php if(stream_resolve_include_path(SITE_SHELL_URL.'files/promos/promos.js')){?><script src="<?=SITE_HTTP_URL?>files/promos/promos.js?dp=<?=dumpcache?>"></script><?php }?>
+	<?php if(dotbright_image_resolve(SITE_SHELL_URL.'files/promos/promos.js')){?><script src="<?=SITE_HTTP_URL?>files/promos/promos.js?dp=<?=dumpcache?>"></script><?php }?>
 	<!-- MEGAMENU -->
 	<script src="<?=SITE_HTTP_URL?>external_api/site/megamenu/js/megamenu.js"></script>
 	<!-- FICHEIRO QUE CHAMA TODAS AS FUNCOES -->

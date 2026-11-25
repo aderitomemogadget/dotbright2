@@ -3,6 +3,7 @@ if(isset($_SERVER['SCRIPT_FILENAME']) && $_SERVER['SCRIPT_FILENAME'] == __FILE__
 require_once __DIR__.'/product_images.php';
 function gera_image($src,$new,$w,$h) //funcao que vai gerar uma imagem nova se a data da original mudar
 {
+	if (dotbright_files_image_missing_local($src)) return false;
 	global $site_shell_url;
 	if(stream_resolve_include_path($site_shell_url.$src))$src_date=date("Y-m-d H:i:s",filemtime($site_shell_url.$src));
 	if(stream_resolve_include_path($site_shell_url.$new))$new_date=date("Y-m-d H:i:s",filemtime($site_shell_url.$new));
@@ -24,6 +25,7 @@ function gera_image($src,$new,$w,$h) //funcao que vai gerar uma imagem nova se a
 }
 function setMemoryForImage( $filename )
 {
+	if (dotbright_files_image_missing_local($filename)) return false;
 	$imageInfo=getimagesize($filename);
 	$MB=1048576; // number of bytes in 1M
 	$K64=65536; // number of bytes in 64K
@@ -47,6 +49,7 @@ function setMemoryForImage( $filename )
 }
 function geraimagens($img_original='',$img_nova='',$w=0,$h=0,$crop=array(),$transparent=0,$white=0,$marcaagua=array(),$nome='',$gerar=0,$fit=0)
 {
+	if (dotbright_files_image_missing_local($img_original)) return false;
 	// Shared originals and derivatives are read only; regeneration stays in DEV.
 	if (dotbright_shared_images() && dotbright_image_name($img_original) !== false
 		&& dotbright_image_file_in(dotbright_image_root().'files/products', dotbright_image_name($img_original)) === false) return false;
@@ -99,6 +102,7 @@ function geraimagens($img_original='',$img_nova='',$w=0,$h=0,$crop=array(),$tran
 }
 function jpegImgCrop($source,$dest,$nw,$nh)
 {
+	if (dotbright_files_image_missing_local($source)) return false;
 	if($info=@getimagesize($source))
 	{
 		//Ok
@@ -171,6 +175,7 @@ function jpegImgCrop($source,$dest,$nw,$nh)
  }
 function cropImage_new($source,$dest,$nw,$nh,$align=0,$color='#FFFFFF')
 {
+	if (dotbright_files_image_missing_local($source)) return false;
 	if(!stream_resolve_include_path($source)) return "";
 
 	if($size=@getimagesize($source))
@@ -220,6 +225,7 @@ function cropImage_new($source,$dest,$nw,$nh,$align=0,$color='#FFFFFF')
 }
 function WatermarkImage($imagem,$aquaimage='')
 {
+	if (dotbright_files_image_missing_local($imagem)) return false;
 	global $site_shell_url;
 	$testGD=get_extension_funcs("gd"); // Grab function list
 	if (in_array ("imagegd2",$testGD)) $gd_version="<2"; // Check
@@ -317,6 +323,7 @@ function WatermarkImage($imagem,$aquaimage='')
 
 function resize_image($file,$width=0,$height=0,$proportional=true,$output='file',$delete_original=false)
 {
+	if (dotbright_files_image_missing_local($file)) return false;
 	if ($height <= 0 && $width <= 0 )return false;
 	if($info=@getimagesize($file)){/*Ok*/}
 	else return("ERRO: ".$file);
@@ -437,6 +444,7 @@ function resize_image($file,$width=0,$height=0,$proportional=true,$output='file'
 }
 function imagem_brancos($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	if($size=@getimagesize($u.$foto))
 	{
 		//Ok
@@ -500,6 +508,7 @@ function imagem_brancos($u,$foto,$foto2)
 }
 function crop_white_space($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	//load the image
 	if($size=@getimagesize($u.$foto))
 	{
@@ -563,6 +572,7 @@ function crop_white_space($u,$foto,$foto2)
 }
 function make_transparent($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	setMemoryForImage($u.$foto); // vamos alocar memoria para esta imagem
 
 	if($size=@getimagesize($u.$foto))
@@ -654,6 +664,7 @@ function FloodFill($im, $x, $y)
 }
 function make_transparent2($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	setMemoryForImage($u.$foto); // vamos alocar memoria para esta imagem
 
 	if($size=@getimagesize($u.$foto))
@@ -705,6 +716,7 @@ function make_transparent2($u,$foto,$foto2)
 
 function make_transparent3($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	//Passei o script para background e desta forma a página não crasha enquanto está a recortar as imagens
 	$path = dirname( __FILE__ ) . '/cron_gd.php '.$u.' '.$foto.' '.$foto2.' > /dev/null &';
 	$exe_file = "php ".$path;
@@ -719,6 +731,7 @@ function make_transparent3($u,$foto,$foto2)
 
 function make_transparent_fromcinza($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	if(stream_resolve_include_path($u.$foto)) $src_date=date('Y-m-d H:i:s',filemtime($u.$foto)); // data/hora em que foi modificada/criada
 	if(stream_resolve_include_path($u.$foto2)) $miniatura=date('Y-m-d H:i:s',filemtime($u.$foto2)); //data/hora em que foi modificada/criada
 	if(!stream_resolve_include_path($u.$foto2) || $miniatura<$src_date)
@@ -814,6 +827,7 @@ function perspective($i,$gradient=0.85,$rightdown=true,$background=0xFFFFFF)
 }
 function redimencionaImagem($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 {
+	if (dotbright_files_image_missing_local($path.$foto)) return false;
 	$ficheiro_origem=$path.$foto;
 	if(!stream_resolve_include_path($path.$foto)) return '';
 
@@ -832,6 +846,7 @@ function redimencionaImagem($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 }
 function redimencionaJpegFill($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 {
+	if (dotbright_files_image_missing_local($path.$foto)) return false;
 	$testGD=get_extension_funcs('gd'); // Grab function list
 	if(in_array('imagegd2',$testGD)) $gd_version='<2'; // Check
 	$conf_compressao=100;
@@ -929,6 +944,7 @@ function redimencionaJpegFill($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 }
 function redimencionaPNGFill($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 {
+	if (dotbright_files_image_missing_local($path.$foto)) return false;
 	$testGD=get_extension_funcs('gd');
 	if(in_array('imagegd2',$testGD)) $gd_version='<2';
 	$conf_compressao=100;
@@ -1024,6 +1040,7 @@ function redimencionaPNGFill($path,$foto,$largura,$altura,$novo_nome,$tipo=0)
 }
 function redimencionaJpeg($path,$imagem,$w,$h,$novo_nome,$tipo=0)
 {
+	if (dotbright_files_image_missing_local($path.$imagem)) return false;
 	$imagem=$path.$imagem;
 	$novo_nome=$path.$novo_nome;
 	if(!stream_resolve_include_path($imagem)) return "";
@@ -1087,6 +1104,7 @@ function redimencionaJpeg($path,$imagem,$w,$h,$novo_nome,$tipo=0)
 
 function cropImage($source,$dest,$nw,$nh,$align=0,$color='#FFFFFF')
 {
+	if (dotbright_files_image_missing_local($source)) return false;
 	if(!stream_resolve_include_path($source)) return "";
 
 	if($size=@getimagesize($source))
@@ -1144,6 +1162,7 @@ function html2rgb($color)
 
 function redimencionaPNG($path,$foto,$largura,$altura,$novo_nome,$tipo=0,$path2='')
 {
+	if (dotbright_files_image_missing_local($path.$foto)) return false;
 	$conf_compressao=100;
 	$ficheiro_origem=$path.$foto;
 	if($path2)$ficheiro_destino=$path2.$foto;
@@ -1237,6 +1256,7 @@ function redimencionaPNG($path,$foto,$largura,$altura,$novo_nome,$tipo=0,$path2=
 }
 function smart_resize_image($file,$width=0,$height=0,$proportional=false,$output='file',$delete_original=true,$use_linux_commands=false)
 {
+	if (dotbright_files_image_missing_local($file)) return false;
 	if($height <=0 && $width <=0)return false;
 
 	if($info=@getimagesize($file))
@@ -1348,6 +1368,7 @@ function smart_resize_image($file,$width=0,$height=0,$proportional=false,$output
 
 function putWatermarkImage($path,$imagem)
 {
+	if (dotbright_files_image_missing_local($path.$imagem)) return false;
 		global $site_shell_url;
 		$testGD=get_extension_funcs("gd"); // Grab function list
 		if (in_array ("imagegd2",$testGD)) $gd_version="<2"; // Check
@@ -1442,6 +1463,7 @@ function putWatermarkImage($path,$imagem)
 
 	function compressPNG($src,$dts)
 {
+	if (dotbright_files_image_missing_local($src)) return false;
 	return true;
 	if(!$dts)$dts=$sql;
 	/**
@@ -1521,6 +1543,7 @@ function putWatermarkImage($path,$imagem)
 
 function imagem_recize_png_transparent($src='',$new='',$w=0,$h=0,$cache=0)
 {
+	if (dotbright_files_image_missing_local($src)) return false;
 	$path=$GLOBALS['site_shell_url'].'files/';
 	if(!stream_resolve_include_path($path.$src))return false;
 	$cache_date=filemtime($path.$src);
@@ -1661,6 +1684,7 @@ function imagem_recize_png_transparent($src='',$new='',$w=0,$h=0,$cache=0)
 
 /*function convert_webp($image_src='')
 {
+	if (dotbright_files_image_missing_local($image_src)) return false;
 	if($size=@getimagesize($image_src)){}
 	else return false;
 	$testGD=get_extension_funcs('gd');
@@ -1680,6 +1704,7 @@ function imagem_recize_png_transparent($src='',$new='',$w=0,$h=0,$cache=0)
 
 function convert_webp($image_src='')
 {
+	if (dotbright_files_image_missing_local($image_src)) return false;
 	$src=$GLOBALS['site_shell_url'].$image_src;
 	$image_src=str_replace('.png','.webp',$image_src);
 	$dest=$GLOBALS['site_shell_url'].$image_src;
@@ -1784,6 +1809,7 @@ function imgtowepp($src='',$output=''){
 
 function make_transparent_new($u,$foto,$foto2)
 {
+	if (dotbright_files_image_missing_local($u.$foto)) return false;
 	$x=0;
 	$y=0;
 	$color='#ff0000';

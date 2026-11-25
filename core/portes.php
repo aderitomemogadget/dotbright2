@@ -432,7 +432,7 @@ function multi_portes_prod($prod_id=0,$prod_valor=0,$prod_peso=0)
 
 					$info  = stripslashes($obj->db_data['info']);
 					$bloco_ext  = $obj->db_data['bloco_ext'];
-					if($bloco_ext!='' && stream_resolve_include_path(SITE_SHELL_URL.'files/portes/'.$bloco_ext)) $termos = SITE_HTTP_URL.'files/portes/'.$bloco_ext;
+					if($bloco_ext!='' && dotbright_image_resolve(SITE_SHELL_URL.'files/portes/'.$bloco_ext)) $termos = SITE_HTTP_URL.'files/portes/'.$bloco_ext;
 					else $termos = \seo('pages.php?page_id=37');
 
 					$return[] = array('titulo' => $titulo, 'id' => $id, 'promo_ativo' => $promo_ativo, 'valor' => ($promo_ativo==1 ? $valor_promo : $valor), 'valor_antigo' => $valor, 'info' => $info, 'termos' => $termos);
@@ -562,7 +562,7 @@ function get_multi_portes_prod($prod_id=0,$prod_valor=0,$prod_peso=0)
 						}
 					}
 
-					if($bloco_ext!='' && stream_resolve_include_path(SITE_SHELL_URL.'files/portes/'.$bloco_ext)) $termos = SITE_HTTP_URL.'files/portes/'.$bloco_ext;
+					if($bloco_ext!='' && dotbright_image_resolve(SITE_SHELL_URL.'files/portes/'.$bloco_ext)) $termos = SITE_HTTP_URL.'files/portes/'.$bloco_ext;
 					else $termos = \seo('pages.php?page_id=37');
 
 					$return[] = array('titulo' => $titulo, 'id' => $id, 'promo_ativo' => $promo_ativo, 'valor' => ($promo_ativo==1 ? $valor_promo : $valor), 'valor_antigo' => $valor, 'info' => $info, 'termos' => $termos);

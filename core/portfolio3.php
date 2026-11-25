@@ -180,9 +180,9 @@ function show_portfolio3()
 			$img2='';
 			$titulo=$rs->db_data['Cabecalho'];
 
-			if($rs->db_data['img_ext'] && stream_resolve_include_path($site_shell_url.'files/portfolio3/'.$prod_id.'_1.'.$rs->db_data['img_ext']))$img=$site_http_url.'files/portfolio3/'.$prod_id.'_1.'.$rs->db_data['img_ext'];
-			if($rs->db_data['img2_ext'] && stream_resolve_include_path($site_shell_url.'files/portfolio3/'.$prod_id.'_2.'.$rs->db_data['img2_ext']))$img2=$site_http_url.'files/portfolio3/'.$prod_id.'_2.'.$rs->db_data['img2_ext'];
-			if($rs->db_data['img3_ext'] && stream_resolve_include_path($site_shell_url.'files/portfolio3/'.$prod_id.'_3.'.$rs->db_data['img3_ext']))$img3=$site_http_url.'files/portfolio3/'.$prod_id.'_3.'.$rs->db_data['img3_ext'];
+			if($rs->db_data['img_ext'] && dotbright_image_resolve($site_shell_url.'files/portfolio3/'.$prod_id.'_1.'.$rs->db_data['img_ext']))$img=$site_http_url.'files/portfolio3/'.$prod_id.'_1.'.$rs->db_data['img_ext'];
+			if($rs->db_data['img2_ext'] && dotbright_image_resolve($site_shell_url.'files/portfolio3/'.$prod_id.'_2.'.$rs->db_data['img2_ext']))$img2=$site_http_url.'files/portfolio3/'.$prod_id.'_2.'.$rs->db_data['img2_ext'];
+			if($rs->db_data['img3_ext'] && dotbright_image_resolve($site_shell_url.'files/portfolio3/'.$prod_id.'_3.'.$rs->db_data['img3_ext']))$img3=$site_http_url.'files/portfolio3/'.$prod_id.'_3.'.$rs->db_data['img3_ext'];
 
 
 			echo '<style>#portfolio3_zoom{background-color:#76787D}</style>
@@ -486,22 +486,22 @@ function createItemFolio3Img($prod_id)
 				{
 					$img_file_cart='files/portfolio3/'.$prod_id.'_'.$i.'_cart.'.$I1;
 					$img_file_med='files/portfolio3/'.$prod_id.'_'.$i.'_med.'.$I1;
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file)) $original=filemtime($GLOBALS['site_shell_url'].$img_file); // data/hora em que foi modificada/criada
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_cart)) $cart=filemtime($GLOBALS['site_shell_url'].$img_file_cart); //data/hora em que foi modificada/criada
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_med)) $med=filemtime($GLOBALS['site_shell_url'].$img_file_med); //data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)) $original=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file); // data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_cart)) $cart=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_cart); //data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_med)) $med=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_med); //data/hora em que foi modificada/criada
 
 					if($cart<$original) redim_fill($GLOBALS['site_shell_url'],$img_file,220,220,$img_file_cart);
 					if($med<$original)  redim_fill($GLOBALS['site_shell_url'],$img_file,900,800,$img_file_med);
 
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_cart) && $I1!='') $img_file_cart=$GLOBALS['site_http_url'].$img_file_cart.'?dp='.dumpcache;
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_cart) && $I1!='') $img_file_cart=$GLOBALS['site_http_url'].$img_file_cart.'?dp='.dumpcache;
 					else $img_file_cart= '';
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_med) && $I1!='') $img_file_med=$GLOBALS['site_http_url'].$img_file_med.'?dp='.dumpcache;
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_med) && $I1!='') $img_file_med=$GLOBALS['site_http_url'].$img_file_med.'?dp='.dumpcache;
 					else $img_file_med='';
 					$return[$i-1]['cart']=$img_file_cart;
 					$return[$i-1]['med']=$img_file_med;
 				}
 
-				$return[$i-1]['orig']=(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file)) ? $img_file : '';
+				$return[$i-1]['orig']=(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)) ? $img_file : '';
 
 			}
 		}

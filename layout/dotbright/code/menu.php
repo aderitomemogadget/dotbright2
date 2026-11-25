@@ -158,16 +158,16 @@ function show_menu_footer_urls($id=0,$nomargin='col-sm-2')
 
 				$stl='';
 				$stl2='';
-				if($img_ext && file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+				if($img_ext && dotbright_image_file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 				{
 					$stl='style="display:inline-block"';
 					$stl2='class="nobullet"';
 				}
 
 
-				if($img_ext && file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+				if($img_ext && dotbright_image_file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 				{
-					if($size=@getimagesize($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+					if($size=@dotbright_files_image_size($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 					{
 						$w = $size[0];
 						$h = $size[1];
@@ -262,7 +262,7 @@ function show_menu_footer_w($id=0,$nomargin='col-sm-2')
 			$stl='';
 			$stl2='';
 
-			if($img_ext && file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+			if($img_ext && dotbright_image_file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 			{
 				$stl='style="float:left;content:\'\'"';
 				$stl2='class="nobullet"';
@@ -270,9 +270,9 @@ function show_menu_footer_w($id=0,$nomargin='col-sm-2')
 
 			if($class != '') $return .= '<li class="'.$class.'" '.$stl.'>';else $return .= '<li class="item" '.$stl.'>';
 
-			if($img_ext && file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+			if($img_ext && dotbright_image_file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 			{
-				if($size=@getimagesize($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+				if($size=@dotbright_files_image_size($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 				{
 					$w = $size[0];
 					$h = $size[1];
@@ -383,9 +383,9 @@ function show_menu_footer_families($id=0,$nomargin='col-sm-2')
 
 			if($class != '') $return .= '<li class="'.$class.'">';else $return .= '<li class="item">';
 
-			if($img_ext && file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+			if($img_ext && dotbright_image_file_exists($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 			{
-				if($size=@getimagesize($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+				if($size=@dotbright_files_image_size($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 				{
 					$w = $size[0];
 					$h = $size[1];
@@ -675,9 +675,9 @@ function show_menu_footer($id=0,$nomargin='')
 				$Index='';
 			}
 
-			if ($img_ext && file_exists($site_shell_url . 'files/menus/' . $IDb . '_1.' . $img_ext))
+			if ($img_ext && dotbright_image_file_exists($site_shell_url . 'files/menus/' . $IDb . '_1.' . $img_ext))
 			{
-				if($size=@getimagesize($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+				if($size=@dotbright_files_image_size($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 				{
 					$w = $size[0];
 					$h = $size[1];
@@ -1008,7 +1008,7 @@ function show_menu_lateral($id_pai,$tipo=0,$showfilter = 0)
 				$URL_Link=str_replace($site_http_url,'',$URL_Link);
 
 				$img='';
-				if(file_exists('files/menus/'.$IDb.'_1.'.$menu_ext) && $menu_ext!='') $img='<img src="files/menus/'.$IDb.'_1.'.$menu_ext.'" style="max-width:20px" alt="" />';
+				if(dotbright_image_file_exists('files/menus/'.$IDb.'_1.'.$menu_ext) && $menu_ext!='') $img='<img src="files/menus/'.$IDb.'_1.'.$menu_ext.'" style="max-width:20px" alt="" />';
 
 
 				$sql="Select URL_Nome2 from menus_links_lang where ID_PAI=$IDb and lang='$site_lang'";
@@ -1278,7 +1278,7 @@ function familias_no_menu()
 			$img_ext = $rs->db_data['img_ext'];
 			$Cabecalho = $rs->db_data['Cabecalho'];
 			$img_src = '';
-			if(file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
+			if(dotbright_image_file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
 
 			$p_seo = seo('pages.php?page_id='.$GLOBALS['catalog_page_id'].'&cat='.$IDb,$IDb,1);
 
@@ -1315,7 +1315,7 @@ function sub_familias_no_menu($ID)
 					$img_ext = $rs->db_data['img_ext'];
 					$Cabecalho = $rs->db_data['Cabecalho'];
 					$img_src = '';
-					if(file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
+					if(dotbright_image_file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
 					$p_seo = seo('pages.php?page_id='.$GLOBALS['catalog_page_id'].'&cat='.$IDb,$IDb,1);
 					
 					$return .= '<h4 class="menu-title"><a href="<?=$p_seo?>"><?=$Cabecalho?></a></h4>';
@@ -1348,7 +1348,7 @@ function sub_sub_familias_no_menu($ID){
 			$img_ext = $rs->db_data['img_ext'];
 			$Cabecalho = $rs->db_data['Cabecalho'];
 			$img_src = '';
-			if(file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
+			if(dotbright_image_file_exists('files/products_families/'.$IDb.'_2.'.$img_ext) && $img_ext!='') $img_src = 'files/products_families/'.$IDb.'_2.'.$img_ext.'';
 
 			$p_seo = seo('pages.php?page_id='.$GLOBALS['catalog_page_id'].'&cat='.$IDb,$IDb,1);
 			
@@ -1411,7 +1411,7 @@ function show_menu_options($ID = 0)
 		$IDb = $rs->db_data['ID'];
 		$I3=$rs->db_data["img3_ext"];
 		$URL_Nome=$rs->db_data["URL_Nome"];
-		if(file_exists("files/menus/$IDb"."_3.".$I3))$icon="files/menus/$IDb"."_3.".$I3.'?d='.uniqid('');
+		if(dotbright_image_file_exists("files/menus/$IDb"."_3.".$I3))$icon="files/menus/$IDb"."_3.".$I3.'?d='.uniqid('');
 	}
 	$rs->db_close();
 

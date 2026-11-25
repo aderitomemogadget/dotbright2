@@ -20,3 +20,4 @@ require_once __DIR__.'/legacy_compat.php';
 /*if($_SESSION['dev']!='')require_once dirname( __FILE__ ) . '/../conf/conf_'.$_SESSION['dev'].'.php';
 else */require_once dirname( __FILE__ ) . '/../conf/conf.php';
 require_once __DIR__.'/product_images.php';
+dotbright_files_images_start();

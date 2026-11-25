@@ -9,6 +9,7 @@ mkdir($temp.'/source/EE', 0755, true);
 $GLOBALS['site_shell_url'] = $temp.'/dev/';
 $GLOBALS['site_http_url'] = 'https://dev.example/dotbright2/';
 define('SHARED_PRODUCT_IMAGES', $mode !== 'local');
+define('SHARED_FILES_IMAGES', false);
 define('PRODUCT_IMAGES_SOURCE_PATH', $mode === 'remote' ? '' : $temp.'/source');
 define('PRODUCT_IMAGES_SOURCE_URL', 'https://www.dotbright.pt/files/products/');
 define('IMG_FOLDER', 'files');

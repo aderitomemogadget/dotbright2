@@ -198,10 +198,10 @@ function definicoes_plataforma()
 	if(isset($site_title_db) && $site_title_db !='')$site_title=$site_title_db;
 
 	return array(
-		'LOGOTIPO_PRINCIPAL' => (isset($img_ext_db) && $img_ext_db !='' && stream_resolve_include_path(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_top.png'),
-		'LOGOTIPO_POPUPS' => (isset($img3_ext_db) && $img3_ext_db !='' && stream_resolve_include_path(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img3_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img3_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_apprise.png'),
-		'LOGOTIPO_EMAIL' => (isset($img4_ext_db) && $img4_ext_db !='' && stream_resolve_include_path(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img4_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img4_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_email.png'),
-		'LOGOTIPO_MOBILE' => (isset($img5_ext_db) && $img5_ext_db !='' && stream_resolve_include_path(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img5_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img5_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_top_resp.png'),
+		'LOGOTIPO_PRINCIPAL' => (isset($img_ext_db) && $img_ext_db !='' && dotbright_image_resolve(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_top.png'),
+		'LOGOTIPO_POPUPS' => (isset($img3_ext_db) && $img3_ext_db !='' && dotbright_image_resolve(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img3_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img3_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_apprise.png'),
+		'LOGOTIPO_EMAIL' => (isset($img4_ext_db) && $img4_ext_db !='' && dotbright_image_resolve(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img4_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img4_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_email.png'),
+		'LOGOTIPO_MOBILE' => (isset($img5_ext_db) && $img5_ext_db !='' && dotbright_image_resolve(dirname( __FILE__ ).'/../files/modulos_config_site/'.$img5_ext_db) ? $GLOBALS['site_http_url'].'files/modulos_config_site/'.$img5_ext_db : $GLOBALS['site_http_url'].'layout/'.PROJETO.'/logos/logo_top_resp.png'),
 		/*** begin done ***/
 		'REVENDEDOR_ID' => $id_revendedor,
 		'PAIS_ID_DEFAULT' => $pais_id_default,

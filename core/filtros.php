@@ -478,7 +478,7 @@
 					$values_name=$nm_value['values_name'];
 					$elementos=' id="opt_'.$key.'_'.$value[$a].'"  name="opt'.$key.'"';
 
-					if($value_ext!='' && is_file($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label  title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-image:url('.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.');border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
+					if($value_ext!='' && dotbright_image_exists($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label  title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-image:url('.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.');border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
 					else $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-color:#'.ltrim($hex, '#').';border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
 				}
 				$return .= '</div><div class="clear"></div></p>';
@@ -740,7 +740,7 @@
 					$values_name=$nm_value['values_name'];
 					$elementos=' id="opt_'.$key.'_'.$value[$a].'"  name="opt'.$key.'"';
 
-					if($value_ext!='' && is_file($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label  title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-image:url('.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.');border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
+					if($value_ext!='' && dotbright_image_exists($GLOBALS['site_shell_url'].'files/filters/'.$value_id.'_1.'.$value_ext)) $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label  title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-image:url('.$GLOBALS['site_http_url'].'files/filters/'.$value_id.'_1.'.$value_ext.');border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
 					else $return .= '<div class="col-xs-2 col-sm-2 col-md-2" style="padding:2px"><label title="'.$values_name.'" class="label_check_ps" for="opt_'.$key.'_'.$value[$a].'" id="lbl'.$key.'_'.$value[$a].'"  data-catid="'.$key.'"><div class="f_color" style="background-color:#'.ltrim($hex, '#').';border:#c0c0c0 1px solid"></div><div id="f_right"><input '.$elementos.' type="radio" class="colors" /></div><div class="c"></div></label></div>';
 				}
 				$return .= '</div><div class="clear"></div></p>';
@@ -2512,7 +2512,7 @@
 
 					$img_file='';
 
-					if($img_ext && stream_resolve_include_path($GLOBALS['site_shell_url'].'files/products_families/'.$fam_id.'_1.'.$img_ext))$img_file='files/products_families/'.$fam_id.'_1.'.$img_ext;
+					if($img_ext && dotbright_image_resolve($GLOBALS['site_shell_url'].'files/products_families/'.$fam_id.'_1.'.$img_ext))$img_file='files/products_families/'.$fam_id.'_1.'.$img_ext;
 					else $img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 
 					$link=seo('pages.php?page_id=148&cat='.$fam_id,$fam_id,1);
@@ -2662,7 +2662,7 @@
 					if($REPARACOES==1)
 					{
 						$img=get_reparacoes_img($prod_ref);
-						if(!is_file($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+						if(!dotbright_image_exists($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 						else $img_file=$GLOBALS['site_http_url'].'layout/imgs/'.$img;
 					}
 					else
@@ -2959,7 +2959,7 @@
 					if($REPARACOES==1)
 					{
 						$img=get_reparacoes_img($prod_ref);
-						if(!is_file($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
+						if(!dotbright_image_exists($GLOBALS['site_shell_url'].'layout/imgs/'.$img) )$img_file=$GLOBALS['site_http_url'].'layout/'.PROJETO.'/images/no_photo.png';
 						else $img_file=$GLOBALS['site_http_url'].'layout/imgs/'.$img;
 					}
 					else

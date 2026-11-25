@@ -32,7 +32,7 @@ function template_emailxxxx($template_id, $body = array(''), $width = "500px", $
 		$template_body = str_replace('[projeto]', PROJETO, $template_body);
 	}
 	$rs->db_close();
-	if ($template_img && is_file($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_1.' . $template_img))
+	if ($template_img && dotbright_image_exists($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_1.' . $template_img))
 	{
 		$message = '<a href="' . $GLOBALS['website_url_email'] . '" target="_blank"><img src="' . $GLOBALS['website_url_email'] . 'files/templates_email/' . $template_id . '_1.' . $template_img . '" alt="" /></a><br /><br />';
 		$message .= $template_body;
@@ -100,9 +100,9 @@ function template_email($template_id, $body=array(''),$width="800px", $align=0, 
 		$body2 = '<span style="font-size:12px; font-family:arial,sans-serif">'.$body.'</span>';
 	}
 
-	if($template_img && is_file($GLOBALS['site_shell_url'].'files/templates_email/'.$template_id.'_1.'.$template_img))
+	if($template_img && dotbright_image_exists($GLOBALS['site_shell_url'].'files/templates_email/'.$template_id.'_1.'.$template_img))
 	{
-		$d=filemtime($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_1.' . $template_img);
+		$d=dotbright_image_mtime($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_1.' . $template_img);
 
 		//$message .= '<img 107 src="'.$GLOBALS['website_url_email'].'files/templates_email/'.$template_id.'_1.'.$template_img.'?d='.$d.'">';
         $message .= '
@@ -128,9 +128,9 @@ function template_email($template_id, $body=array(''),$width="800px", $align=0, 
 		$message .= $body2;
 	}
 
-	if($template_img2 && is_file($GLOBALS['site_shell_url'].'files/templates_email/'.$template_id.'_2.'.$template_img2))
+	if($template_img2 && dotbright_image_exists($GLOBALS['site_shell_url'].'files/templates_email/'.$template_id.'_2.'.$template_img2))
 	{
-		$d=filemtime($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_2.' . $template_img2);
+		$d=dotbright_image_mtime($GLOBALS['site_shell_url'] . 'files/templates_email/' . $template_id . '_2.' . $template_img2);
 
 		$message .= '<img 122 src="'.$GLOBALS['website_url_email'].'files/templates_email/'.$template_id.'_2.'.$template_img2.'?d='.$d.'">';
         
@@ -301,7 +301,7 @@ function email_html($logo_off=0, $message='', $img_email='')
 		</body>
 		</html>';
 
-	return $return;
+	return dotbright_files_images_html($return);
 }
 function show_alerta($msg, $tipo='', $url_back_mod = '', $anime = '')
 {
@@ -367,7 +367,7 @@ function show_alerta_cart($tipo = 'erro', $anime = 1)
 function show_alerta2($msg='', $image='ok2', $font='')
 {
 	$string  = '<div class="row notify successbox text-center">';
-    if(is_file('layout/'.PROJETO.'/images/'.$image.'.png') && $font == '') $string .= '<span class="alerticon" style="background:url(layout/'.PROJETO.'/images/'.$image.'.png) no-repeat center;background-size:64px auto"></span>';
+    if(dotbright_image_exists('layout/'.PROJETO.'/images/'.$image.'.png') && $font == '') $string .= '<span class="alerticon" style="background:url(layout/'.PROJETO.'/images/'.$image.'.png) no-repeat center;background-size:64px auto"></span>';
 	elseif($font != '') $string .= '<span class="alerticon">'.$font.'</span>';
     $string .= '<p><b>'.$msg.'</b></p>';
     $string .= '</div>';

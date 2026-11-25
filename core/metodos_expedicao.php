@@ -137,14 +137,14 @@ function showLayoutMetodosExpedicao($metodoExpedicao=0,$tipo=1,$m_pais=165)
                                 </div>
                                 <?php
                                 if($portes > 0){
-                                    if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/metodos_expedicao/'.$ID.'_1.'.$img_ext)){
+                                    if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/metodos_expedicao/'.$ID.'_1.'.$img_ext)){
                                         echo '<div><img src="files/metodos_expedicao/'.$ID.'_1.'.$img_ext.'" style="max-height:50px"></div>';
                                     }
                                     if($GLOBALS['mostra_preco_portes']==1)echo '<div>&nbsp;'.$nome_metodo.' ( + '.numberformat($portes).')</div>';
                                     else echo '<div>&nbsp;'.$nome_metodo.'</div>';
                                 }
                                 else{
-                                    if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/metodos_expedicao/'.$ID.'_1.'.$img_ext)){
+                                    if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/metodos_expedicao/'.$ID.'_1.'.$img_ext)){
                                         echo '<div><img src="files/metodos_expedicao/'.$ID.'_1.'.$img_ext.'" style="max-height:50px"></div>';
                                     }
                                     echo '<div>&nbsp;'.$nome_metodo.'</div>';

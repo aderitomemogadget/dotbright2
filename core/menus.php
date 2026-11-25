@@ -94,7 +94,7 @@ function show_menu_slider($id_pai=0, $class='')
 				}
 
 				$img='';
-				if(stream_resolve_include_path('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="'.$menu_nome.'" />';
+				if(dotbright_image_resolve('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="'.$menu_nome.'" />';
 
 				// MENU NIVEL 0
 				$class='';
@@ -214,7 +214,7 @@ function get_sub_menus($id_pai=0)
 		$menu_nome=$rs->db_data['URL_Nome2'];
 		$menu_url=\seo($rs->db_data['URL_Link']);
 		$img='';
-		if(is_file('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
+		if(dotbright_image_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
 		$menu_url2='';
 		$res_fams='';
 		$class_active='';
@@ -414,7 +414,7 @@ function novo_menu_mobile()
 						$menu_nome=$rs->db_data['URL_Nome2'];
 						$menu_url=\seo($rs->db_data['URL_Link']);
 						$img='';
-						if(is_file('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
+						if(dotbright_image_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
 						$menu_url2='';
 						$res_fams='';
 						$class_active='';
@@ -460,7 +460,7 @@ function novo_menu_mobile()
 						$menu_nome=$rs->db_data['URL_Nome2'];
 						$menu_url=\seo($rs->db_data['URL_Link']);
 						$img='';
-						if(is_file('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
+						if(dotbright_image_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
 						$menu_url2='';
 						$res_fams='';
 						$class_active='';
@@ -707,7 +707,7 @@ function show_menu_topologado($id_pai=0,$responsive=0)
 			$menu_nome=$rs->db_data['URL_Nome2'];
 			$menu_url=\seo($rs->db_data['URL_Link']);
 			$img='';
-			if(is_file('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
+			if(dotbright_image_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='<img class="svg" src="files/menus/'.$menu_id.'_1.'.$menu_ext.'">';
 			$menu_url2='';
 			$res_fams='';
 			$class_active='';
@@ -1029,7 +1029,7 @@ function show_sub_menu($id_pai=0, $responsive=0)
 
 			$img='';
 
-			if(stream_resolve_include_path('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='files/menus/'.$menu_id.'_1.'.$menu_ext;
+			if(dotbright_image_resolve('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img='files/menus/'.$menu_id.'_1.'.$menu_ext;
 			elseif($catalogo_id > 0 && $catalogo_tipo == 'familias')
 			{
 				if($category_img!='' && stream_resolve_include_path($category_img)) $img=$category_img;
@@ -2186,7 +2186,7 @@ function show_follow_us($id=0)
 			$URL_Link=str_replace($site_http_url, '', $URL_Link);
 
 			$URL_Nome=$rs->db_data['URL_Nome2'];
-			if ($img_ext && stream_resolve_include_path($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
+			if ($img_ext && dotbright_image_resolve($site_shell_url.'files/menus/'.$IDb.'_1.'.$img_ext))
 			{
 				?>
 				<div class="socials-networks"><a href="<?= $URL_Link; ?>"><img

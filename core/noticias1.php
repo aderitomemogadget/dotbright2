@@ -128,7 +128,7 @@ function show_portfolio($all=0)
                                     //if($img_ext && stream_resolve_include_path($site_shell_url.'files/news1/'.$news1_id.'_'.$ordem.'.'.$img_ext)) $img=$site_http_url.'files/news1/'.$news1_id.'_'.$ordem.'.'.$img_ext;
 
 									$img_file_med_SEO='files/news1/'.$news1_id.'_'.$ordem;
-                                    if($img_ext && stream_resolve_include_path($site_shell_url.'files/news1/'.$news1_id.'_'.$ordem.'.'.$img_ext)) $img = 'i/'.$img_file_med_SEO.'/'.limpa_special(stripslashes($rs->db_data['Cabecalho'])).'.'.$img_ext.'?dp='.dumpcache;else $img_file_med = $GLOBALS['site_http_url'].'layout/no_photo2.png';
+                                    if($img_ext && dotbright_image_resolve($site_shell_url.'files/news1/'.$news1_id.'_'.$ordem.'.'.$img_ext)) $img = 'i/'.$img_file_med_SEO.'/'.limpa_special(stripslashes($rs->db_data['Cabecalho'])).'.'.$img_ext.'?dp='.dumpcache;else $img_file_med = $GLOBALS['site_http_url'].'layout/no_photo2.png';
 
                                     ?>
                                     <li
@@ -568,9 +568,9 @@ function createProductImg($news1_id)
 				{
 					$img_file_cart='files/news1/'.$news1_id.'_'.$i.'_cart.'.$I1;
 					$img_file_med='files/news1/'.$news1_id.'_'.$i.'_med.'.$I1;
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file)) $original=filemtime($GLOBALS['site_shell_url'].$img_file); // data/hora em que foi modificada/criada
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_cart)) $cart=filemtime($GLOBALS['site_shell_url'].$img_file_cart); //data/hora em que foi modificada/criada
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_med)) $med=filemtime($GLOBALS['site_shell_url'].$img_file_med); //data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)) $original=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file); // data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_cart)) $cart=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_cart); //data/hora em que foi modificada/criada
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_med)) $med=dotbright_image_mtime($GLOBALS['site_shell_url'].$img_file_med); //data/hora em que foi modificada/criada
 
 
 					if($cart<$original)	redimencionaImagem($GLOBALS['site_shell_url'],$img_file,320,189,$img_file_cart);
@@ -583,15 +583,15 @@ function createProductImg($news1_id)
 
 					//if($med<$original)	redimencionaImagem($GLOBALS['site_shell_url'],$img_file,450,254,$img_file_med);
 
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_cart) && $I1!='') $img_file_cart=$GLOBALS['site_http_url'].$img_file_cart.'?dp='.$cart;
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_cart) && $I1!='') $img_file_cart=$GLOBALS['site_http_url'].$img_file_cart.'?dp='.$cart;
 					else $img_file_cart= '';
-					if(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file_med) && $I1!='') $img_file_med=$GLOBALS['site_http_url'].$img_file_med.'?dp='.$med;
+					if(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file_med) && $I1!='') $img_file_med=$GLOBALS['site_http_url'].$img_file_med.'?dp='.$med;
 					else $img_file_med='';
 					$return[$i-1]['cart']=$img_file_cart;
 					$return[$i-1]['med']=$img_file_med;
 				}
 
-				$return[$i-1]['orig']=(stream_resolve_include_path($GLOBALS['site_shell_url'].$img_file)) ? $img_file : '';
+				$return[$i-1]['orig']=(dotbright_image_resolve($GLOBALS['site_shell_url'].$img_file)) ? $img_file : '';
 
 			}
 		}
@@ -656,22 +656,22 @@ function show_videos_lista($id_fam=0,$tipo=0)
         {
             $img_file="files/videos/" . $video_id . "_1.png";
             $img_file_peq="files/videos/" . $video_id . "_2.png";
-            if (stream_resolve_include_path($site_shell_url . $img_file))
+            if (dotbright_image_resolve($site_shell_url . $img_file))
             {
-                $original=date('Y-m-d H:i:s', filemtime($site_shell_url . $img_file));
+                $original=date('Y-m-d H:i:s', dotbright_image_mtime($site_shell_url . $img_file));
             } // data/hora em que foi modificada/criada
-            if (stream_resolve_include_path($site_shell_url . $img_file_peq))
+            if (dotbright_image_resolve($site_shell_url . $img_file_peq))
             {
-                $peq=date('Y-m-d H:i:s', filemtime($site_shell_url . $img_file_peq));
+                $peq=date('Y-m-d H:i:s', dotbright_image_mtime($site_shell_url . $img_file_peq));
             } //data/hora em que foi modificada/criada
-            if ((!stream_resolve_include_path($site_shell_url . $img_file_peq) || $peq < $original) && stream_resolve_include_path($site_shell_url . $img_file))
+            if ((!dotbright_image_resolve($site_shell_url . $img_file_peq) || $peq < $original) && dotbright_image_resolve($site_shell_url . $img_file))
             {
                 if (redimencionaImagem($site_shell_url, $img_file, 150, 110, $img_file_peq))
                 {
                     cropImage($site_shell_url . $img_file_peq, $site_shell_url . $img_file_peq, 142, 103);
                 }
             }
-            if (!stream_resolve_include_path($site_shell_url . $img_file_peq))
+            if (!dotbright_image_resolve($site_shell_url . $img_file_peq))
             {
                 $img='';
             }
@@ -684,22 +684,22 @@ function show_videos_lista($id_fam=0,$tipo=0)
         {
             $img_file="files/pages/" . $page_id . "_1." . $I1;
             $img_file_peq="files/pages/" . $page_id . "_2." . $I1;
-            if (stream_resolve_include_path($site_shell_url . $img_file))
+            if (dotbright_image_resolve($site_shell_url . $img_file))
             {
-                $original=date('Y-m-d H:i:s', filemtime($site_shell_url . $img_file));
+                $original=date('Y-m-d H:i:s', dotbright_image_mtime($site_shell_url . $img_file));
             } // data/hora em que foi modificada/criada
-            if (stream_resolve_include_path($site_shell_url . $img_file_peq))
+            if (dotbright_image_resolve($site_shell_url . $img_file_peq))
             {
-                $peq=date('Y-m-d H:i:s', filemtime($site_shell_url . $img_file_peq));
+                $peq=date('Y-m-d H:i:s', dotbright_image_mtime($site_shell_url . $img_file_peq));
             } //data/hora em que foi modificada/criada
-            if ((!stream_resolve_include_path($site_shell_url . $img_file_peq) || $peq < $original) && stream_resolve_include_path($site_shell_url . $img_file))
+            if ((!dotbright_image_resolve($site_shell_url . $img_file_peq) || $peq < $original) && dotbright_image_resolve($site_shell_url . $img_file))
             {
                 if (redimencionaImagem($site_shell_url, $img_file, 150, 110, $img_file_peq))
                 {
                     cropImage($site_shell_url . $img_file_peq, $site_shell_url . $img_file_peq, 142, 103);
                 }
             }
-            if (!stream_resolve_include_path($site_shell_url . $img_file_peq))
+            if (!dotbright_image_resolve($site_shell_url . $img_file_peq))
             {
                 $img=$GLOBALS['site_http_url'] . 'layout/no_photo_news.png';
             }

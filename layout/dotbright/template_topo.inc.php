@@ -26,7 +26,7 @@ if(!$rs->EOF())
 	{
 		$imagem_fundo=$GLOBALS['site_http_url'].'files/templates/'.$rs->db_data['ID'].'_1.'.$rs->db_data['img_ext'];
 		//Agora vamos obter a data de alteração do ficheiro
-		$cache_date=filemtime('files/templates/'.$rs->db_data['ID'].'_1.'.$rs->db_data['img_ext']);
+		$cache_date=dotbright_image_mtime('files/templates/'.$rs->db_data['ID'].'_1.'.$rs->db_data['img_ext']);
 		$imagem_fundo=$imagem_fundo.'?d='.$cache_date;
 
 	}

@@ -96,7 +96,7 @@ function showLayoutMetodosPagamento_admin($metodoPagamento)
                             <label for="pagamento<?php echo $ID ?>" style="font-size:12px;border:solid 1px #ccc;width:100%;padding:5px;cursor:pointer">
                                 <div style="height:50px;line-height:50px;float:left"><input class="metodos_pagamento" type="radio" name="m_metodopagamento" id="pagamento<?php echo $ID ?>" value="<?php echo $ID ?>" <?php echo ($metodoPagamento == $ID) ? ' checked="checked" ' : ''; ?> onchange="reload_shopping_cart();"></div>
                                 <?php
-                                    if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) )
+                                    if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) )
                                     {
                                         echo '<div style="height:50px;line-height:50px;float:left"><img style="height:50px" src="'.$GLOBALS['site_http_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext.'?dp='.dumpcache.'" alt="'.$nome_metodo.'" /></div>';
                                         if($metodo_descricao != '')echo str_replace("\n",'<br>', $metodo_descricao);
@@ -182,7 +182,7 @@ function showLayoutMetodosPagamento($metodoPagamento)
                                         <input class="metodos_pagamento" type="radio" name="m_metodopagamento" id="pagamento<?php echo $ID ?>" value="<?php echo $ID ?>" <?php echo ($metodoPagamento == $ID) ? ' checked="checked" ' : ''; ?> onchange="reload_shopping_cart();">
                                 </div>
                                 <?php
-                                    if(stream_resolve_include_path($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) ){
+                                    if(dotbright_image_resolve($GLOBALS['site_shell_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext) ){
                                         echo '<div style="margin-right:10px;/*width:150px*/"><img style="height:50px" src="'.$GLOBALS['site_http_url'].'files/metodos_pagamento/'.$ID.'_1.'.$img_ext.'?dp='.dumpcache.'" alt="'.$nome_metodo.'" /></div>';
                                         
                                         if($metodo_descricao != ''){

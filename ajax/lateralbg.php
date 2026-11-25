@@ -25,10 +25,10 @@
 		$imgd_ext = 'files/templates/'.$id_pai.'_'.$rs->db_data['ID'].'d.'.$rs->db_data['imgd_ext'];
 
 
-		list($width,$height) = getimagesize($GLOBALS['site_shell_url'].'files/templates/'.$id_pai.'_'.$rs->db_data['ID'].'e.'.$rs->db_data['imge_ext']);
+		list($width,$height) = dotbright_files_image_size($GLOBALS['site_shell_url'].'files/templates/'.$id_pai.'_'.$rs->db_data['ID'].'e.'.$rs->db_data['imge_ext']);
 		$heighte = $height;
 		$widthe = $width;
-		list($width,$height) = getimagesize($GLOBALS['site_shell_url'].'files/templates/'.$id_pai.'_'.$rs->db_data['ID'].'d.'.$rs->db_data['imgd_ext']);
+		list($width,$height) = dotbright_files_image_size($GLOBALS['site_shell_url'].'files/templates/'.$id_pai.'_'.$rs->db_data['ID'].'d.'.$rs->db_data['imgd_ext']);
 		$heightd = $height;
 
 		$link_imge_ext =  seo($rs->db_data['link_imge_ext']);

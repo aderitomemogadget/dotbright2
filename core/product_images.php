@@ -65,15 +65,20 @@ function dotbright_image_source_url($name)
 // Disk and request caches avoid repeated HEAD requests from legacy existence/mtime checks.
 function dotbright_image_remote_metadata($name)
 {
+    return dotbright_image_remote_metadata_url(dotbright_image_source_url($name));
+}
+
+function dotbright_image_remote_metadata_url($url, $imagesOnly = false)
+{
     static $memo = array();
-    $url = dotbright_image_source_url($name);
     if ($url === '') return false;
-    if (array_key_exists($url, $memo)) return $memo[$url];
+    $key = $url.($imagesOnly ? '|images-only' : '');
+    if (array_key_exists($key, $memo)) return $memo[$key];
     $cacheDir = dotbright_image_cache_dir();
-    $cacheFile = $cacheDir.hash('sha256', $url).'.json';
+    $cacheFile = $cacheDir.hash('sha256', $key).'.json';
     $cached = $cacheDir !== false && !is_link($cacheFile) && is_file($cacheFile) ? json_decode((string)@file_get_contents($cacheFile), true) : null;
     if (is_array($cached) && isset($cached['expires']) && $cached['expires'] > time()) {
-        return $memo[$url] = !empty($cached['exists']) ? $cached : false;
+        return $memo[$key] = !empty($cached['exists']) ? $cached : false;
     }
     $status = 0; $mtime = 0; $type = '';
     if (function_exists('curl_init')) {
@@ -100,7 +105,7 @@ function dotbright_image_remote_metadata($name)
             }
         }
     }
-    $exists = $status === 200 && (strpos($type, 'image/') === 0 || strpos($type, 'application/pdf') === 0);
+    $exists = $status === 200 && (strpos($type, 'image/') === 0 || (!$imagesOnly && strpos($type, 'application/pdf') === 0));
     // On transient errors use an earlier successful result, never poison it with a timeout.
     if (!$exists && $status !== 404 && $status !== 410 && is_array($cached) && !empty($cached['exists'])) {
         $cached['expires'] = time() + 60;
@@ -111,7 +116,7 @@ function dotbright_image_remote_metadata($name)
     if ($cacheDir !== false && !is_link($cacheFile)) {
         @file_put_contents($cacheFile, json_encode($data), LOCK_EX);
     }
-    return $memo[$url] = !empty($data['exists']) ? $data : false;
+    return $memo[$key] = !empty($data['exists']) ? $data : false;
 }
 
 function dotbright_image_cache_dir()
@@ -147,27 +152,35 @@ function dotbright_image_asset($input)
 // Compatibility wrappers for read operations only. All write paths stay local.
 function dotbright_image_exists($input)
 {
+    if (dotbright_shared_files_images() && dotbright_files_image_reference($input) && !dotbright_image_reference($input)) return dotbright_files_image_asset($input) !== false;
     if (!dotbright_shared_images() || !dotbright_image_reference($input)) return is_file($input);
     return dotbright_image_asset($input) !== false;
 }
 function dotbright_image_file_exists($input)
 {
+    if (dotbright_shared_files_images() && dotbright_files_image_reference($input) && !dotbright_image_reference($input)) return dotbright_files_image_asset($input) !== false;
     if (!dotbright_shared_images() || !dotbright_image_reference($input)) return file_exists($input);
     return dotbright_image_asset($input) !== false;
 }
 function dotbright_image_resolve($input)
 {
+    if (dotbright_shared_files_images() && dotbright_files_image_reference($input) && !dotbright_image_reference($input)) return dotbright_files_image_asset($input) !== false;
     if (!dotbright_shared_images() || !dotbright_image_reference($input)) return stream_resolve_include_path($input);
     return dotbright_image_exists($input);
 }
 function dotbright_image_mtime($input)
 {
+    if (dotbright_shared_files_images() && dotbright_files_image_reference($input) && !dotbright_image_reference($input)) {
+        $asset = dotbright_files_image_asset($input);
+        return $asset === false ? 0 : $asset['mtime'];
+    }
     if (!dotbright_shared_images() || !dotbright_image_reference($input)) return filemtime($input);
     $asset = dotbright_image_asset($input);
     return $asset === false ? 0 : $asset['mtime'];
 }
 function dotbright_image_url($input)
 {
+    if (dotbright_shared_files_images() && dotbright_files_image_reference($input) && !dotbright_image_reference($input)) return dotbright_files_image_url($input);
     if (!dotbright_shared_images()) return $input;
     $name = dotbright_image_name($input);
     if ($name === false) return dotbright_image_reference($input) ? '' : $input;
@@ -186,8 +199,11 @@ function dotbright_image_root_url()
 }
 function dotbright_product_images_cache_key()
 {
-    return dotbright_shared_images() ? 'shared_v2_'.substr(hash('sha256', PRODUCT_IMAGES_SOURCE_PATH.'|'.PRODUCT_IMAGES_SOURCE_URL), 0, 12).'_' : '';
+    $filesKey = dotbright_shared_files_images() ? '|files-v1|'.FILES_IMAGES_SOURCE_PATH.'|'.FILES_IMAGES_SOURCE_URL : '';
+    return (dotbright_shared_images() || $filesKey !== '') ? 'shared_v3_'.substr(hash('sha256', PRODUCT_IMAGES_SOURCE_PATH.'|'.PRODUCT_IMAGES_SOURCE_URL.'|'.(int)dotbright_shared_images().$filesKey), 0, 12).'_' : '';
 }
+
+require_once __DIR__.'/files_images.php';
 
 // Map only the documented product image fields, including cached gallery arrays.
 function dotbright_product_image_fields($product)

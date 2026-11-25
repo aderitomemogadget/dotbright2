@@ -319,11 +319,11 @@ function showModuloBanner($ID_Modulo)
 			if(!$c_data_speed)$c_data_speed='1000';
 			if(!$d_data_speed)$d_data_speed='1000';
 
-			if($_SESSION['ss_ismobile']==1 && $imagem_mobile && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem_mobile))
+			if($_SESSION['ss_ismobile']==1 && $imagem_mobile && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem_mobile))
 			{
 				$styleTitulo=getModuloTextStyles("tp-caption slider-title sft ".$c_data_text_align,$dbo2->db_data['bloco_img_titulo_cor'],$dbo2->db_data['bloco_img_titulo_tamanho'],$dbo2->db_data['bloco_img_titulo_font_weight']);
 				$styleTexto=getModuloTextStyles("tp-caption slider-sub-title sfl ".$d_data_text_align,$dbo2->db_data['bloco_img_txt_cor'],$dbo2->db_data['bloco_img_txt_tamanho'],$dbo2->db_data['bloco_img_txt_font_weight'],$dbo2->db_data['bloco_img_txt_line_height']);
-				$info=@getimagesize(IMG_FOLDER.'/documentos/'.$imagem_mobile);
+				$info=@dotbright_files_image_size(IMG_FOLDER.'/documentos/'.$imagem_mobile);
  				list($w,$h)=$info;
 
 				$onclick='';
@@ -339,9 +339,9 @@ function showModuloBanner($ID_Modulo)
 			{
 				$styleTitulo=getModuloTextStyles("tp-caption slider-title sft ".$a_data_text_align,$dbo2->db_data['bloco_img_titulo_cor'],$dbo2->db_data['bloco_img_titulo_tamanho'],$dbo2->db_data['bloco_img_titulo_font_weight']);
 				$styleTexto=getModuloTextStyles("tp-caption slider-sub-title sfl ".$b_data_text_align,$dbo2->db_data['bloco_img_txt_cor'],$dbo2->db_data['bloco_img_txt_tamanho'],$dbo2->db_data['bloco_img_txt_font_weight'],$dbo2->db_data['bloco_img_txt_line_height']);
-				if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))
+				if($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))
 				{
-					$info=@getimagesize(IMG_FOLDER.'/documentos/'.$imagem);
+					$info=@dotbright_files_image_size(IMG_FOLDER.'/documentos/'.$imagem);
 	 				list($w,$h)=$info;
 
 					$onclick='';
@@ -468,12 +468,12 @@ function showModuloBanner($ID_Modulo)
 				$ocultar_titulo=$dbo2->db_data['bloco_img_titulo_visivel'];
 				$bloco_img_animacao=$dbo2->db_data['bloco_img_animacao'];
 
-				if($_SESSION['ss_ismobile']==1 && $imagem_mobile && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem_mobile))
+				if($_SESSION['ss_ismobile']==1 && $imagem_mobile && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem_mobile))
 				{
 					$styleTitulo=getModuloTextStyles("tp-caption slider-title sft ".$c_data_text_align,$dbo2->db_data['bloco_img_titulo_cor'],$dbo2->db_data['bloco_img_titulo_tamanho'],$dbo2->db_data['bloco_img_titulo_font_weight']);
 					$styleTexto=getModuloTextStyles("tp-caption slider-sub-title sfl ".$d_data_text_align,$dbo2->db_data['bloco_img_txt_cor'],$dbo2->db_data['bloco_img_txt_tamanho'],$dbo2->db_data['bloco_img_txt_font_weight'],$dbo2->db_data['bloco_img_txt_line_height']);
 
-					$info=@getimagesize(IMG_FOLDER.'/documentos/'.$imagem_mobile);
+					$info=@dotbright_files_image_size(IMG_FOLDER.'/documentos/'.$imagem_mobile);
 	 				list($w,$h)=$info;
 
 					$onclick='';
@@ -489,9 +489,9 @@ function showModuloBanner($ID_Modulo)
 				{
 					$styleTitulo=getModuloTextStyles("tp-caption slider-title sft ".$a_data_text_align,$dbo2->db_data['bloco_img_titulo_cor'],$dbo2->db_data['bloco_img_titulo_tamanho'],$dbo2->db_data['bloco_img_titulo_font_weight']);
 					$styleTexto=getModuloTextStyles("tp-caption slider-sub-title sfl ".$b_data_text_align,$dbo2->db_data['bloco_img_txt_cor'],$dbo2->db_data['bloco_img_txt_tamanho'],$dbo2->db_data['bloco_img_txt_font_weight'],$dbo2->db_data['bloco_img_txt_line_height']);
-					if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))
+					if($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))
 					{
-						$info=@getimagesize(IMG_FOLDER.'/documentos/'.$imagem);
+						$info=@dotbright_files_image_size(IMG_FOLDER.'/documentos/'.$imagem);
 		 				list($w,$h)=$info;
 
 						$onclick='';
@@ -617,7 +617,7 @@ function showModuloTextoCentrado($ID_Modulo)
 		$idattr='';
 		if($Anchor)$idattr='id="'.$Anchor.'_bloco"';
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -656,7 +656,7 @@ function showModuloTextoCentrado($ID_Modulo)
 				if($bloco_img_animacao) $anim=' data-animate="'.$bloco_img_animacao.'"';
 				if($titulo && !$ocultar_titulo)$result.='<div '.$styleTitulo.'><h2>'.$titulo.'</h2></div>';
 				if($texto) $result.='<div '.$styleTexto.'>'.$texto.'</div>';
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) $result.='<div class="thumbnail" '.$anim.'><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>';
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) $result.='<div class="thumbnail" '.$anim.'><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>';
 				$dbo2->db_next();
 			}
 			if($styleBloco)$result.='</div>';
@@ -709,7 +709,7 @@ function showModuloTextoLadoaLado($ID_Modulo)
 		// class="col-sm-1" --> 7 colunas
 
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back==1)$styleBloco.='  background-attachment: fixed; ';
@@ -786,7 +786,7 @@ function showModuloTextoLadoaLado($ID_Modulo)
 				$titulo_x='';
 				if(!$ocultar_titulo)$titulo_x=$titulo;
 
-				if(isset($imagem) && $imagem !='' && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.=gerar_thumbnail(IMG_FOLDER.'/documentos/'.$imagem,'',$url,$url_video,'','','',1);
+				if(isset($imagem) && $imagem !='' && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.=gerar_thumbnail(IMG_FOLDER.'/documentos/'.$imagem,'',$url,$url_video,'','','',1);
 				if($titulo && !$ocultar_titulo)$result.='<h3 '.$styleTitulo.'>'.$titulo.'</h3>';
 				if($texto)$result.='<div class="text"><p '.$styleTexto.'>'.$texto.'</p></div>';
 				$result.='</div>';
@@ -838,7 +838,7 @@ function showModuloConteudos($ID_Modulo)
 
 		//$result= '<div class="container fix_container" style="overflow:hidden">';
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -889,7 +889,7 @@ function showModuloConteudos($ID_Modulo)
 			$result.='<article class="post" '.$anim.'>';
 			//if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) $result.='<div class="entry-heading"><div class="thumbnail" '.$anim.'><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt=""></div></div>';
 
-			if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.=gerar_thumbnail(IMG_FOLDER.'/documentos/'.$imagem,'',$url,$url_video,'','','');
+			if($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.=gerar_thumbnail(IMG_FOLDER.'/documentos/'.$imagem,'',$url,$url_video,'','','');
 
 			$result.='<div class="entry-content">';
 			if($titulo && !$ocultar_titulo)
@@ -1034,12 +1034,12 @@ else $result='<div class="row" '.$styleBloco.'><div>';
 				$col2='col-md-4 col-sm-12 col-xs-12';
 			}
 
-			$info=@getimagesize(IMG_FOLDER.'/documentos/'.$imagem);
+			$info=@dotbright_files_image_size(IMG_FOLDER.'/documentos/'.$imagem);
 			list($w,$h)=$info;
 
 			if($bloco == 1) //Imagem à esq,texto à dir
 			{
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$str.='<div class="'.$col1.' vcenter"><div class="thumbnail"><img style="min-width:0px;max-width:'.$w.'px" src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$str.='<div class="'.$col1.' vcenter"><div class="thumbnail"><img style="min-width:0px;max-width:'.$w.'px" src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 				$str.='<div class="'.$col2.' vcenter">';
 				if($titulo && !$ocultar_titulo)$str.='<div class="title"><h2 class="h4" '.$bloco_style_titulo.'>'.$titulo.'</h2></div>';
 				if($txt)$str.='<div class="text" '.$bloco_style_texto.'>'.$txt.'</div>';
@@ -1052,7 +1052,7 @@ else $result='<div class="row" '.$styleBloco.'><div>';
 				if($txt)$str.='<div class="text" '.$bloco_style_texto.'>'.$txt.'</div>';
 				$str.='</div>';
 
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$str.='<div class="'.$col2.' vcenter"><div class="thumbnail"><img style="max-width:'.$w.'px" src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$str.='<div class="'.$col2.' vcenter"><div class="thumbnail"><img style="max-width:'.$w.'px" src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 			}
 
 			$str.='</article>';
@@ -1178,7 +1178,7 @@ function showModuloGaleria($ID_Modulo)
 		$styleTitulo=getModuloTextStyles('',$dbo->db_data['titulo_cor'],$dbo->db_data['titulo_tamanho'],$dbo->db_data['titulo_font_weight']);
 		$styleResumo=getModuloTextStyles('',$dbo->db_data['Texto1_cor'],$dbo->db_data['Texto1_tamanho'],$dbo->db_data['Texto1_font_weight'],$dbo->db_data['Texto1_line_height']);
 		$styleBloco='';$img_top = '';
-		if($img_ext && stream_resolve_include_path('files/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve('files/documentos/'.$img_ext))
 		{
 			// $styleBloco=' style="background-image:url(files/documentos/'.$img_ext.'); ';
 			// if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -1299,11 +1299,11 @@ function gerar_thumbnail_resize($img='', $anim='', $url='', $url_video='', $titu
 	$ext = pathinfo($img_file, PATHINFO_EXTENSION);
 	$img_file_med2 = str_replace('.'.$ext, '_resize.'.$ext, $img_file);
 
-	list($width, $height, $type, $attr) = getimagesize($img_file);
+	list($width, $height, $type, $attr) = dotbright_files_image_size($img_file);
 
 	geraimagens($img_file, $img_file_med2, $width, 0, array('ativo' => 1, 'w' => 278, 'h' => 177),0,0,array(),'',0,0);
 
-	if(stream_resolve_include_path($img_file_med2))
+	if(dotbright_image_resolve($img_file_med2))
 	{
 		$r .= '<img src="'.$img_file_med2.'" alt="'.$titulo.'" border="0" />';
 	}
@@ -1327,7 +1327,7 @@ function gerar_thumbnail2($img='', $anim='', $url='', $url_video='', $titulo='',
 	$r = '';
 	$r .= '<div '.$anim.' style="text-align:center;display:inline-block;">';
 	if($url != '') $r .= '<a href="'.$url.'">';
-	if(stream_resolve_include_path($img))
+	if(dotbright_image_resolve($img))
 	{
 		$r .= '<img src="'.$img.'" alt="'.$titulo.'" border="0" />';
 	}
@@ -1349,9 +1349,9 @@ function gerar_thumbnail2($img='', $anim='', $url='', $url_video='', $titulo='',
 function gerar_thumbnail($img='',$anim='',$url='',$url_video='',$titulo='',$txt='',$styleTitulo='',$styleTexto='',$linkNormal=0,$Estilo=0)
 {
 	$r='';
-	if(stream_resolve_include_path($img))
+	if(dotbright_image_resolve($img))
 	{
-		$info=@getimagesize($img);
+		$info=@dotbright_files_image_size($img);
 		list($w,$h)=$info;
 
 		$r.='<div '.$anim.' style="text-align:center" class="img-content2">';
@@ -1392,9 +1392,9 @@ function gerar_thumbnail3($img='',$anim='',$url='',$url_video='',$titulo='',$txt
 {
 	$r='';
 	$r.='<div class="project-content">';
-	if(stream_resolve_include_path($img))
+	if(dotbright_image_resolve($img))
 	{
-		$info=@getimagesize($img);
+		$info=@dotbright_files_image_size($img);
 		list($w,$h)=$info;
 
 		$r.='<div '.$anim.' style="text-align:center" class="img-content2">';
@@ -1611,9 +1611,9 @@ function showModuloGaleria_($ID_Modulo)
 function gerar_thumbnail_($img='',$anim='',$url='',$url_video='',$titulo='',$txt='',$styleTexto='',$linkNormal=0,$Estilo=0)
 {
 	$r='';
-	if(stream_resolve_include_path($img))
+	if(dotbright_image_resolve($img))
 	{
-		$info=@getimagesize($img);
+		$info=@dotbright_files_image_size($img);
 		list($w,$h)=$info;
 
 		$r.='<div class="thumbnail" '.$anim.'>';
@@ -1721,7 +1721,7 @@ function showModuloImagemEsqTextoDir($ID_Modulo)
 		$idattr='';
 		if($Anchor)$idattr='id="'.$Anchor.'_bloco"';
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -1760,7 +1760,7 @@ function showModuloImagemEsqTextoDir($ID_Modulo)
 				$styleTexto=getModuloTextStyles('',$dbo2->db_data['bloco_img_txt_cor'],$dbo2->db_data['bloco_img_txt_tamanho'],$dbo2->db_data['bloco_img_txt_font_weight'],$dbo2->db_data['bloco_img_txt_line_height']);
 				$result.='<div class="row">';
 				$result.='<div class="col-md-4"><div class="grid-cell">';
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.='<img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Icon">';
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.='<img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Icon">';
 				$result.='</div></div>';
 				$result.='<div class="col-md-8"><div class="grid-cell">';
 				if($titulo)$result.='<div class="title"><h4 '.$styleTitulo.'>'.$titulo.'</h4></div>';
@@ -1844,7 +1844,7 @@ function showModuloApoios($ID_Modulo)
 				$result.='<div '.$class.' '.$styleTexto.'>';
 				if($url != '')$result.='<a href="'.$url.'" target="_blank">';
 				$result.='<div class="grid-cell" style="text-align:center;padding:10px">';
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="image"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>';
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="image"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>';
 				if($titulo && !$ocultar_titulo)$result.='<div class="title" style="margin:0 !important;"><h4 '.$styleTitulo.'>'.$titulo.'</h4></div>';
 				$result.='<div '.$styleTexto.'>'.$texto.'</div>';
 				$result.='</div>';
@@ -2019,7 +2019,7 @@ function showDestaques($ID_Modulo,$ID_Imagens)
 			$tipo_galeria='project-animated';
 		}
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -2064,7 +2064,7 @@ function showDestaques($ID_Modulo,$ID_Imagens)
 				$dbo2->db_data['bloco_img_txt_line_height']);
 
 			$result.='<article class="'.$tipo_artigo.' '.$animacao.' '.$tipo_galeria.'">';
-			if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+			if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 				if($bloco_url == '') {
 					$result.='<div class="'.$tipo_artigo.'-heading"><div class="thumbnail" '.$anim.'><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 				} else {
@@ -2280,7 +2280,7 @@ function showModuloElementoOrganizacao($ID_Modulo)
 				}
 				$result.='<div class="grid-cell">';
 				if($lightbox == 1) {
-					if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+					if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 						$result.='<div class="project-heading"><div class="thumbnail"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>
 							<ul class="project-action">
 								<li>
@@ -2290,7 +2290,7 @@ function showModuloElementoOrganizacao($ID_Modulo)
 						</div>';
 					}
 				} else {
-					if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+					if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 						$result.='<div class="image"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$titulo.'"></div>';
 					}
 				}
@@ -2371,7 +2371,7 @@ function inicio_div_com_background($img_ext='',$Largura='',$Estilo_Back=0)
 {
 	$st='';
 	$s='';
-	if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+	if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 	{
 		$st=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 		if($Estilo_Back)$st.='  background-attachment: fixed; ';
@@ -2664,7 +2664,7 @@ function showModuloAccordion($ID_Modulo)
 			$tipo_galeria='project-animated';
 		}
 		$styleBloco='';
-		if($img_ext && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$img_ext))
+		if($img_ext && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$img_ext))
 		{
 			$styleBloco=' style="background-image:url('.IMG_FOLDER.'/documentos/'.$img_ext.'); ';
 			if($Estilo_Back)$styleBloco.='  background-attachment: fixed; ';
@@ -2868,7 +2868,7 @@ function showModuloAccordion($ID_Modulo)
 							$result.='<div class="accordion-content collapse" id="acontent'.$idpart.'">';
 							$result.='<div class="row">';
 
-							if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="col-sm-6"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$tituloimg.'"></div>';
+							if($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="col-sm-6"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$tituloimg.'"></div>';
 							/*if($texto)$result.='<div class="col-sm-6"><p>'.$texto.'</p></div>';*/
 							if($texto)
 							{
@@ -2933,7 +2933,7 @@ function showModuloAccordion($ID_Modulo)
 						$result.='<div class="accordion-content collapse">';
 						$result.='<div class="row">';
 
-						if($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="col-sm-6"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$tituloimg.'"></div>';
+						if($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem))$result.='<div class="col-sm-6"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="'.$tituloimg.'"></div>';
 						/*if($texto)$result.='<div class="col-sm-6"><p>'.$texto.'</p></div>';*/
 						if($texto)
 						{
@@ -3111,14 +3111,14 @@ function showModuloDestaques2($ID_Modulo)
 			}
 
 			if($bloco_img_group != '' && $bloco_img_main_image == 0) {
-				if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+				if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 					$str.='<div style="display:none;"><div class="thumbnail"><a class="lightbox" href="'.IMG_FOLDER.'/documentos/'.$imagem.'" data-fancybox-group="'.$bloco_img_group.'" data-fancybox-title="<h4>'.$titulo.'</h4><p>'.$txt.'</p>"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></a></div></div>';
 				}
 			} else {
 				if($bloco_img_group != '' && $bloco_img_main_image == 1) {
 					if($bloco == 1) {
 						//Imagem à esq,texto à dir
-						if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+						if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 							$str.='<div class="'.$col1.'"><div class="thumbnail"><a class="lightbox " href="'.IMG_FOLDER.'/documentos/'.$imagem.'" data-fancybox-group="'.$bloco_img_group.'" data-fancybox-title="<h4>'.$titulo.'</h4><p>'.$txt.'</p>"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"><i class="icon-lupa"></i></a></div></div>';
 						}
 						$str.='<div class="'.$col2.'">';
@@ -3139,14 +3139,14 @@ function showModuloDestaques2($ID_Modulo)
 							$str.='<div class="text" '.$bloco_style_texto.'>'.$txt.'</div>';
 						}
 						$str.='</div>';
-						if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+						if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 							$str.='<div class="'.$col2.'"><div class="thumbnail"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 						}
 					}
 				} else {
 					if($bloco == 1) {
 						//Imagem à esq,texto à dir
-						if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+						if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 							$str.='<div class="'.$col1.'"><div class="thumbnail"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 						}
 						$str.='<div class="'.$col2.'">';
@@ -3167,7 +3167,7 @@ function showModuloDestaques2($ID_Modulo)
 							$str.='<div class="text" '.$bloco_style_texto.'>'.$txt.'</div>';
 						}
 						$str.='</div>';
-						if(stream_resolve_include_path(IMG_FOLDER.'/documentos/'.$imagem)) {
+						if(dotbright_image_resolve(IMG_FOLDER.'/documentos/'.$imagem)) {
 							$str.='<div class="'.$col2.'"><div class="thumbnail"><img src="'.IMG_FOLDER.'/documentos/'.$imagem.'" alt="Image"></div></div>';
 						}
 					}
@@ -3214,7 +3214,7 @@ function showModuloListaComPopup($idModulo)
             $url = $dbo2->db_data['bloco_img_url'];
 
             $result .= '<div id="inline_' . $idImage . '" class="tipo24" style="display:none">';
-            if ($imagem && stream_resolve_include_path(IMG_FOLDER.'/documentos/' . $imagem)) {
+            if ($imagem && dotbright_image_resolve(IMG_FOLDER.'/documentos/' . $imagem)) {
                 $result .= '<div class="text-center"><img src="'.IMG_FOLDER.'/documentos/' . $imagem . '" alt="' . $titulo . '"></div>';
             }
             if (!$ocultar_titulo && $titulo) {

@@ -997,7 +997,7 @@ function GERA_CATALOGO_FAMILIAS($fams=array())
 
 				$s .= '<div class="row"><div class="col-md-12 text-center" >';
 
-				if($img_ext && file_exists('files/products_families/'.$IDb.'_1.'.$img_ext))$s .= '<a href="'.$url.'"><img src="'.$img_file_new.'?dp='.date('YmdHis').'" alt="" /></a>';
+				if($img_ext && dotbright_image_file_exists('files/products_families/'.$IDb.'_1.'.$img_ext))$s .= '<a href="'.$url.'"><img src="'.$img_file_new.'?dp='.date('YmdHis').'" alt="" /></a>';
 				else
 				{
 					if($nivel == 2) $s .= '<a href="'.$url.'"><img src="layout/'.PROJETO.'/images/blank.gif" width="160" height="200" alt="" /></a>';
@@ -1105,7 +1105,7 @@ function show_menus_families_multiple($id_pai = 0)
 				$menu_nome = $rs->db_data['URL_Nome2'];
 				$menu_url = seo($rs->db_data['URL_Link']);
 				$img = '';
-				if(file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
+				if(dotbright_image_file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
 
 				$p_seo2 = $menu_url;
 
@@ -1236,7 +1236,7 @@ function show_menus_families_bk_nao_eliminar($id_pai = 0)
 				$menu_nome = $rs->db_data['URL_Nome2'];
 				$menu_url = seo($rs->db_data['URL_Link']);
 				$img = '';
-				if(file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
+				if(dotbright_image_file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
 
 				$p_seo2 = $menu_url;
 
@@ -1361,7 +1361,7 @@ function show_menus_reparacoes($id_pai = 0)
 
 				$menu_nome = trim(str_replace('Reparações','',$menu_nome));
 				$img = '';
-				if(file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
+				if(dotbright_image_file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
 
 				$p_seo2 = $menu_url;
 
@@ -1512,7 +1512,7 @@ function show_menus_families($id_pai = 0)
 				$menu_nome = $rs->db_data['URL_Nome2'];
 				$menu_url = seo($rs->db_data['URL_Link']);
 				$img = '';
-				if(file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
+				if(dotbright_image_file_exists('files/menus/'.$menu_id.'_1.'.$menu_ext) && $menu_ext!='') $img = '<img src="files/menus/'.$menu_id.'_1.'.$menu_ext.'" alt="">';
 
 				$p_seo2 = $menu_url;
 
