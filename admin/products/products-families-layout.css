@@ -79,6 +79,14 @@
 #content .db-family-children .dbf-child-status { display:inline-flex; align-items:center; gap:6px; padding:4px 9px; border-radius:16px; font-size:11px; font-weight:600; background:#f0f3f7; color:#7a8798; }
 #content .db-family-children .dbf-child-status::before { content:''; width:6px; height:6px; background:currentColor; border-radius:50%; }
 #content .db-family-children .dbf-child-status.is-visible { background:#eef8f2; color:#2b865c; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-visible) > td { background:#f3faf6; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-hidden) > td { background:#f3f4f6; color:#788394; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-visible) > td:first-child { box-shadow:inset 3px 0 #2b865c; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-hidden) > td:first-child { box-shadow:inset 3px 0 #a2aab6; }
+#content .db-family-children tr:has(.dbf-child-status.is-visible) .dbf-child-name a { color:#23764e !important; }
+#content .db-family-children tr:has(.dbf-child-status.is-hidden) .dbf-child-name a { color:#788394 !important; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-visible):hover > td { background:#e8f5ed; }
+#content .db-family-children .dbf-children-table tr:has(.dbf-child-status.is-hidden):hover > td { background:#e9ecf0; }
 #content .db-family-children .dbf-child-actions { display:flex; gap:8px; }
 #content .db-family-children .dbf-child-actions a { display:inline-flex; padding:6px 10px; border:1px solid #dce4ed; border-radius:6px; color:#567089; background:#fff; font-size:11px; text-decoration:none; }
 #content .db-family-children .dbf-child-actions .dbf-child-delete { color:#b85858; border-color:#eedcdc; }
