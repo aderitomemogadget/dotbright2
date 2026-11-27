@@ -1313,7 +1313,8 @@ function ficha_produto($prods)
 	                </div>
 	                </div>';
     }
-    return $return;
+    require_once __DIR__.'/seminovo_detail.php';
+    return dotbright_seminovo_detail($prods, $return);
 }
 
 function img_prod($prodsimg, $tam, $zoom =0 )
@@ -3692,7 +3693,9 @@ function prod_mais_vendido($fam)
 	        $prod2['u_co']=$prods2['u_coretiq'];
 	        if($prod2['image']!='')
 	        {	        	
-	        	$return .= '<div class="swiper-slide slide_'.$i.'" onclick="window.location.href = \''.$prod2['caminho'].'\'" style="cursor:pointer">
+			require_once __DIR__.'/seminovo_detail.php';
+			$semi_card = (int)$fam === 163 ? ' data-db-semi-card="'.dotbright_seminovo_related_data($prod2, $prods2).'"' : '';
+			$return .= '<div class="swiper-slide slide_'.$i.'"'.$semi_card.' onclick="window.location.href = \''.$prod2['caminho'].'\'" style="cursor:pointer">
 	                        <div class="product product-widget "> 
 	                            <div style="width:120px;display:flex;height:auto;overflow:hidden;padding:10px"><img style="width:100%" src="'.$prod2['image'].'" alt="'.rtrim( $prod2['title'], '-').'" border="0"></div>
 	                            <div class="product-details_r">
