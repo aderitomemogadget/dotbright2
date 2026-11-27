@@ -292,7 +292,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 		if(isset($id_org) && $id_org > 0) $ID_ORG = $id_org;
 		elseif($_GET['ID']==$_GET['ID_ORG']) $ID_ORG = $id_org;
 		?>
-		<form name="form" method="post" action="products_families_trata.php?prev=0&ID=<?=$ID?>&ID_ORG=<?=$ID_ORG?>&task_form=<?=$task_form?>&dump=<?php echo uniqID("")?>" enctype="multipart/form-data" accept-charset="UTF-8">
+		<form class="db-family-editor" name="form" method="post" action="products_families_trata.php?prev=0&ID=<?=$ID?>&ID_ORG=<?=$ID_ORG?>&task_form=<?=$task_form?>&dump=<?php echo uniqID("")?>" enctype="multipart/form-data" accept-charset="UTF-8">
 		<input type="hidden" name="m_lang" value="<?=$admin_lang;?>" />
 		<input type="hidden" name="slashes" value="'" />
 		<input type="hidden" name="tab_a" value="0" />
@@ -327,7 +327,6 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 				if(isset($fam_conf) && $fam_conf['tem_caract']){?>
 				<td><img src="cm_fill.gif" width="8" height="1"></td>
 				<td width="120" bgcolor="#6699CC" align="center" class="branco" onClick="showmenu_prod('sub3','pinta3')" style="border-radius: 5px 5px 0px 0px;cursor:pointer" id="pinta3"><? echo write_lang('key_caracteriticas','CARACTERÍSTICAS')?></td><td><img src="cm_fill.gif" width="8" height="1"></td>
-				</tr>
 				<?php }?>
 
 				<td><img src="cm_fill.gif" width="8" height="1"></td>
@@ -338,7 +337,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 
 				<div style="position:relative; width: 100%; display:none;" class="submenu" id="sub1">
 
-				<table width="100%" border=0 cellpadding="2" cellspacing=0 bgcolor="#F6F6F6" class="border1">
+				<table width="100%" border=0 cellpadding="2" cellspacing=0 bgcolor="#F6F6F6" class="border1 db-family-fields">
 				<tr>
 					<td>&nbsp;</td>
 					<td></td>
@@ -349,7 +348,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 				<tr>
 					<td>&nbsp;</td>
 					<td class="preto">ATIVAR</td>
-					<td align="left" class="preto"><input name="visivel" type="checkbox" value="1" <?php if($visivel) echo ' checked="checked"'; ?> /> <? echo write_lang('key_tornar_categoria_visivel','Tornar categoria visível')?></td>
+					<td align="left" class="preto"><label class="db-family-check"><input name="visivel" type="checkbox" value="1" <?php if($visivel) echo ' checked="checked"'; ?> /> <? echo write_lang('key_tornar_categoria_visivel','Tornar categoria visível')?></label></td>
 					<td>&nbsp;</td>
 				</tr>
 
@@ -359,7 +358,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 				<tr>
 				<td>&nbsp;</td>
 				<td>REPARAÇÕES</td>
-				<td align="left" class="preto"><input name="download" type="checkbox" value="1" <?php if($download) echo ' checked="checked"'; ?>> Família das reparações</td>
+				<td align="left" class="preto"><label class="db-family-check"><input name="download" type="checkbox" value="1" <?php if($download) echo ' checked="checked"'; ?>> Família das reparações</label></td>
 				<td>&nbsp;</td>
 				</tr>
 
@@ -401,8 +400,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 					if ($ID_Integracao > 0)
 					{
 
-						echo '<div style="float:left;width:100px;height:30px;line-height:30px">SAGE ID = '.$ID_Integracao.'</div>';
-						echo '<div style="float:left;height:30px"><input class="form-control" type="text" name="cabecalho" style="width:100%;background:#EEE" readonly="readonly" maxlength="255" value="'.$C.'" /></div>';
+						echo '<div class="db-family-name"><input class="form-control" type="text" name="cabecalho" readonly="readonly" maxlength="255" value="'.$C.'" /><span class="db-family-integration">SAGE ID = '.$ID_Integracao.'</span></div>';
 					}
 					else echo '<input class="form-control" type="text" name="cabecalho" style="width:100%" maxlength="255" value="'.$C.'" />';
 
@@ -743,7 +741,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 			</tr>
 			</table>
 			<table width="100%" height="5px" border="0" cellspacing="0" cellpadding="0"><tr><td></td></tr></table>
-			<table width="100%" class=p1 border=0 cellspacing=0 cellpadding=0>
+			<table width="100%" class="p1 db-family-actions" border=0 cellspacing=0 cellpadding=0>
 			<tr>
 				<td class="t1" valign="middle" align="center"><input class="btn btn-primary" type="submit" name="Submit" value=" <?=$task_button;?> "> <input class="btn btn-secondary" type="button" name="cancelar" value="<? echo write_lang('key_cancelar','Cancelar')?>" onClick="window.open('list.php','_self');"></td>
 			</tr>

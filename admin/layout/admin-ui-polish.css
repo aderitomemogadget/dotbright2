@@ -1481,3 +1481,87 @@ td.titulo2,
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Category forms use label/control columns, unlike the product editor tables. */
+#content .db-family-editor #sub1 > .db-family-fields {
+  display: block;
+  width: 100%;
+  max-width: 820px;
+  margin: 0;
+  padding: 24px;
+  overflow: visible;
+  border: 0;
+  background: #fff;
+}
+#content .db-family-editor #sub1 > .db-family-fields > tbody { display: block; }
+#content .db-family-editor #sub1 > .db-family-fields > tbody > tr { display: none; }
+#content .db-family-editor #sub1 > .db-family-fields > tbody > tr:has(input, select) {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  background: transparent;
+}
+#content .db-family-editor #sub1 > .db-family-fields > tbody > tr > td {
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  vertical-align: middle;
+}
+#content .db-family-editor #sub1 > .db-family-fields > tbody > tr > td:first-child,
+#content .db-family-editor #sub1 > .db-family-fields > tbody > tr > td:last-child { display: none; }
+#content .db-family-editor .db-family-fields .form-control { width: 100%; height: 40px; box-sizing: border-box; }
+#content .db-family-editor .db-family-fields input[name="ordem"],
+#content .db-family-editor .db-family-fields input[name="pontos"],
+#content .db-family-editor .db-family-fields input[name="Desconto"] { width: 90px; }
+#content .db-family-editor .db-family-check {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  margin: 0;
+  font-weight: 400;
+  cursor: pointer;
+}
+#content .db-family-editor .db-family-check input { flex: none; margin: 0; }
+#content .db-family-editor .db-family-name { display: flex; flex-direction: column; gap: 6px; }
+#content .db-family-editor .db-family-name input[readonly] { background: #f4f6f9; color: #667085; }
+#content .db-family-editor .db-family-integration { color: #667085; font-size: 12px; }
+#content .db-family-editor .db-family-fields .chosen-container { width: 100% !important; max-width: 100%; }
+#content .db-family-editor .db-family-fields select[name="m_familia"] { width: 100% !important; }
+#content .db-family-editor .db-family-fields .chosen-single {
+  height: 40px;
+  padding: 0 11px;
+  border: 1px solid #cfd6df;
+  border-radius: 8px;
+  background: #fff;
+  line-height: 38px;
+  box-shadow: none;
+}
+#content .db-family-editor .db-family-fields .chosen-single > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+#content .db-family-editor .db-family-fields .chosen-single > div > b {
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border: solid #777;
+  border-width: 0 1.5px 1.5px 0;
+  background: none;
+  transform: rotate(45deg);
+}
+#content .db-family-editor .db-family-fields .chosen-with-drop .chosen-single > div > b { transform: rotate(225deg); margin-top: 3px; }
+#content .db-family-editor .db-family-actions td { padding: 16px 24px; text-align: left; }
+#content .db-family-editor .db-family-actions .btn { margin: 3px 6px 3px 0; }
+@media (max-width: 640px) {
+  #content .db-family-editor #sub1 > .db-family-fields { padding: 18px 16px; }
+  #content .db-family-editor #sub1 > .db-family-fields > tbody > tr:has(input, select) { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  #content .db-family-editor .db-family-actions td { padding: 12px 16px; }
+}
