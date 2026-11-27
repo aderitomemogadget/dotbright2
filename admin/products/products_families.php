@@ -341,7 +341,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 				<div style="position:relative; width: 100%; display:none;" class="submenu" id="sub5">
 				<fieldset class="db-family-catalog-header">
 					<legend>Cabeçalho do catálogo</legend>
-					<p>Conteúdo exclusivo desta categoria, no idioma selecionado. Não é herdado pelas subcategorias.</p>
+					<p>Defina o conteúdo desta categoria no idioma selecionado. Cada campo vazio herda o conteúdo da categoria ascendente mais próxima, no mesmo idioma. O conteúdo próprio tem prioridade.</p>
 					<input type="hidden" name="catalogo_header_present" value="1">
 					<label for="catalogo_titulo">Título</label>
 					<input type="text" class="form-control" name="catalogo_titulo" id="catalogo_titulo" maxlength="255" placeholder="Usar o nome da categoria" value="<?=dotbright_catalog_header_escape(isset($catalogo_config['catalogo_titulo']) ? $catalogo_config['catalogo_titulo'] : '')?>">
@@ -349,7 +349,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 					<textarea class="form-control" name="catalogo_texto" id="catalogo_texto" rows="4" maxlength="10000"><?=dotbright_catalog_header_escape(isset($catalogo_config['catalogo_texto']) ? $catalogo_config['catalogo_texto'] : '')?></textarea>
 					<label for="catalogo_banner">Imagem de banner</label>
 					<?php $catalogo_banner_url = dotbright_catalog_banner_url(isset($catalogo_config['catalogo_banner']) ? $catalogo_config['catalogo_banner'] : ''); ?>
-					<img id="db-catalog-banner-preview" class="db-family-banner-preview" alt="Pré-visualização do banner" data-original="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>" <?php if($catalogo_banner_url !== '') { ?>src="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>"<?php } else { ?>hidden<?php } ?>>
+					<img id="db-catalog-banner-preview" class="db-family-banner-preview" style="width:auto;height:auto;max-width:min(100%,640px);max-height:180px;object-fit:contain;margin:8px 0 12px" alt="Pré-visualização do banner" data-original="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>" <?php if($catalogo_banner_url !== '') { ?>src="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>"<?php } else { ?>hidden<?php } ?>>
 					<input type="file" name="catalogo_banner" id="catalogo_banner" accept="image/jpeg,image/png,image/webp,image/gif">
 					<small>JPG, PNG, WebP ou GIF, até 8 MB. Proporção recomendada: 1600 × 480 px.</small>
 					<?php if ($catalogo_banner_url !== '') { ?><label class="db-family-banner-remove"><input type="checkbox" name="catalogo_banner_apagar" value="1"> Remover o banner atual</label><?php } ?>

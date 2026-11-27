@@ -336,10 +336,6 @@ function bloco_catalogo($tipos_destaques='')
     	if($mostra_homepage == 0 && $mostra_relacionados == 0 && $mostra_publicos == 0 && !isset($_GET['show_wishlist'])) echo BREADCRUMBS(1);
     }
 
-    if ($cat > 0 && $mostra_homepage == 0 && $mostra_relacionados == 0 && $mostra_publicos == 0 && !isset($_GET['show_wishlist']) && !isset($_GET['pesquisa'])) {
-        echo dotbright_catalog_header($cat, $GLOBALS['site_lang']);
-    }
-
     $res_fams='';
     if($mostra_homepage == 1)
     {

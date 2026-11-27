@@ -1,3 +1,8 @@
+.db-catalog-banner { width: 100%; margin: 0 0 16px; overflow: hidden; border-radius: 0 0 12px 12px; }
+.db-catalog-banner > img { display: block; width: 100%; max-width: 100%; height: auto; margin: 0; }
+.db-catalog-intro { margin: 0 4px 14px; color: #111; }
+.db-catalog-intro h1 { margin: 0; color: #111; font: 700 clamp(22px, 2vw, 28px)/1.2 Arial, sans-serif; text-transform: none; overflow-wrap: anywhere; }
+.db-catalog-intro-text { margin-top: 4px; color: #333; font: 400 13px/1.45 Arial, sans-serif; overflow-wrap: anywhere; }
 .cat_wrap .db-catalog-header { margin: 4px 4px 24px; overflow: hidden; border: 1px solid #ededed; border-radius: 16px; background: #fff; color: #111; }
 .cat_wrap .db-catalog-header-image { display: block; width: 100%; max-width: 100%; height: auto; margin: 0; }
 .cat_wrap .db-catalog-header-content { padding: 22px 24px; }

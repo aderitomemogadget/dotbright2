@@ -893,7 +893,7 @@ function ficha_produtoold($prods)
 		{
 			$return .= '<div class="localizacao_fisica">';
 			$return .= '<h4><strong>STOCK:</strong></h4>';
-			$return .= '<span> <img src="/layout/dotbright/images/stock_on.svg"><strong>ONLINE | </strong><strong style="color:#0fa200">(Disponível) </strong></span>';
+			$return .= '<span> <img src="layout/dotbright/images/stock_on.svg"><strong>ONLINE | </strong><strong style="color:#0fa200">(Disponível) </strong></span>';
 			$return .= '<br>';
 
 			$loc_loja = $prods['prod_localizacao_fisica'];
@@ -901,11 +901,11 @@ function ficha_produtoold($prods)
 			{
 				if($precos['STOCK'] > 0)
 				{
-					$return .= '<span> <img src="/layout/dotbright/images/stock_on.svg"> <strong style="text-transform:uppercase;">LOJA '.$prods['prod_localizacao_fisica'].' | </strong><strong style="color:#0fa200">(Disponível) </strong></span>';
+					$return .= '<span> <img src="layout/dotbright/images/stock_on.svg"> <strong style="text-transform:uppercase;">LOJA '.$prods['prod_localizacao_fisica'].' | </strong><strong style="color:#0fa200">(Disponível) </strong></span>';
 					$return .= '<br>';
 					// $return .= '<span> <img src="/layout/dotbright/images/stock_encomenda.svg"> <strong style="text-transform:uppercase">LOJA de MATOSINHOS</strong></span>';
 				}
-				else $return .= '<span> <img src="/layout/dotbright/images/status_busy.png" style="max-width:9px;"><strong style="color:#00ffff">Disponível Brevemente</strong></span>';
+				else $return .= '<span> <img src="layout/dotbright/images/status_busy.png" style="max-width:9px;"><strong style="color:#00ffff">Disponível Brevemente</strong></span>';
 			}
 			/*
 			elseif($loc_loja == 'Matosinhos' || $loc_loja == 'MATOSINHOS' || $loc_loja == 'matosinhos')
@@ -2067,7 +2067,7 @@ function ficha_p1_final($prods,$labels='')
 	if($prods['fam_id'] == '163')
 	{
 		$conteudo_dentro_img .= '<div class="garantia">
-									<img src="/layout/dotbright/images/2anos_garantia.png" style="width:100%;max-width:100px">
+									<img src="layout/dotbright/images/2anos_garantia.png" style="width:100%;max-width:100px">
 								</div>';
 	}
 
@@ -2104,7 +2104,7 @@ function ficha_p1_final($prods,$labels='')
 			$return .= "<div class='product-gallery-block resp2'>";
 				$return .= "<ul class='product-gallery'>";
 
-								$fundos = ["/layout/dotbright/images/fundo_1.png", "/layout/dotbright/images/fundo_2.png", "/layout/dotbright/images/fundo_3.png"];
+								$fundos = ["layout/dotbright/images/fundo_1.png", "layout/dotbright/images/fundo_2.png", "layout/dotbright/images/fundo_3.png"];
 								$fundos_aleatorio = array_rand($fundos);
 								$fundo = $fundos[$fundos_aleatorio];
 
@@ -3320,11 +3320,11 @@ REPAIR_SUMMARY_CLOSE;
 					
 					if($precos['STOCK'] > 0)
 					{
-						$return .= '<span> <img src="/layout/dotbright/images/stock_on.svg"> <strong>'.$loja_txt.'</strong></span>';
+						$return .= '<span> <img src="layout/dotbright/images/stock_on.svg"> <strong>'.$loja_txt.'</strong></span>';
 					}
 					else
 					{
-						$return .= '<span> <img src="/layout/dotbright/images/stock_off.svg"> <strong>(Disponivel Brevemente) </strong></span>';
+						$return .= '<span> <img src="layout/dotbright/images/stock_off.svg"> <strong>(Disponivel Brevemente) </strong></span>';
 					}
 			
 					/*

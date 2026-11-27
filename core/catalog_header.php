@@ -72,15 +72,59 @@ function dotbright_save_catalog_header($id, $lang, $post, $files) {
     if ($old !== $name && dotbright_catalog_banner_valid_name($old) && strpos($old, $prefix) === 0 && is_file(dotbright_catalog_banner_dir().$old)) unlink(dotbright_catalog_banner_dir().$old);
     return true;
 }
-function dotbright_catalog_header($id, $lang) {
+function dotbright_get_catalog_header($id, $lang) {
     $id = (int)$id;
-    if ($id <= 0) return '';
+    if ($id <= 0) return array();
     $db = db_opendb_conection($GLOBALS['DB_host'], $GLOBALS['DB_user'], $GLOBALS['DB_pass']);
-    $rs = new DataObj;
-    $rs->db_open($db, $GLOBALS['DB_name'], 'SELECT PL.* FROM products_families P INNER JOIN products_families_lang PL ON PL.ID_PAI=P.ID WHERE P.ID='.$id.' AND P.visivel=1 AND PL.Lang='.dotbright_catalog_header_sql($db, $lang));
-    $row = $rs->EOF() ? array() : $rs->db_data;
-    $rs->db_close();
-    return dotbright_render_catalog_header($row);
+    $resolved = array();
+    $visited = array();
+    $fields = array('catalogo_banner', 'catalogo_titulo', 'catalogo_texto');
+    while ($id > 0 && !isset($visited[$id])) {
+        $visited[$id] = true;
+        $rs = new DataObj;
+        // Keep the parent link even if this category has no translation in this language.
+        $rs->db_open($db, $GLOBALS['DB_name'], 'SELECT PL.*, P.ID AS catalogo_category_id, P.ID_ORG AS catalogo_parent_id FROM products_families P LEFT JOIN products_families_lang PL ON PL.ID_PAI=P.ID AND PL.Lang='.dotbright_catalog_header_sql($db, $lang).' WHERE P.ID='.$id.' AND P.visivel=1');
+        $row = $rs->EOF() ? array() : $rs->db_data;
+        $rs->db_close();
+        if (!$row) break;
+        if (!$resolved) $resolved = $row;
+        foreach ($fields as $field) {
+            if ((!isset($resolved[$field]) || trim((string)$resolved[$field]) === '') && isset($row[$field]) && trim((string)$row[$field]) !== '') {
+                $resolved[$field] = $row[$field];
+            }
+        }
+        $complete = true;
+        foreach ($fields as $field) {
+            if (!isset($resolved[$field]) || trim((string)$resolved[$field]) === '') $complete = false;
+        }
+        if ($complete) break;
+        $id = isset($row['catalogo_parent_id']) ? (int)$row['catalogo_parent_id'] : 0;
+    }
+    return $resolved;
+}
+function dotbright_catalog_header($id, $lang) {
+    return dotbright_render_catalog_header(dotbright_get_catalog_header($id, $lang));
+}
+// Template tags: [callfunction(catalogo_banner)] and [callfunction(catalogo_titulo_texto)].
+// Both return HTML: the existing template engine is responsible for printing it.
+function catalogo_banner() {
+    $id = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
+    $row = dotbright_get_catalog_header($id, $GLOBALS['site_lang']);
+    $url = isset($row['catalogo_banner']) ? dotbright_catalog_banner_url($row['catalogo_banner']) : '';
+    if ($url === '') return '';
+    return '<div class="db-catalog-banner"><img src="'.dotbright_catalog_header_escape($url).'" alt=""></div>';
+}
+function catalogo_titulo_texto() {
+    $id = isset($_GET['cat']) ? (int)$_GET['cat'] : 0;
+    $row = dotbright_get_catalog_header($id, $GLOBALS['site_lang']);
+    $title = isset($row['catalogo_titulo']) ? trim($row['catalogo_titulo']) : '';
+    $text = isset($row['catalogo_texto']) ? trim($row['catalogo_texto']) : '';
+    if ($title === '') $title = !empty($row['Cabecalho2']) ? $row['Cabecalho2'] : (isset($row['Cabecalho']) ? $row['Cabecalho'] : '');
+    if ($title === '' && $text === '') return '';
+    $html = '<div class="db-catalog-intro">';
+    if ($title !== '') $html .= '<h1>'.dotbright_catalog_header_escape($title).'</h1>';
+    if ($text !== '') $html .= '<div class="db-catalog-intro-text">'.nl2br(dotbright_catalog_header_escape($text)).'</div>';
+    return $html.'</div>';
 }
 function dotbright_render_catalog_header($row) {
     $title = isset($row['catalogo_titulo']) ? trim($row['catalogo_titulo']) : '';
