@@ -176,6 +176,8 @@
 	<?php }?>
 	<link rel="stylesheet" type="text/css" href="avancada/chosen2.css" />
 	<link rel="stylesheet" type="text/css" href="avancada/sa.css" />
+	<link rel="stylesheet" href="products-families-layout.css?v=<?=filemtime(__DIR__.'/products-families-layout.css')?>">
+	<script defer src="products-families-layout.js?v=<?=filemtime(__DIR__.'/products-families-layout.js')?>"></script>
 	<script language="JavaScript">
 	if(document.getElementById)
 	{
@@ -776,17 +778,12 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 			$rs->db_open($db_link,$DB_name,"SELECT ID,Ordem,visivel,Desconto,MargemCli  FROM products_families WHERE ID_ORG=$ID ORDER BY Ordem ASC");
 			if(!$rs->EOF())
 			{?>
-			<form action="reordena2.php" method="post"><input type="hidden" name="url_return" value="products_families.php?ID=<?=$ID?>&ID_ORG=<?=$ID_ORG?>&total_prods=<?=$total_prods?>&checkshowimages=<?=$checkshowimages?>">
-			<table class="new_quadros" width="100%" border=0 cellspacing=0 cellpadding="0" align="center">
-			<tr>
-				<td>
-					<table class="titulo_janela" width="100%" height="40px" cellspacing="0" cellpadding="5" border="0">
-					<tr>
-						<td width="15" align="center"></td>
-						<td width="20" align="center" >ID</td>
-						<td class="branco"> <? echo 'SUB-';?><? echo write_lang('key_categorias','Categories')?></td>
-					</tr>
-					</table>
+			<form class="db-family-children" action="reordena2.php" method="post"><input type="hidden" name="url_return" value="products_families.php?ID=<?=$ID?>&ID_ORG=<?=$ID_ORG?>&total_prods=<?=$total_prods?>&checkshowimages=<?=$checkshowimages?>">
+			<div class="dbf-children-heading"><h2>Subcategorias</h2><p>Gere as famílias dentro desta categoria e define a ordem de apresentação.</p></div>
+			<div class="dbf-children-scroll" role="region" aria-label="Subcategorias" tabindex="0">
+			<table class="dbf-children-table">
+			<thead><tr><th scope="col">ID</th><th scope="col">Subcategoria</th><th scope="col">Desconto</th><th scope="col">Margem</th><th scope="col">Visibilidade</th><th scope="col">Ações</th><th scope="col">Ordem</th></tr></thead>
+			<tbody>
 					<?php
 					$count = 0;
 					while(!$rs->EOF())
@@ -808,33 +805,22 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 						if($visivel==0)$cor_url='style="color:#ccc"';
 
  						?>
-						<table width="100%" style="height: 32px;" border=0 cellspacing=0 cellpadding=0 class="grid <?=$class?>">
-						<tr onMouseOver="this.style.backgroundColor='#DBE7F1'" onMouseOut="this.style.backgroundColor='<?=$cor;?>'">
 						<tr>
-							<td width="15" align="center"></td>
-							<td width="20" align="center" class="preto"><?=$codigo?></td>
-							<td class="preto"><a <?=$cor_url?> href="products_families.php?ID=<?=$rs->db_data["ID"];?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&Nivel=<?=$Nivel+1;?>">&nbsp;<? if($cabecalho) echo htmlentities_b($cabecalho); else echo "[Editar]"?></a></td>
-							<?php if($desconto > 0){?> <td width="80" class="desconto<?=$n?>"><?=$desconto?> %</td> <? }else{?> <td width="20" class="desconto<?=$n?>">&nbsp;</td> <td width="4" align="right">&nbsp;</td><?php }?>
-							<td width="30" align="center" bgcolor="<?=$cor;?>"><?=$margem;?></td>
-							<td width="30" align="center" bgcolor="<?=$cor;?>"><img src="<?php echo ($visivel == 1 ? 'ok.png' : 'hidden.png')?>" border="0" /></td>
-							<td width="30" align="center" bgcolor="<?=$cor;?>"><a class="italico" href="products_families.php?ID=<?=$rs->db_data["ID"]?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&task=duplicar"><img title="<? echo write_lang('key_duplicar_pagina','Duplicar Página')?>" src="duplicate.png" border=0></a></td>
-							<td width="30" align="center" bgcolor="<?=$cor;?>"><a class="italico" href="products_families.php?ID=<?=$rs->db_data["ID"]?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&task=apagar"><img title="<? echo write_lang('key_apagar_pagina','Apagar Página')?>" src="del2.png" border=0></a></td>
-							<td class="ordem<?=$n?>"><input class="ordem" type=text name="chk_<?=$codigo?>" value="<?=$ordem?>"></td>
+							<td class="dbf-child-id"><?=$codigo?></td>
+							<td class="dbf-child-name"><a href="products_families.php?ID=<?=$rs->db_data["ID"];?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&Nivel=<?=$Nivel+1;?>"><? if($cabecalho) echo htmlentities_b($cabecalho); else echo "[Editar]"?></a></td>
+							<td><?=$desconto > 0 ? $desconto.' %' : '—'?></td>
+							<td><?=$margem;?></td>
+							<td><span class="dbf-child-status <?=$visivel == 1 ? 'is-visible' : 'is-hidden'?>"><?=$visivel == 1 ? 'Visível' : 'Oculta'?></span></td>
+							<td><div class="dbf-child-actions"><a href="products_families.php?ID=<?=$rs->db_data["ID"]?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&task=duplicar">Duplicar</a><a class="dbf-child-delete" href="products_families.php?ID=<?=$rs->db_data["ID"]?>&ID_ORG=<?=$ID;?>&ID_ORG_ANT=<?=$ID_ORG?>&task=apagar">Apagar</a></div></td>
+							<td><input class="ordem" type="text" name="chk_<?=$codigo?>" value="<?=$ordem?>" aria-label="Ordem da subcategoria <?=$codigo?>"></td>
 						</tr>
-						</table><?
+						<?
 						$rs->db_next();
 						$count++;
 					}
 					$rs->db_close();?>
-				</td>
-			</tr>
-			</table>
-			<table width="100%" height="5px" border=0 cellspacing=0 cellpadding=0><tr><td></td></tr></table>
-			<table width="100%" class=p1 border=0 cellspacing=0 cellpadding=0>
-			<tr>
-				<td class="t1" valign="middle" align="center"><input class="btn btn-primary" type="submit" name="Reordenar" value="<? echo write_lang('key_reordenar','Reordenar')?> <? echo 'SUB-';?><? echo write_lang('key_categorias','Categories')?>"></td>
-			</tr>
-			</table>
+			</tbody></table></div>
+			<div class="dbf-children-footer"><span><?=$count?> <?=$count == 1 ? 'subcategoria' : 'subcategorias'?></span><input class="btn btn-primary" type="submit" name="Reordenar" value="<? echo write_lang('key_reordenar','Reordenar')?> subcategorias"></div>
 			</form>
 			<img src="../images/bsh.png" width="100%" height="30px"><?
 			}
