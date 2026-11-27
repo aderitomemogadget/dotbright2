@@ -1,6 +1,7 @@
 <?php
 if(isset($_SERVER['SCRIPT_FILENAME']) && $_SERVER['SCRIPT_FILENAME'] == __FILE__ ) exit();
 require_once __DIR__.'/product_images.php';
+require_once __DIR__.'/catalog_header.php';
 
 function promos_familias()
 {

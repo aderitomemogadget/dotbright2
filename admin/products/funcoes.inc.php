@@ -1416,10 +1416,10 @@ function InsertNewFam($id_org=0,$ordem,$cabecalho,$cabecalho2,$URL,$texto1,$img_
 	if($res)
 	{
 		$new_id=db_get_last_insert_id($db_link);
-		if($altera_img)	copia_segura($Img_peq1["temp"],$img_path.$new_id."_1.".$ext1);
-		if($altera_img2) copia_segura($Img_peq2["temp"],$img_path.$new_id."_2.".$ext2);
-		if($altera_img3) copia_segura($Img_peq3["temp"],$img_path.$new_id."_3.".$ext3);
-		InsertNewFamLinguas($new_id,$cabecalho,$cabecalho2,$URL,$texto);
+		if($altera_img)	copia_segura($Img_peq1["temp"],$img_path.$new_id."_1.".$img_ext);
+		if($altera_img2) copia_segura($Img_peq2["temp"],$img_path.$new_id."_2.".$img2_ext);
+		if($altera_img3) copia_segura($Img_peq3["temp"],$img_path.$new_id."_3.".$img3_ext);
+		$res = InsertNewFamLinguas($new_id,$cabecalho,$cabecalho2,$URL,$texto1);
 	}
 	else echo db_error($db_link).$sql;
 	db_closedb_conection($db_link);
@@ -1438,6 +1438,7 @@ function InsertNewFamLinguas($id_pai,$cabecalho,$cabecalho2,$URL,$texto)
 	$sql="insert into products_families_lang(ID_PAI,Cabecalho,Cabecalho2,URL,Texto,prod_txt1,Lang) values ($id_pai,$cabecalho1,$cabecalho2,$URL1,'$texto1','$prod_txt1','$admin_lang')";
 	$res=Runquery($db_link,$DB_name,$sql);
 	if(!$res)echo db_error($db_link).$sql;
+    if ($res) $res = dotbright_save_catalog_header($id_pai, $admin_lang, $_POST, $_FILES);
     return($res);
 }
 function products_objs($obj_id=0,$sync=0,$preco_custo_custom=0)
@@ -3840,7 +3841,7 @@ function ChangeFam($id,$id_org,$ordem,$cabecalho,$cabecalho2,$URL,$texto,$img_pa
 			$res=Runquery($db_link,$DB_name,$sql);
 		}
 		db_closedb_conection($db_link);
-		ChangeFamLinguas($id,$cabecalho,$cabecalho2,$URL,$texto);
+		$res = ChangeFamLinguas($id,$cabecalho,$cabecalho2,$URL,$texto) && $res;
 		//exec('php '.$GLOBALS['site_shell_url'].'crons/gera_sitemap.php > /dev/null &');
 		return($res);
 	}
@@ -3988,13 +3989,14 @@ function ChangeFamLinguas($id_pai,$cabecalho,$cabecalho2,$URL,$texto)
 	$rs=new DataObj;
 	if(!$m_lang)$m_lang=$admin_lang;
 	if($id_org==$id)$id_org=0;
-	$altera=0;$rs->db_open($db_link,$DB_name,"Select ID,SEO_img,ICON_img from products_families_lang WHERE ID_PAI=$id_pai and Lang='$m_lang'");
+	$altera=0;$rs->db_open($db_link,$DB_name,"Select ID,SEO_img,ICON_img,Texto from products_families_lang WHERE ID_PAI=$id_pai and Lang='$m_lang'");
 	if(!$rs->EOF())
 	{
 		$altera=1;
 		$id_video=$rs->db_data["ID"];
 		$img_ext=$rs->db_data["SEO_img"];
 		$img_ext2=$rs->db_data["ICON_img"];
+		$existing_texto=$rs->db_data['Texto'];
 	}
 	$rs->db_close();
 	if(!$altera)return InsertNewFamLinguas($id_pai,$cabecalho,$cabecalho2,$URL,$texto);
@@ -4002,7 +4004,7 @@ function ChangeFamLinguas($id_pai,$cabecalho,$cabecalho2,$URL,$texto)
 	{
 		$cabecalho1=str2SQLstr($cabecalho);
 		$cabecalho2=str2SQLstr($cabecalho2);
-		$texto1=$texto;
+		$texto1=array_key_exists('texto', $_POST) ? $texto : addslashes($existing_texto);
 		$URL1=str2SQLstr($URL);
 
 		$SEO_img_file["name"] = $_FILES['SEO_img']['name'];
@@ -4034,6 +4036,7 @@ function ChangeFamLinguas($id_pai,$cabecalho,$cabecalho2,$URL,$texto)
 
 		$sql="Update products_families_lang Set Cabecalho=$cabecalho1,Cabecalho2=$cabecalho2,URL=$URL1,Texto='$texto1',prod_txt1='$prod_txt1',SEO_img='$img_ext',ICON_img='$img_ext2' where ID_PAI=$id_pai and Lang='$admin_lang'";
 		$res=Runquery($db_link,$DB_name,$sql);
+		if ($res) $res = dotbright_save_catalog_header($id_pai, $admin_lang, $_POST, $_FILES);
 		db_closedb_conection($db_link);
 		return($res);
 	}

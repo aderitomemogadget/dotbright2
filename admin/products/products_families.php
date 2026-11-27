@@ -267,6 +267,7 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 			$SEO_img = $rs->db_data["SEO_img"];
 			$ICON_img = $rs->db_data["ICON_img"];
 			$prod_txt1 = $rs->db_data["prod_txt1"];
+			$catalogo_config = $rs->db_data;
 			$rs->db_close();
 		}
 
@@ -316,6 +317,8 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 				<table height="20" border=0 cellspacing=0 cellpadding=0>
 				<tr>
 				<td width="120" bgcolor="#6699CC" align="center" class="branco" onClick="showmenu_prod('sub1','pinta1')" style="border-radius: 5px 5px 0px 0px;cursor:pointer" id="pinta1"><? echo write_lang('key_categoria','CATEGORIA')?></td>
+				<td><img src="cm_fill.gif" width="8" height="1"></td>
+				<td width="120" bgcolor="#6699CC" align="center" class="branco" onClick="showmenu_prod('sub5','pinta5')" style="border-radius: 5px 5px 0px 0px;cursor:pointer" id="pinta5">Site</td>
 				<?php
 				// IMAGEM DA FAMILIA
 				if(isset($fam_conf) && $fam_conf['tem_imagens']){?>
@@ -335,8 +338,25 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 
 				</table>
 
-				<div style="position:relative; width: 100%; display:none;" class="submenu" id="sub1">
+				<div style="position:relative; width: 100%; display:none;" class="submenu" id="sub5">
+				<fieldset class="db-family-catalog-header">
+					<legend>Cabeçalho do catálogo</legend>
+					<p>Conteúdo exclusivo desta categoria, no idioma selecionado. Não é herdado pelas subcategorias.</p>
+					<input type="hidden" name="catalogo_header_present" value="1">
+					<label for="catalogo_titulo">Título</label>
+					<input type="text" class="form-control" name="catalogo_titulo" id="catalogo_titulo" maxlength="255" placeholder="Usar o nome da categoria" value="<?=dotbright_catalog_header_escape(isset($catalogo_config['catalogo_titulo']) ? $catalogo_config['catalogo_titulo'] : '')?>">
+					<label for="catalogo_texto">Texto de apresentação</label>
+					<textarea class="form-control" name="catalogo_texto" id="catalogo_texto" rows="4" maxlength="10000"><?=dotbright_catalog_header_escape(isset($catalogo_config['catalogo_texto']) ? $catalogo_config['catalogo_texto'] : '')?></textarea>
+					<label for="catalogo_banner">Imagem de banner</label>
+					<?php $catalogo_banner_url = dotbright_catalog_banner_url(isset($catalogo_config['catalogo_banner']) ? $catalogo_config['catalogo_banner'] : ''); ?>
+					<img id="db-catalog-banner-preview" class="db-family-banner-preview" alt="Pré-visualização do banner" data-original="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>" <?php if($catalogo_banner_url !== '') { ?>src="<?=dotbright_catalog_header_escape($catalogo_banner_url)?>"<?php } else { ?>hidden<?php } ?>>
+					<input type="file" name="catalogo_banner" id="catalogo_banner" accept="image/jpeg,image/png,image/webp,image/gif">
+					<small>JPG, PNG, WebP ou GIF, até 8 MB. Proporção recomendada: 1600 × 480 px.</small>
+					<?php if ($catalogo_banner_url !== '') { ?><label class="db-family-banner-remove"><input type="checkbox" name="catalogo_banner_apagar" value="1"> Remover o banner atual</label><?php } ?>
+				</fieldset>
+				</div>
 
+				<div style="position:relative; width: 100%; display:none;" class="submenu" id="sub1">
 				<table width="100%" border=0 cellpadding="2" cellspacing=0 bgcolor="#F6F6F6" class="border1 db-family-fields">
 				<tr>
 					<td>&nbsp;</td>
@@ -1260,5 +1280,26 @@ window.onload =function(){<? if($t1 && $t2){?>showmenu_prod('<?=$t1?>','<?=$t2?>
 <script type="text/javascript">
 $(".form-control4").chosen({disable_search_threshold: 10, no_results_text: "Não foram encontrados resultados!",width: "300px",enable_new_filter:false});
 $(".form-control6").chosen({disable_search_threshold: 10, no_results_text: "Não foram encontrados resultados!",enable_new_filter:false});
+// Preview remains local until the form is saved.
+(function () {
+    var input = document.getElementById('catalogo_banner');
+    var preview = document.getElementById('db-catalog-banner-preview');
+    var objectUrl;
+    if (!input || !preview || !window.URL) return;
+    input.addEventListener('change', function () {
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        if (input.files.length) {
+            objectUrl = URL.createObjectURL(input.files[0]);
+            preview.src = objectUrl;
+            preview.hidden = false;
+            var remove = input.form.querySelector('[name="catalogo_banner_apagar"]');
+            if (remove) remove.checked = false;
+        } else {
+            var original = preview.getAttribute('data-original');
+            preview.hidden = !original;
+            if (original) preview.src = original; else preview.removeAttribute('src');
+        }
+    });
+}());
 </script>
 <?php include "../layout/bottom.inc.php";?>

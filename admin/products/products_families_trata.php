@@ -4,6 +4,13 @@
 	$retorno="list.php";
 	if(isset($_POST['slashes']))
 	{
+		try {
+			dotbright_catalog_header_validate($_POST, $_FILES);
+		} catch (InvalidArgumentException $error) {
+			http_response_code(400);
+			echo '<p>'.dotbright_catalog_header_escape($error->getMessage()).'</p><a href="javascript:history.back()">Voltar ao formulário</a>';
+			exit;
+		}
 		$Img_peq1["name"]=$_FILES['img_peq1']['name'];
 		$Img_peq1["temp"]=$_FILES['img_peq1']['tmp_name'];
 		$Img_peq2["name"]=$_FILES['img_peq2']['name'];
