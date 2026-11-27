@@ -305,7 +305,11 @@ function constroi_filtros()
 function setProducts()
 {
 	if(typeof products == 'undefined') {products=[];}
-	if (window.DotbrightCatalogFilters) window.DotbrightCatalogFilters.prepare(products);
+	// During a partial deployment the browser may still have the older module.
+	// Only use the DB-backed API when both methods are available.
+	var catalogFilters = window.DotbrightCatalogFilters;
+	if (!catalogFilters || typeof catalogFilters.prepare !== 'function' || typeof catalogFilters.apply !== 'function') catalogFilters = null;
+	if (catalogFilters) catalogFilters.prepare(products);
 
 	sortBy=sortBy ? sortBy : $('#product_sort').val() ;
 	rowsPerPage=rowsPerPage ? rowsPerPage:$('#f_visualizacao option:selected').val();
@@ -512,8 +516,8 @@ function setProducts()
 			}
 		}
 	});
-	if (window.DotbrightCatalogFilters) {
-		filterdProducts = window.DotbrightCatalogFilters.apply(filterdProducts, products);
+	if (catalogFilters) {
+		filterdProducts = catalogFilters.apply(filterdProducts, products);
 		filterdProducts2 = filterdProducts.slice();
 	}
 	// get the amount of results
