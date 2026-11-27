@@ -73,8 +73,8 @@
             var location = info.querySelector('.localizacao_fisica');
             if (location) availability.appendChild(location);
             var form = purchase.querySelector('.product-form'); if (form) form.before(availability); else purchase.appendChild(availability);
-            purchase.querySelectorAll('.product_quantity_up').forEach(function(n){n.setAttribute('aria-label','Aumentar quantidade');});
-            purchase.querySelectorAll('.product_quantity_down').forEach(function(n){n.setAttribute('aria-label','Diminuir quantidade');});
+            purchase.querySelectorAll('.product_quantity_up').forEach(function(n){n.setAttribute('aria-label','Aumentar quantidade');n.textContent='+';});
+            purchase.querySelectorAll('.product_quantity_down').forEach(function(n){n.setAttribute('aria-label','Diminuir quantidade');n.textContent='−';});
             var buy = purchase.querySelector('button[onclick*="adicionarCarrinhoProdutoOpcoes"]');
             if (buy) {
                 buy.classList.add('db-semi-cart'); var label=buy.querySelector('span');
@@ -106,6 +106,8 @@
         tabs(root, product, benefits, data, warrantyText);
         related(root);
         root.classList.add('db-semi-ready'); document.body.classList.add('db-seminovo-page');
+        // Let the existing LightSlider measure the final column, after the layout changes.
+        window.requestAnimationFrame(function(){window.dispatchEvent(new Event('resize'));});
     }
     function tabs(root, product, benefits, data, warranty) {
         var section=node('section','db-semi-complement'),list=node('div','db-semi-tabs');list.setAttribute('role','tablist');list.setAttribute('aria-label','Informação do equipamento');
@@ -132,9 +134,16 @@
     function related(root) {
         var part=root.querySelector('#part3');if(!part || typeof window.catalogProductCard!=='function')return;
         var cards=Array.from(part.querySelectorAll('[data-db-semi-card]')).map(function(n){try{return JSON.parse(n.getAttribute('data-db-semi-card'));}catch(error){return null;}}).filter(Boolean);
-        if(!cards.length)return;var wrap=node('div','catprod_wrap'),grid=node('div','db-semi-related-grid');
-        cards.forEach(function(card){grid.insertAdjacentHTML('beforeend',window.catalogProductCard(card));});wrap.appendChild(grid);
-        part.classList.add('db-semi-related');part.replaceChildren(node('h2','','Também te pode interessar'),wrap);
+        var track=part.querySelector('#w_prod .swiper-wrapper');
+        if(!cards.length || !track)return;
+        // Keep the existing carousel, scroll position, arrow controls and keyboard handlers.
+        track.classList.add('db-semi-related-grid');part.classList.add('db-semi-related','catprod_wrap');
+        Array.from(track.querySelectorAll('[data-db-semi-card]')).forEach(function(slide,index){
+            slide.removeAttribute('onclick');slide.style.removeProperty('cursor');
+            slide.innerHTML=window.catalogProductCard(cards[index]);
+        });
+        var heading=part.querySelector('#w_prod h4');if(heading)heading.textContent='Também te pode interessar';
+        var viewport=track.parentElement;if(viewport.swiper)viewport.swiper.update();
     }
     function sticky(root, buy, price) {
         if(!price || !window.IntersectionObserver)return;

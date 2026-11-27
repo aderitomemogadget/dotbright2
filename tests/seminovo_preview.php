@@ -24,4 +24,8 @@ $globals='<script>window.$=function(selector){return {val:function(){return docu
 $globals=str_replace('src="/layout/','src="http://127.0.0.1:8974/layout/',$globals);
 $html=str_replace('<head>','<head><base href="https://dev3.memogadget.com/dotbright2/">'.$globals,$html);
 if(isset($_GET['missing']))$html=str_replace('"grade":"'.$p['prod_estado'].'"','"grade":""',str_replace('"battery":'.(int)$p['prod_bateria'],'"battery":null',$html));
+// Load the real storefront before the new presentation, matching the actual header.
+$html=str_replace('<head>','<head><script src="http://127.0.0.1:8974/layout/dotbright/js/storefront-ux.js" defer></script>',$html);
+$galleryScripts='<script src="http://127.0.0.1:8974/external_api/jquery-1.12.3.min.js"></script><script src="http://127.0.0.1:8974/external_api/site/slider_blocos/js/lightslider.js"></script><script>document.addEventListener("DOMContentLoaded",function(){jQuery(".product-gallery").lightSlider({gallery:true,loop:false,item:1,thumbItem:5,slideMargin:15,vertical:false});});</script>';
+$html=str_replace('<head>','<head>'.$galleryScripts,$html);
 echo $html;
