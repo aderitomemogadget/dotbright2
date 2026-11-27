@@ -1578,37 +1578,46 @@ function searchProductsByBrandName($type = 1, $searchstr)
 
 
 
-function getCategoriesProds($prod_id=0)
+function getCategoriesProds($prod_id=0, $lingua='')
 {
     global $DB_host,$DB_user,$DB_pass,$DB_name;
+    if ($lingua === '') $lingua = isset($GLOBALS['site_lang']) ? $GLOBALS['site_lang'] : $GLOBALS['admin_lang'];
     $db_link = db_opendb_conection($DB_host,$DB_user,$DB_pass);
-    $rs = new DataObj;    
-    //$sql = "SELECT filtros_rel2 FROM filters_products WHERE prod_id = $prod_id limit 0,1";
-    $sql = "SELECT filtros_rel as filtros_rel2 FROM filters_products_fast WHERE prod_id = $prod_id";
-
+    $rs = new DataObj;
+    // Read the BO assignments directly: the search accelerator can omit recent edits.
+    // Areas 0 and 2 mean listing-only and both listing/product selection.
+    $sql = 'SELECT fp.cat_id, fp.valor_id, fc.category_order, fv.value_order,
+                   fcl.category_name, fcl.category_name2, fvl.values_name, fvl.values_name2
+            FROM filters_products fp
+            INNER JOIN filters_categories fc ON fc.category_id=fp.cat_id
+            INNER JOIN filters_categories_lang fcl ON fcl.category_id=fp.cat_id
+            INNER JOIN filters_values fv ON fv.value_id=fp.valor_id AND fv.category_id=fp.cat_id
+            INNER JOIN filters_values_lang fvl ON fvl.values_id=fp.valor_id
+            WHERE fp.prod_id='.(int)$prod_id.' AND fp.filtro_active=1
+              AND fp.filtro_area IN (0,2) AND fc.category_active=1 AND fv.value_active=1
+              AND fcl.category_lang="'.db_real_escape_string($lingua).'"
+              AND fvl.values_lang="'.db_real_escape_string($lingua).'"
+            ORDER BY fc.category_order ASC, fp.cat_id ASC, fv.value_order ASC, fp.valor_id ASC';
+    $filters = array();
+    $seen = array();
     $rs->db_open($db_link,$DB_name,$sql);
-    if(!$rs->EOF())
+    while(!$rs->EOF())
     {
-        $combo = $rs->db_data["filtros_rel2"];
-        $combos_separados=explode(";",$combo);
-        $return='';
-        foreach($combos_separados as $values)
-        {
-            $componentes=explode("_",$values);
-            $id_cat=$componentes[0];
-            $id_value=$componentes[1];
-        
-            if($id_cat!='' && $id_value!='')
-            {
-                $valor_name=buscavalorfiltros($id_value);
-                $valor_name=str_replace('"','',$valor_name);
-                if($return != '') $return .= ',{ "cat" : "'.$valor_name.'","c_id" : "'.$id_cat.'_'.$id_value.'" }';
-                else $return .= '{ "cat" : "'.$valor_name.'","c_id" : "'.$id_cat.'_'.$id_value.'" }';
-            }
+        $row = $rs->db_data;
+        $id = (int)$row['cat_id'].'_'.(int)$row['valor_id'];
+        $category = trim($row['category_name2']) !== '' ? $row['category_name2'] : $row['category_name'];
+        $value = trim($row['values_name2']) !== '' ? $row['values_name2'] : $row['values_name'];
+        if (!isset($seen[$id]) && trim($category) !== '' && trim($value) !== '') {
+            $filters[] = json_encode(array(
+                'cat' => $value, 'c_id' => $id, 'cat_name' => $category,
+                'cat_order' => (int)$row['category_order'], 'value_order' => (int)$row['value_order']
+            ), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+            $seen[$id] = true;
         }
+        $rs->db_next();
     }
     $rs->db_close();
-    return $return;
+    return implode(',', $filters);
 }
 
 /*function getCategoriesProds__($prod_id=0)

@@ -305,6 +305,7 @@ function constroi_filtros()
 function setProducts()
 {
 	if(typeof products == 'undefined') {products=[];}
+	if (window.DotbrightCatalogFilters) window.DotbrightCatalogFilters.prepare(products);
 
 	sortBy=sortBy ? sortBy : $('#product_sort').val() ;
 	rowsPerPage=rowsPerPage ? rowsPerPage:$('#f_visualizacao option:selected').val();
@@ -511,6 +512,10 @@ function setProducts()
 			}
 		}
 	});
+	if (window.DotbrightCatalogFilters) {
+		filterdProducts = window.DotbrightCatalogFilters.apply(filterdProducts, products);
+		filterdProducts2 = filterdProducts.slice();
+	}
 	// get the amount of results
 	var totalResults=filterdProducts.length;
 	if(totalResults > 0)

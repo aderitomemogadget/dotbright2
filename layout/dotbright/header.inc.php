@@ -767,6 +767,7 @@
 	<link rel="stylesheet" type="text/css" href="<?=SITE_HTTP_URL?>external_api/slider-revolution/css/settings_v_<?=dumpcache?>.css">
 	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/site-wide-polish.css?v=20261102a">
 	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/catalog-cards.css?v=20261127b">
+	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/catalog-filters.css?v=20261127b">
 	<script defer src="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/js/site-wide-polish.js?v=20261029a"></script>
 	<script type="text/javascript">
 
@@ -918,6 +919,7 @@
 		?>
 		<script src="<?=SITE_HTTP_URL?>external_api/site/filtros/filter_v_<?=dumpcache?>.js"></script>
 		<script src="<?=SITE_HTTP_URL?>layout/<?= PROJETO?>/js/bloco_produto_v_<?=dumpcache?>.js"></script>
+		<script src="<?=SITE_HTTP_URL?>layout/<?= PROJETO?>/js/catalog-filters.js?v=20261127b"></script>
 		<?php 
 	}?>
 
