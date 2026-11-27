@@ -1585,22 +1585,25 @@ function getCategoriesProds($prod_id=0, $lingua='')
     $db_link = db_opendb_conection($DB_host,$DB_user,$DB_pass);
     $rs = new DataObj;
     // Read the BO assignments directly: the search accelerator can omit recent edits.
-    // Areas 0 and 2 mean listing-only and both listing/product selection.
+    // The catalogue includes every active BO assignment, regardless of its product-page area.
+    // Metadata must not discard an assigned filter because of unrelated import flags.
     $sql = 'SELECT fp.cat_id, fp.valor_id, fc.category_order, fv.value_order,
                    fcl.category_name, fcl.category_name2, fvl.values_name, fvl.values_name2
             FROM filters_products fp
-            INNER JOIN filters_categories fc ON fc.category_id=fp.cat_id
-            INNER JOIN filters_categories_lang fcl ON fcl.category_id=fp.cat_id
-            INNER JOIN filters_values fv ON fv.value_id=fp.valor_id AND fv.category_id=fp.cat_id
-            INNER JOIN filters_values_lang fvl ON fvl.values_id=fp.valor_id
+            LEFT JOIN filters_categories fc ON fc.category_id=fp.cat_id
+            LEFT JOIN filters_categories_lang fcl ON fcl.category_id=fp.cat_id
+                AND fcl.category_lang="'.db_real_escape_string($lingua).'"
+            LEFT JOIN filters_values fv ON fv.value_id=fp.valor_id
+            LEFT JOIN filters_values_lang fvl ON fvl.values_id=fp.valor_id
+                AND fvl.values_lang="'.db_real_escape_string($lingua).'"
             WHERE fp.prod_id='.(int)$prod_id.' AND fp.filtro_active=1
-              AND fp.filtro_area IN (0,2) AND fc.category_active=1 AND fv.value_active=1
-              AND fcl.category_lang="'.db_real_escape_string($lingua).'"
-              AND fvl.values_lang="'.db_real_escape_string($lingua).'"
             ORDER BY fc.category_order ASC, fp.cat_id ASC, fv.value_order ASC, fp.valor_id ASC';
     $filters = array();
     $seen = array();
-    $rs->db_open($db_link,$DB_name,$sql);
+    if (!$rs->db_open($db_link,$DB_name,$sql)) {
+        error_log('Catalogue filter lookup failed for product '.(int)$prod_id);
+        return '';
+    }
     while(!$rs->EOF())
     {
         $row = $rs->db_data;

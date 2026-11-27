@@ -2461,10 +2461,10 @@
 		$and=$id_org_gerador;
 		// get all the child families
 		$id_org_to_process=$id_org_gerador;
-		$f_original=$GLOBALS['site_shell_url'].'files/filtros/json_r_db_'.$GLOBALS['page_id'].'_'.$id_org_gerador.'_'.$lingua.'.js';
+		$f_original=$GLOBALS['site_shell_url'].'files/filtros/json_r_db3_'.$GLOBALS['page_id'].'_'.$id_org_gerador.'_'.$lingua.'.js';
 
 		$time_expire=time() - (60*15); // Expire Time (15 minutos)
-		if( (is_file($f_original) && !isset($GLOBALS['gerar']) && !$gera && filectime($f_original) > $time_expire) || (isset($GLOBALS['gerar']) && $GLOBALS['gerar']!=1) )
+		if( is_file($f_original) && ((!isset($GLOBALS['gerar']) && !$gera && filectime($f_original) > $time_expire) || (isset($GLOBALS['gerar']) && $GLOBALS['gerar']!=1)) )
 		{
 			$myFile=$f_original;
 			$fh=fopen($myFile, 'r');
@@ -4421,7 +4421,7 @@
 
 		$and=$id_org_gerador;
 		// get all the child families
-		$f_original=$GLOBALS['site_shell_url'].'files/filtros/json_m_db_'.$id_org_gerador.'_'.$lingua.'.js';
+		$f_original=$GLOBALS['site_shell_url'].'files/filtros/json_m_db3_'.$id_org_gerador.'_'.$lingua.'.js';
 
 		$gera=1;
 		$time_expire=time() - (60*5); // Expire Time (5 minutos)
