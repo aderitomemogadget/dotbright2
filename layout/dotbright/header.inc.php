@@ -766,7 +766,7 @@
 	<link rel="stylesheet" type="text/css" href="<?=SITE_HTTP_URL?>external_api/site/tooltipster/css/tooltipster.bundle.min.css" />
 	<link rel="stylesheet" type="text/css" href="<?=SITE_HTTP_URL?>external_api/slider-revolution/css/settings_v_<?=dumpcache?>.css">
 	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/site-wide-polish.css?v=20261102a">
-	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/catalog-cards.css?v=20261127a">
+	<link rel="stylesheet" href="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/css/catalog-cards.css?v=20261127b">
 	<script defer src="<?=SITE_HTTP_URL?>layout/<?=PROJETO?>/js/site-wide-polish.js?v=20261029a"></script>
 	<script type="text/javascript">
 

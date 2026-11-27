@@ -1,3 +1,57 @@
+/* Keep dropdown arrows centred independently of the old sprite dimensions. */
+.cat_wrap .chosen-container-single .chosen-single > div {
+  position: absolute;
+  top: 0;
+  right: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 100%;
+  pointer-events: none;
+}
+.cat_wrap .chosen-container-single .chosen-single > div > b {
+  display: block;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border: solid #777;
+  border-width: 0 1.5px 1.5px 0;
+  background: none;
+  transform: rotate(45deg);
+}
+.cat_wrap .chosen-container-single.chosen-with-drop .chosen-single > div > b {
+  margin-top: 3px;
+  transform: rotate(225deg);
+}
+
+/* Previous/next icons belong in the button flow, alongside their labels. */
+.cat_wrap .catalogo_topo_filtros .paginacao button:is(.product_button_back, .product_button_next),
+.cat_wrap .catalogo_mobile_pesquisa .paginacao button:is(.product_button_back, .product_button_next) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  max-height: none;
+  vertical-align: middle;
+  color: #333;
+}
+.cat_wrap .paginacao button:is(.product_button_back, .product_button_next) :is(svg, i) {
+  position: static;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  flex: 0 0 10px;
+  width: 10px;
+  height: 14px;
+  margin: 0;
+  color: currentColor;
+  vertical-align: middle;
+}
+.cat_wrap .paginacao button:is(.product_button_back, .product_button_next) i::before { margin: 0; }
+
 /* Catalogue grid, scoped so repair cards and list view retain their layout. */
 .catprod_wrap #product_show:has(.db-catalog-card) {
   display: grid;
