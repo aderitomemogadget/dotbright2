@@ -794,14 +794,7 @@ function setProducts()
 	if(countCellData > 0 && pageProducts.length > 0) // IF EXIST CONTENT
 	{
 		$('#product_show').html(cell);
-		$(".prodby").live('click', function()
-		{
-			var prodid=$(this).children('input[name="prodid"]').val();
-			var prodfiltros=$(this).children('input[name="prodfiltros"]').val();
-			var qtd=1;
-			if(prodfiltros) window.open(SITE_HTTP_URL+prodfiltros,'_self');
-			else adicionarCarrinhoProduto(prodid,qtd);
-		});
+		// site.js registers the delegated cart handler once, including new cards.
 		displayFilters2(filterdProducts2);
 	}
 	else

@@ -1,5 +1,61 @@
+// Product names in the feed also contain condition and battery metadata.
+function catalogProductDetails(title)
+{
+	var text = String(title || '').replace(/<[^>]*>/g, ' ').replace(/&nbsp;|&#160;/gi, ' ').replace(/\s+/g, ' ').trim();
+	var grade = text.match(/\bGRAU\s*:\s*([A-D](?:\+|-)?)/i);
+	var battery = text.match(/\bBAT(?:ERIA)?\s*:\s*(\d{1,3})\s*%/i);
+	text = text.replace(/\bGRAU\s*:\s*[A-D](?:\+|-)?/gi, '').replace(/\bBAT(?:ERIA)?\s*:\s*\d{1,3}\s*%/gi, '').replace(/\(\s*SEMINOVO\s*\)/gi, '').replace(/\s+/g, ' ').trim();
+	var capacity = text.match(/\b\d+(?:[.,]\d+)?\s*(?:GB|TB)\b/i);
+	function modelName(value) {
+		return value.replace(/\bIPHONE\b/gi, 'iPhone').replace(/\bIPAD\b/gi, 'iPad').replace(/\bMACBOOK\b/gi, 'MacBook').replace(/\bPRO\b/g, 'Pro').replace(/\bMAX\b/g, 'Max').replace(/\bMINI\b/g, 'mini').replace(/\bAIR\b/g, 'Air');
+	}
+	return {
+		name: modelName(capacity ? text.slice(0, capacity.index).trim() : text),
+		variant: capacity ? text.slice(capacity.index).replace(/^(\d+(?:[.,]\d+)?)\s*(GB|TB)/i, '$1 $2').trim() : '',
+		grade: grade ? grade[1].toUpperCase() : '',
+		battery: battery && Number(battery[1]) <= 100 ? Number(battery[1]) : null
+	};
+}
+
+function catalogEscape(value)
+{
+	return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function catalogProductCard(object)
+{
+	var details = catalogProductDetails(object.title);
+	var id = catalogEscape(object.id);
+	var url = catalogEscape(object.caminho);
+	var fullTitle = catalogEscape(String(object.title || '').replace(/<[^>]*>/g, ' '));
+	var price = Number(object.price);
+	var canBuy = (Number(object.stock) > 0 || Number(TEM_ENC_SEM_STOCK) === 1) && price > 0;
+	var html = '<div class="prd_d db-catalog-card" id="prd_d_'+id+'">';
+	if (details.grade) html += '<span class="db-card-grade" title="Grau: '+details.grade+'">'+details.grade+'</span>';
+	html += '<a class="icon-coracao db-card-wish produtowl'+id+'" href="#" aria-label="Favoritos" onclick="addProductWishList(\''+id+'\');return false;"><span><i class="far fa-heart" aria-hidden="true"></i></span></a>';
+	html += '<div class="prd_img"><a href="'+url+'" title="'+fullTitle+'"><img src="'+catalogEscape(object.image)+'" alt="'+fullTitle+'" loading="lazy"></a></div>';
+	html += '<div class="prd_layer">';
+	if (details.battery !== null) html += '<div class="db-card-battery" title="Saúde da bateria: '+details.battery+'%"><span class="db-battery-icon" aria-hidden="true"><span style="width:'+details.battery+'%"></span></span>'+details.battery+'%</div>';
+	else html += '<div class="db-card-availability">'+(Number(object.stock) > 0 ? 'Em stock' : 'Disponível brevemente')+'</div>';
+	html += '<div class="prd_title"><a href="'+url+'" title="'+fullTitle+'">'+catalogEscape(details.name)+'<span class="db-card-variant">'+catalogEscape(details.variant)+'</span></a></div>';
+	if (Number(object.promo) === 2 || Number(object.novidade) === 1) html += '<span class="db-card-promo">'+(Number(object.promo) === 2 ? 'BEST PRICE' : 'NOVIDADE')+'</span>';
+	if (object.u_c && object.u_c !== 'N/A') html += '<a class="db-card-energy" href="'+catalogEscape(object.u_i || object.caminho)+'" target="_blank" rel="noopener">Classe energética '+catalogEscape(object.u_c)+'</a>';
+	html += '<div class="prdprice_n" id="precos_'+id+'" info="'+id+'|'+catalogEscape(object.enc_stock || 0)+'" info2="'+id+'">';
+	html += '<div class="price">';
+	if (price > 0) {
+		if (Number(object.price_riscado) > price) html += '<span>'+numberformat(object.price_riscado,2,',','.')+'</span>';
+		html += numberformat(price,2,',','.');
+	}
+	html += '</div>';
+	if (Number(object.carrinho) === 2) html += '<a class="db-card-info" href="'+url+'">Ver informação</a>';
+	else if (canBuy) html += '<button type="button" class="prodby"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l3 12h11l3-9H6M9 15l-1 3h11M10 21h.01M18 21h.01"/></svg>Adicionar<input type="hidden" name="prodid" value="'+id+'"><input type="hidden" name="prodfiltros" value="'+(Number(object.fl) === 1 ? url : '')+'"></button>';
+	else html += '<a class="prodby-des fancy_stock" href="'+SITE_HTTP_AJAX_URL+'setNotificacaoProduto.php?idprod='+id+'">Alerta de stock</a>';
+	return html + '</div></div></div>';
+}
+
 function bloco_produto(vista, object)
 {
+	if (vista === '' && object.a34 != 1 && !/^REP/.test(String(object.ref || ''))) return catalogProductCard(object);
 	var cell = '';
 
 	if(object.a34==1)/*reparacoes*/
